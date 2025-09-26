@@ -6,8 +6,8 @@ import customtkinter as ctk
 
 cadastros = []
 cadastro = " "
-def adicionar_cadastros(nome, email, telefone, opcao_pagamento):
-    cadastro = f"nome: {nome}, email: {email}, tel: {telefone}, pagamento: {opcao_pagamento}"
+def adicionar_cadastros(nome, email, telefone, opcao_pagamento, valor_pagar):
+    cadastro = f"nome: {nome}, email: {email}, tel: {telefone}, pagamento: {opcao_pagamento}, valor a pagar: {valor_pagar}"
     cadastros.append(cadastro)
 
 def obter_cadastros():
@@ -62,6 +62,29 @@ def abrir_cadastro_fisioterapia(JANELA):
     opc_pgt.pack(pady=(1,1))
     opc_pgt.grid(row=3, column=0, padx=0.5, pady=0.5)
 
+    # CAMPO VALOR A PAGAR
+    def formatar_para_reais(*args):
+        valor = var_valor.get()
+
+        # Remove "R$" e espaços para tratar apenas o número
+        if valor.startswith("R$"):
+            valor = valor[2:].strip()
+
+        # Remove qualquer caractere não numérico exceto vírgula e ponto
+        valor = ''.join(c for c in valor if c.isdigit() or c in ",.")
+
+        # Atualiza o campo com o prefixo "R$"
+        var_valor.set(f"R$ {valor}")
+
+    cmp_valor_pagar_titulo = ctk.CTkLabel(master=frame_campos,text="valor a pagar R$: ",font=('Arial',20))
+    cmp_valor_pagar_titulo.grid(row=2, column=1, padx=0.5, pady=0.5)
+    var_valor = ctk.StringVar()
+    var_valor.trace_add("write", formatar_para_reais)
+
+    cmp_valor_pagar = ctk.CTkEntry(master=frame_campos, textvariable=var_valor, font=('Arial',20), width=150, height=40, corner_radius=10, border_color="#BFBFBF")
+    cmp_valor_pagar.pack(pady=(10,10))
+    cmp_valor_pagar.grid(row=3, column=1, padx=2, pady=2)
+
     #================== BOTÕES ==================
     # FRAMEBOTOES
     frame_btn = ctk.CTkFrame(master=frame_principal, width=400, height=450, fg_color="transparent")
@@ -79,6 +102,7 @@ def abrir_cadastro_fisioterapia(JANELA):
         data_nascimento = cmp_dataNascimento.get()
         telefone = cmp_tel.get()
         opcao_pagamento = opc_pgt.get()
+        valor_pagar = cmp_valor_pagar.get()
         
         if not nome or not email or not data_nascimento or not telefone:
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
@@ -87,7 +111,7 @@ def abrir_cadastro_fisioterapia(JANELA):
             return
         else:
             messagebox.showinfo("INFO", f"O paciente '{nome}' foi cadastrado com sucesso!")
-            adicionar_cadastros(nome, email, telefone, opcao_pagamento)
+            adicionar_cadastros(nome, email, telefone, opcao_pagamento, valor_pagar)
 
 
     btn_salvar = ctk.CTkButton(master=frame_btn, text='Salvar', text_color="#000000",width=150,height=40, 

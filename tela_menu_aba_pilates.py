@@ -5,7 +5,7 @@ from tela_cadastro_usuario_pilates import abrir_cadastro_pilates
 from tela_lista_alunos_pilates import tela_lista_alunos_pilates
 from tela_inicio import abrir_inicio
 from screeninfo import get_monitors
-
+from tela_cadastrar_aula_pilates import tela_cadastrar_aula_pilates
 def abrir_menu_pilates():
     #Configuração inicial
     ctk.set_appearance_mode("light")
@@ -39,11 +39,14 @@ def abrir_menu_pilates():
     # ==== BOTÃO LISTA PACIENTES ====
     def lista_alunos():
         tela_lista_alunos_pilates(frame_principal)
+    
+    def cadastrar_aula():
+        tela_cadastrar_aula_pilates(frame_principal)
 
     btn_lista_alunos = ctk.CTkButton(master=frame_lateral, text="Lista de alunos", font=("Arial", 15) ,width=150, height=40, fg_color="#4CAF50" , hover_color= "#45a049", command=lista_alunos)
     btn_lista_alunos.pack(pady=10)
     
-    btn_cadastrar_aula = ctk.CTkButton(master=frame_lateral, text="Cadastrar aula", font=("Arial", 15) ,width=150, height=40, fg_color="#4CAF50" , hover_color= "#45a049")
+    btn_cadastrar_aula = ctk.CTkButton(master=frame_lateral, text="Cadastrar aula", font=("Arial", 15) ,width=150, height=40, fg_color="#4CAF50" , hover_color= "#45a049", command=cadastrar_aula)
     btn_cadastrar_aula.pack(pady=10)
 
     btn_relatorio = ctk.CTkButton(master=frame_lateral, text="Relatórios", font=("Arial", 15) ,width=150, height=40, fg_color="#4CAF50" , hover_color= "#45a049")

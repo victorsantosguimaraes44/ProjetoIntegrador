@@ -5,7 +5,7 @@ import customtkinter as ctk
 cadastros = []
 cadastro = " "
 def adicionar_cadastros(nome, email, telefone, opcao_pagamento, valor_pagar):
-    cadastro = f"nome: {nome}, email: {email}, tel: {telefone}, pagamento: {opcao_pagamento}, valor pago: {valor_pagar}"
+    cadastro = f"nome: {nome}, email: {email}, tel: {telefone}, pagamento: {opcao_pagamento}, valor a pagar: {valor_pagar}"
     cadastros.append(cadastro)
 
 def obter_cadastros():
@@ -53,8 +53,8 @@ def abrir_cadastro_pilates(JANELA):
     cmp_tel.grid(row=1, column=1, padx=2, pady=2)
 
     # OPÇÃO DE PAGAMENTO
-    subtitulo = ctk.CTkLabel(master=frame_campos,text="Opção de pagamento: ",font=('Arial',20))
-    subtitulo.grid(row=2, column=0, padx=0.5, pady=0.5)
+    opc_pgt_titulo = ctk.CTkLabel(master=frame_campos,text="Opção de pagamento: ",font=('Arial',20))
+    opc_pgt_titulo.grid(row=2, column=0, padx=0.5, pady=0.5)
 
     opc_pgt = ctk.CTkComboBox(master=frame_campos, values=["-Selecione-","Pix", "Débito", "Crédito"],font=('Arial',20) )
     opc_pgt.pack(pady=(1,1))
@@ -74,12 +74,12 @@ def abrir_cadastro_pilates(JANELA):
         # Atualiza o campo com o prefixo "R$"
         var_valor.set(f"R$ {valor}")
 
-
-    # === StringVar com trace ===
+    cmp_valor_pagar_titulo = ctk.CTkLabel(master=frame_campos,text="valor a pagar R$: ",font=('Arial',20))
+    cmp_valor_pagar_titulo.grid(row=2, column=1, padx=0.5, pady=0.5)
     var_valor = ctk.StringVar()
     var_valor.trace_add("write", formatar_para_reais)
 
-    cmp_valor_pagar = ctk.CTkEntry(master=frame_campos, textvariable=var_valor, font=('Arial',20), width=350, height=40, corner_radius=10, border_color="#BFBFBF")
+    cmp_valor_pagar = ctk.CTkEntry(master=frame_campos, textvariable=var_valor, font=('Arial',20), width=150, height=40, corner_radius=10, border_color="#BFBFBF")
     cmp_valor_pagar.pack(pady=(10,10))
     cmp_valor_pagar.grid(row=3, column=1, padx=2, pady=2)
 
