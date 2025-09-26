@@ -42,12 +42,25 @@ def abrir_menu_pilates():
     
     def cadastrar_aula():
         tela_cadastrar_aula_pilates(frame_principal)
+    def agendar(frame):
+        btn_agendamentos = ctk.CTkButton(master=frame, text='Agendamentos', text_color="#000000",width=150,height=40, 
+                            corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049")
+        btn_agendamentos.pack(pady=10)
+        btn_agendar = ctk.CTkButton(master=frame, text='Agendar +', text_color="#000000",width=150,height=40, 
+                                    corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049")
+        btn_agendar.pack(pady=10)
+    def buttonClick():    
+        fr_lateral = ctk.CTkFrame(master=menu_aba, width=200, height=650, fg_color="#616161", corner_radius=0)
+        fr_lateral.place(relx=0.26,rely=0.5,anchor="e")
+        fr_lateral.pack_propagate(False)   
+
+        agendar(fr_lateral)
 
     btn_lista_alunos = ctk.CTkButton(master=frame_lateral, text="Lista de alunos", font=("Arial", 15) ,width=150, height=40, fg_color="#4CAF50" , hover_color= "#45a049", command=lista_alunos)
     btn_lista_alunos.pack(pady=10)
     
-    btn_cadastrar_aula = ctk.CTkButton(master=frame_lateral, text="Cadastrar aula", font=("Arial", 15) ,width=150, height=40, fg_color="#4CAF50" , hover_color= "#45a049", command=cadastrar_aula)
-    btn_cadastrar_aula.pack(pady=10)
+    btn_agendar_aula = ctk.CTkButton(master=frame_lateral, text="Agendamento", font=("Arial", 15) ,width=150, height=40, fg_color="#4CAF50" , hover_color= "#45a049", command=buttonClick)
+    btn_agendar_aula.pack(pady=10)
 
     btn_relatorio = ctk.CTkButton(master=frame_lateral, text="Relatórios", font=("Arial", 15) ,width=150, height=40, fg_color="#4CAF50" , hover_color= "#45a049")
     btn_relatorio.pack(pady=10)

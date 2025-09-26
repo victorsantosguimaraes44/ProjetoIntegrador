@@ -2,6 +2,15 @@ import customtkinter as ctk
 from tkinter import messagebox
 from turtle import left
 
+agendamentos = []
+agendamento = " "
+def adicionar_cadastros(Nome_aula, Data_aula, Hora_aula):
+    agendamento = f"Nome da aula: {Nome_aula}, Data da aula: {Data_aula}, Hora da aula: {Hora_aula}"
+    agendamentos.append(agendamento)
+
+def obter_cadastros():
+    return agendamentos
+
 def tela_cadastrar_aula_pilates(JANELA):
     #FRAME PRINCIPAL
     frame_principal = ctk.CTkFrame(master=JANELA, width=1200, height=750, corner_radius=10, fg_color="transparent")
@@ -19,7 +28,7 @@ def tela_cadastrar_aula_pilates(JANELA):
     ##================== CAMPOS ==================
 
     #FRAME CAMPOS
-    frame_campos = ctk.CTkFrame(master=JANELA, width=400, height=450 ,corner_radius=5, fg_color="transparent")
+    frame_campos = ctk.CTkFrame(master=JANELA, width=400, height=450 ,corner_radius=5, fg_color="#C8C8C8")
     frame_campos.place(relx=0.5, rely=0.5,anchor='s')
     frame_campos.pack_propagate(False)
 
@@ -81,4 +90,26 @@ def tela_cadastrar_aula_pilates(JANELA):
 
     cmp_min_aula = ctk.CTkEntry(master=frame_campos_hora, placeholder_text="MM", font=('Arial',20), width=60, height=40, corner_radius=10, border_color="#BFBFBF")
     cmp_min_aula.pack(padx=2, pady=0, side="left")
+
+    frame_btn = ctk.CTkFrame(master=frame_principal, width=400, height=450, fg_color="transparent")
+    frame_btn.place(relx=0.5, rely=0.8,anchor='n')
+
+    def salvar_aula():
+        nome_aula = cmp_nome_aula.get()
+        dia = cmp_dia.get()
+        mes = cmp_mes.get()
+        ano = cmp_ano.get()
+        hora = cmp_hora_aula.get()
+        minuto = cmp_min_aula.get()
+
+        if not nome_aula or not dia or not mes or not ano or not hora or not minuto:
+            messagebox.showwarning("Atenção", "Preencha todos os campos!")
+            return
+        else:
+            messagebox.showinfo("Sucesso", "Agendamento realizado com sucesso!")
+            adicionar_cadastros(f"{nome_aula}, {dia}/{mes}/{ano}, {hora}:{minuto}")
+        
+    btn_salvar = ctk.CTkButton(master=frame_btn, text='Salvar', text_color="#000000",width=150,height=40, 
+                                corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049", command=salvar_aula)
+    btn_salvar.pack(pady=(10,10))
     
