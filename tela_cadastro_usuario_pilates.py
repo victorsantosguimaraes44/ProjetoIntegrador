@@ -13,7 +13,7 @@ def obter_cadastros():
 
 def abrir_cadastro_pilates(JANELA):
     #FRAME PRINCIPAL
-    frame_principal = ctk.CTkFrame(master=JANELA, width=1200, height=750, corner_radius=10, fg_color="transparent")
+    frame_principal = ctk.CTkFrame(master=JANELA, width=1200, height=750, corner_radius=10)
     frame_principal.place(relx=0.5, rely=0.5,anchor='center')
     frame_principal.pack_propagate(False)
 

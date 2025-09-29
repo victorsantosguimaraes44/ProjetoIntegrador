@@ -4,21 +4,21 @@ from turtle import left
 
 agendamentos = []
 agendamento = " "
-def adicionar_cadastros(Nome_aula, Data_aula, Hora_aula):
+def adicionar_agendamentos(Nome_aula, Data_aula, Hora_aula):
     agendamento = f"Nome da aula: {Nome_aula}, Data da aula: {Data_aula}, Hora da aula: {Hora_aula}"
     agendamentos.append(agendamento)
 
-def obter_cadastros():
+def obter_agendamentos():
     return agendamentos
 
 def tela_cadastrar_aula_pilates(JANELA):
     #FRAME PRINCIPAL
-    frame_principal = ctk.CTkFrame(master=JANELA, width=1200, height=750, corner_radius=10, fg_color="transparent")
+    frame_principal = ctk.CTkFrame(master=JANELA, width=1200, height=750, corner_radius=10)
     frame_principal.place(relx=0.5, rely=0.5,anchor='center')
     frame_principal.pack_propagate(False)
 
     #TITULO
-    titulo = ctk.CTkLabel(master=frame_principal, text="Cadastro de aula", font=('Arial', 25, 'bold'))
+    titulo = ctk.CTkLabel(master=frame_principal, text="Agendar aula", font=('Arial', 25, 'bold'))
     titulo.pack(pady=(10,10))
 
     #SUBTITULO
@@ -36,6 +36,11 @@ def tela_cadastrar_aula_pilates(JANELA):
     cmp_nome_aula = ctk.CTkEntry(master=frame_campos, placeholder_text="Nome da aula", font=('Arial',20) , width=200, height=40, corner_radius=10, border_color="#BFBFBF")
     cmp_nome_aula.pack(pady=(10,10))
     cmp_nome_aula.grid(row=0, column=0, padx=2, pady=2)
+
+    # CAMPO NOME DA AULA
+    cmp_sala = ctk.CTkEntry(master=frame_campos, placeholder_text="Sala", font=('Arial',20) , width=100, height=40, corner_radius=10, border_color="#BFBFBF")
+    cmp_sala.pack(pady=(10,10))
+    cmp_sala.grid(row=0, column=1, padx=2, pady=2)
 
     # CAMPO DATA DA AULA
     def foco_mes(event):
@@ -102,12 +107,15 @@ def tela_cadastrar_aula_pilates(JANELA):
         hora = cmp_hora_aula.get()
         minuto = cmp_min_aula.get()
 
+        data = f"{dia}/{mes}/{ano}"
+        hora_aula = f"{hora}:{minuto}"
+
         if not nome_aula or not dia or not mes or not ano or not hora or not minuto:
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
             return
         else:
             messagebox.showinfo("Sucesso", "Agendamento realizado com sucesso!")
-            adicionar_cadastros(f"{nome_aula}, {dia}/{mes}/{ano}, {hora}:{minuto}")
+            adicionar_agendamentos(nome_aula, data, hora_aula)
         
     btn_salvar = ctk.CTkButton(master=frame_btn, text='Salvar', text_color="#000000",width=150,height=40, 
                                 corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049", command=salvar_aula)
