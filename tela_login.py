@@ -74,7 +74,7 @@ def abrir_cadastro():
 
 btn_register = ctk.CTkButton(master=frame, text = "Cadastre-se", font=('Arial',20) , width=250 , height=40,
                              corner_radius=50, fg_color="transparent" , hover_color= "#45a049" ,
-                             border_width=2, border_color= "#4CAF50" , text_color= "#0E140E", command=abrir_cadastro)
+                             border_width=2, border_color= "#45a049" , text_color= "#0E140E", command=abrir_cadastro)
 
 btn_register.pack()
 
