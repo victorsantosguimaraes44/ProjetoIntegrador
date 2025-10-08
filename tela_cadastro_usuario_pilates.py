@@ -93,7 +93,7 @@ def abrir_cadastro_pilates(JANELA):
         nome = cmp_nome.get()
         email = cmp_email.get()
         data_nascimento = cmp_dataNascimento.get()
-        telefone = cmp_nome.get()
+        telefone = cmp_tel.get()
         opcao_pagamento = opc_pgt.get()
         valor_pagar = cmp_valor_pagar.get()
 
