@@ -10,24 +10,13 @@ def tela_lista_pacientes_fisio(JANELA):
 
     list_label = ctk.CTkLabel(master=frame,text="Lista de pacientes", font=('Arial', 25, 'bold'))
     list_label.pack(pady=(10,10))
-
-    names = ctk.CTkTextbox(frame, width=1150, height=600, font=("Arial", 15))
-    names.pack(pady=20)
-
-    names.configure(state="normal")
     
-    i = 0
-    while i < len(obter_cadastros()):
-        names.insert("end", f"{obter_cadastros()[i]}\n")
-        i += 1
+    frame_btn_name = ctk.CTkFrame(master=JANELA, width=1200, height=600, corner_radius=0, fg_color="#FFFFFF")
+    frame_btn_name.place(relx=0.5, rely=0.5,anchor='center')
+    frame_btn_name.pack_propagate(False)
 
-    # j += 1
-
-    # i = 0
-    # j = 0
-    # while i < len(obter_cadastros()):
-    #     i += 1
-    #     while j < len(obter_dados_aleatorios()):
-    #         names.insert("end", f"{obter_dados_aleatorios()[j]}\n")
-    #         j += 1
-    # names.configure(state="disabled")
+    for i in range(len(obter_cadastros())):
+        btn_name = ctk.CTkButton(master=frame_btn_name, text=f"{obter_cadastros()[i]}", font=('Arial', 15), 
+                                width=1150, height=20, corner_radius=0, text_color="#000000",
+                                fg_color="#E3E3E3", hover_color="#929090")
+        btn_name.pack(pady=1)

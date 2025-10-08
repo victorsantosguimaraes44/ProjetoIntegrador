@@ -1,7 +1,7 @@
 import customtkinter as ctk
-from tela_cadastrar_aula_pilates import obter_agendamentos
+from tela_agendar_consultas import obter_agendamentos
 
-def tela_agendamentos_pilates(JANELA):
+def tela_agendamentos_fisio(JANELA):
     
     frame = ctk.CTkFrame(master=JANELA, width=1200, height=750)
     frame.place(relx=0.5, rely=0.5,anchor='center')

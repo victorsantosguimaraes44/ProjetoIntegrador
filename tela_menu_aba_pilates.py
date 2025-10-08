@@ -28,7 +28,7 @@ def abrir_menu_pilates():
     frame_principal.pack_propagate(False)
 
     frame_lateral = ctk.CTkFrame(master=menu_aba, width=200, height=650, fg_color="#616161", corner_radius=0)
-    frame_lateral.place(relx=0.15,rely=0.5,anchor="e")
+    frame_lateral.place(x=2,y=2)
     frame_lateral.pack_propagate(False)
 
 
@@ -55,14 +55,14 @@ def abrir_menu_pilates():
 
     def buttonClick():    
         fr_lateral = ctk.CTkFrame(master=menu_aba, width=200, height=650,fg_color="#616161", corner_radius=0)
-        fr_lateral.place(relx=0.26,rely=0.5,anchor="e")
+        fr_lateral.place(x=205,y=2)
         fr_lateral.pack_propagate(False)   
 
         agendar(fr_lateral)
 
     def buttonClick1():    
         fr_lateral = ctk.CTkFrame(master=menu_aba, width=200, height=650,fg_color="#616161", corner_radius=0)
-        fr_lateral.place(relx=0.26,rely=0.5,anchor="e")
+        fr_lateral.place(x=205,y=2)
         fr_lateral.pack_propagate(False)   
 
         aluno(fr_lateral)
@@ -78,10 +78,6 @@ def abrir_menu_pilates():
 
     btn_agendar_aula = ctk.CTkButton(master=frame_lateral, text="Agendamento", font=("Arial", 15) ,width=150, height=40, corner_radius=20,fg_color="#4CAF50" , hover_color= "#45a049", command=buttonClick)
     btn_agendar_aula.pack(pady=10)
-
-    btn_relatorio = ctk.CTkButton(master=frame_lateral, text="Relatórios", font=("Arial", 15) ,width=150, height=40, corner_radius=20,fg_color="#4CAF50" , hover_color= "#45a049")
-    btn_relatorio.pack(pady=10)
-
 
     menu_aba.mainloop()
 

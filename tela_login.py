@@ -2,6 +2,7 @@ import customtkinter as ctk
 from PIL import Image
 import tela_fisioterapia_or_pilates
 import tela_cadastro
+from tela_principal import abrir_tela_principal
 from screeninfo import get_monitors
 
 # === CONFIGURAÇÃO INICIAL === 
@@ -16,8 +17,6 @@ height = monitor.height
 janela.geometry(f"{width}x{height}+0+0")
 janela.resizable(True, True)
 janela.title('Login - Clínica RETRATA FISIO')
-
-
 
 # === FRAME CENTRAL ===
 
@@ -60,7 +59,8 @@ cmp_senha.pack(pady=(10,10))
 # === FUNÇÃO PARA ABRIR O MENU ===
 def abrir_menu():
     janela.destroy()
-    tela_fisioterapia_or_pilates.abrir_menu_()
+    # tela_fisioterapia_or_pilates.abrir_menu_()
+    abrir_tela_principal()
 
 # BOTAO LOGIN
 btn_login = ctk.CTkButton(master=frame, text="Entrar", font=('Arial',20) , width=250 , height=40,

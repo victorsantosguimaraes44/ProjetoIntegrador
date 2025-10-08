@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from tkinter import messagebox
 from turtle import left
-from tela_lista_alunos_pilates import tela_lista_alunos_pilates
+# from tela_lista_alunos_pilates import tela_lista_alunos_pilates
 
 agendamentos = []
 agendamento = " "
@@ -12,14 +12,14 @@ def adicionar_agendamentos(Nome_aula, Data_aula, Hora_aula):
 def obter_agendamentos():
     return agendamentos
 
-def tela_cadastrar_aula_pilates(JANELA):
+def agendar_consultas(JANELA):
     #FRAME PRINCIPAL
     frame_principal = ctk.CTkFrame(master=JANELA, width=1200, height=750, corner_radius=10)
     frame_principal.place(relx=0.5, rely=0.5,anchor='center')
     frame_principal.pack_propagate(False)
 
     #TITULO
-    titulo = ctk.CTkLabel(master=frame_principal, text="Agendar aula", font=('Arial', 25, 'bold'))
+    titulo = ctk.CTkLabel(master=frame_principal, text="Agendar consulta", font=('Arial', 25, 'bold'))
     titulo.pack(pady=(10,10))
 
     #SUBTITULO
@@ -33,8 +33,8 @@ def tela_cadastrar_aula_pilates(JANELA):
     frame_campos.place(relx=0.5, rely=0.5,anchor='s')
     frame_campos.pack_propagate(False)
 
-    # CAMPO NOME DA AULA
-    cmp_nome_aula = ctk.CTkEntry(master=frame_campos, placeholder_text="Nome da aula", font=('Arial',20) , width=200, height=40, corner_radius=10, border_color="#BFBFBF")
+    # CAMPO NOME DA CONSULTA
+    cmp_nome_aula = ctk.CTkEntry(master=frame_campos, placeholder_text="Nome da consulta", font=('Arial',20) , width=200, height=40, corner_radius=10, border_color="#BFBFBF")
     cmp_nome_aula.pack(pady=(10,10))
     cmp_nome_aula.grid(row=0, column=0, padx=2, pady=2)
 
@@ -53,7 +53,7 @@ def tela_cadastrar_aula_pilates(JANELA):
     frame_campos_data.pack(pady=(10,10))
     frame_campos_data.grid(row=2, column=1, padx=2, pady=2)
 
-    text1 = ctk.CTkLabel(master=frame_campos, text="Data da aula: ", font=('Arial',20))
+    text1 = ctk.CTkLabel(master=frame_campos, text="Data: ", font=('Arial',20))
     text1.pack(pady=(10,10))
     text1.grid(row=1, column=1, padx=2, pady=2)
 
@@ -83,7 +83,7 @@ def tela_cadastrar_aula_pilates(JANELA):
     frame_campos_hora.grid(row=2, column=0, padx=2, pady=2)
 
     
-    text2 = ctk.CTkLabel(master=frame_campos, text="Hora da aula: ", font=('Arial',20))
+    text2 = ctk.CTkLabel(master=frame_campos, text="Hora: ", font=('Arial',20))
     text2.pack(pady=(10,10))
     text2.grid(row=1, column=0, padx=2, pady=2)
 
@@ -105,9 +105,9 @@ def tela_cadastrar_aula_pilates(JANELA):
     # def escolher_aluno():
     #     frame_cmp_aluno = ctk.CTkFrame(master=frame_principal, width=300, height=40 ,corner_radius=0, fg_color="transparent")
     #     frame_cmp_aluno.grid(row=4, column=0, columnspan=2, padx=2, pady=2)
-    #     tela_lista_alunos_pilates(frame_cmp_aluno)
+    #     # tela_lista_alunos_pilates(frame_cmp_aluno)
         
-    # btn_escolher_aluno = ctk.CTkButton(master=frame_campos, text='Escolher aluno', text_color="#000000",width=150,height=40, 
+    # btn_escolher_aluno = ctk.CTkButton(master=frame_campos, text='Escolher paciente', text_color="#000000",width=150,height=40, 
     #                                    corner_radius=0, fg_color= "#BABABA" , hover_color= "#4b4b4b", 
     #                                    border_width=2, border_color="#5A5A5A", command=escolher_aluno)
     # btn_escolher_aluno.grid(row=3, column=1, padx=2, pady=2)
