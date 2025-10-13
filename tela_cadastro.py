@@ -58,11 +58,11 @@ def abrir_tela_cadastro():
     def cancelar():
         janela.destroy()
 
-    btn_salvar = ctk.CTkButton(master= frame, text="Salvar", width=100, height=40, corner_radius=10, fg_color= "#4CAF50" , hover_color= "#45a049", command=salvar)
+    btn_salvar = ctk.CTkButton(master= frame, text="Salvar", width=100, height=40, corner_radius=10, fg_color= "#00B179" , hover_color= "#008057", command=salvar)
     btn_salvar.pack(pady=(10,10))
 
     #BOTAO CANCELAR
-    btn_cancelar = ctk.CTkButton(master= frame, text="Cancelar", text_color="#000000",width=100, height=40, corner_radius=10, fg_color= "transparent" , hover_color= "#45a049", border_width=2, border_color="#4CAF50", command=cancelar)
+    btn_cancelar = ctk.CTkButton(master= frame, text="Cancelar", text_color="#000000",width=100, height=40, corner_radius=10, fg_color= "transparent" , hover_color= "#00B179", border_width=2, border_color="#00B179", command=cancelar)
     btn_cancelar.pack(pady=(10,10))
 
     # ===== GUARDAR AS INFORMAÇÕES =====

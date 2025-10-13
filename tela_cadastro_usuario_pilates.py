@@ -108,5 +108,5 @@ def abrir_cadastro_pilates(JANELA):
 
 
     btn_salvar = ctk.CTkButton(master=frame_btn, text='Salvar', text_color="#000000",width=150,height=40, 
-                                corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049", command=salvar)
+                                corner_radius=20, fg_color= "#00B179" , hover_color= "#00734F", command=salvar)
     btn_salvar.pack(pady=(10,10), side = 'left', padx = 5)

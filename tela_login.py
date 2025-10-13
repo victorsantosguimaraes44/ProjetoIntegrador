@@ -2,7 +2,6 @@ import customtkinter as ctk
 from PIL import Image
 import tela_fisioterapia_or_pilates
 import tela_cadastro
-from tela_principal import abrir_tela_principal
 
 # === CONFIGURAÇÃO INICIAL === 
 ctk.set_appearance_mode('light')
@@ -16,15 +15,15 @@ janela.title('Login - Clínica RETRATA FISIO')
 
 # === FRAME CENTRAL ===
 
-frame_login = ctk.CTkFrame(master=janela, width=750, height=750, corner_radius=0)
+frame_login = ctk.CTkFrame(master=janela, width=750, height=750, fg_color="#CBDEE9",corner_radius=0)
 frame_login.place(relx=0.5, rely=0.5,anchor='e')
 frame_login.propagate(False)
 
-frame = ctk.CTkFrame(master=frame_login, width=525, height=400, fg_color="#CECECE", corner_radius=20)
+frame = ctk.CTkFrame(master=frame_login, width=525, height=400, fg_color="#FFFFFF", corner_radius=20)
 frame.place(relx=0.5, rely=0.5,anchor='center')
 frame.propagate(False)
 
-frame_imagem = ctk.CTkFrame(master=janela, width=750, height=750, border_color="#BDC3C7", corner_radius=0)
+frame_imagem = ctk.CTkFrame(master=janela, width=750, height=750, fg_color="#FFFFFF", corner_radius=0)
 frame_imagem.place(relx=0.5, rely=0.5,anchor='w')
 frame_imagem.pack_propagate(False)
 
@@ -45,8 +44,8 @@ subtitulo = ctk.CTkLabel(master=frame,text="Faça login para continuar",font=('A
 subtitulo.pack(pady=(10,10))
 
 # CAMPO DE USUARIO
-cmp_entrar = ctk.CTkEntry(master=frame, placeholder_text="Usuário", font=('Arial',20), width=450, height=50, corner_radius=10, border_color="#BFBFBF")
-cmp_entrar.pack(pady=(10,10))
+cmp_usuario = ctk.CTkEntry(master=frame, placeholder_text="Usuário", font=('Arial',20), width=450, height=50, corner_radius=10, border_color="#BFBFBF")
+cmp_usuario.pack(pady=(10,10))
 
 # CAMPO SENHA
 cmp_senha = ctk.CTkEntry(master=frame, placeholder_text="Senha", font=('Arial',20), width=450, height=50, corner_radius=10,show="*", border_color="#BFBFBF")
@@ -54,13 +53,15 @@ cmp_senha.pack(pady=(10,10))
 
 # === FUNÇÃO PARA ABRIR O MENU ===
 def abrir_menu():
+    user = cmp_usuario.get()
+
     janela.destroy()
-    # tela_fisioterapia_or_pilates.abrir_menu_()
-    abrir_tela_principal()
+    from tela_principal import abrir_tela_principal
+    abrir_tela_principal(user)
 
 # BOTAO LOGIN
-btn_login = ctk.CTkButton(master=frame, text="Entrar", font=('Arial',20) , width=250 , height=40,
-                           corner_radius=50, fg_color= "#4CAF50" , hover_color= "#45a049" , command=abrir_menu)
+btn_login = ctk.CTkButton(master=frame, text="Entrar", font=('Arial',20), text_color="#FFFFFF" , width=250 , height=40,
+                           corner_radius=50, fg_color= "#00B179" , hover_color= "#007F57" , command=abrir_menu)
 btn_login.pack(pady=20)
 # === BOTÃO DE CADASTRO === 
 
@@ -68,8 +69,8 @@ def abrir_cadastro():
     tela_cadastro.abrir_tela_cadastro()
 
 btn_register = ctk.CTkButton(master=frame, text = "Cadastre-se", font=('Arial',20) , width=250 , height=40,
-                             corner_radius=50, fg_color="transparent" , hover_color= "#45a049" ,
-                             border_width=2, border_color= "#45a049" , text_color= "#0E140E", command=abrir_cadastro)
+                             corner_radius=50, fg_color="transparent" , hover_color= "#00B179" ,
+                             border_width=2, border_color= "#00B179" , text_color= "#0E140E", command=abrir_cadastro)
 
 btn_register.pack()
 

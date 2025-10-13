@@ -132,6 +132,6 @@ def tela_cadastrar_aula_pilates(JANELA):
             adicionar_agendamentos(nome_aula, data, hora_aula)
         
     btn_salvar = ctk.CTkButton(master=frame_btn, text='Salvar', text_color="#000000",width=150,height=40, 
-                                corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049", command=salvar_aula)
+                                corner_radius=20, fg_color= "#00B179" , hover_color= "#007651", command=salvar_aula)
     btn_salvar.pack(pady=(10,10))
     

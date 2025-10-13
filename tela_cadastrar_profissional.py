@@ -13,7 +13,11 @@ def obter_cadastros():
 
 def tela_cadastrar_profissional(JANELA):
     #FRAME PRINCIPAL
-    frame_principal = ctk.CTkFrame(master=JANELA, width=1200, height=750, corner_radius=10)
+    menu_aba = ctk.CTkFrame(master=JANELA, width=1600, height=900, fg_color="transparent", corner_radius=0)
+    menu_aba.place(relx=0.5,rely=0.5,anchor="center")
+    menu_aba.pack_propagate(False)
+
+    frame_principal = ctk.CTkFrame(master=menu_aba, width=1200, height=750, corner_radius=10)
     frame_principal.place(relx=0.5, rely=0.5,anchor='center')
     frame_principal.pack_propagate(False)
 

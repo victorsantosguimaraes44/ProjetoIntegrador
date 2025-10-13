@@ -14,8 +14,9 @@ def tela_gerenciador_clinica(JANELA):
     num_atendimentos_concluidos = 0
     num_atendimentos_pendentes = num_atendimentos_totais - num_atendimentos_concluidos
 
-    agendamentos_totais.append(obter_agendamentos_fisio())
-    agendamentos_totais.append(obter_agendamentos_pilates())
+    if len(obter_agendamentos_fisio()) != 0 or len(obter_agendamentos_pilates()):
+        agendamentos_totais.append(obter_agendamentos_fisio())
+        agendamentos_totais.append(obter_agendamentos_pilates())
 
     frame_principal = ctk.CTkFrame(master=JANELA, width=1200, height=750, fg_color="#E4E1E1", corner_radius=0)
     frame_principal.place(relx=0.5,rely=0.5,anchor="center")
@@ -63,7 +64,6 @@ def tela_gerenciador_clinica(JANELA):
     
     frame_scroll = ctk.CTkScrollableFrame(master=frame_principal, width=1150, height=350, fg_color="#C6C6C6", corner_radius=10)
     frame_scroll.place(relx=0.5,rely=0.75,anchor="center")
-    frame_scroll.pack_propagate(False)
 
     for i in range(len(agendamentos_totais)):
         btn_name = ctk.CTkButton(master=frame_scroll, text=f"{agendamentos_totais[i]}", font=('Arial', 15), 
