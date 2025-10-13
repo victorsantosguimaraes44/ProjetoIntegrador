@@ -1,33 +1,97 @@
 import customtkinter as ctk
-from screeninfo import get_monitors
+from PIL import Image
 from tela_cadastrar_profissional import tela_cadastrar_profissional
+from tela_inicio import abrir_inicio
+from tela_gerenciador_clínica import tela_gerenciador_clinica
 
 def abrir_tela_principal():
-    # === CONFIGURAÇÃO INICIAL === 
     ctk.set_appearance_mode('light')
     ctk.set_default_color_theme('blue')
-
-    monitor = get_monitors()[0]
     janela = ctk.CTk()
-
-    width = monitor.width
-    height = monitor.height
-    janela.geometry(f"{width}x{height}+0+0")
-    janela.resizable(True, True)
+    janela.geometry("1600x900")
+    janela.resizable(False, False)
     janela.title('Clínica RETRATA FISIO - PRINCIPAL')
 
-        
-    frame_principal = ctk.CTkFrame(master=janela, width=1200, height=750, fg_color="transparent", corner_radius=0)
-    frame_principal.place(relx=0.6,rely=0.5,anchor="center")
+    frame_principal = ctk.CTkFrame(master=janela, width=1200, height=750, fg_color="transparent")
+    frame_principal.place(relx=0.5,rely=0.55,anchor="center")
     frame_principal.pack_propagate(False)
+
+    #BOTOES FRAME PRINCIPAL
+    def button_painel():
+        frame_btn = ctk.CTkFrame(master=frame_principal, width=1200, height=750, fg_color="#C6C6C6", corner_radius=10)
+        frame_btn.place(relx=0.5,rely=0.5,anchor="center")
+        frame_btn.pack_propagate(False)
+        
+        text_label = ctk.CTkLabel(master=frame_btn, text=f"Bem-vindo,", font=('Arial', 30, 'bold'), text_color="#000000")
+        text_label.pack(pady=(10,10))
+
+        painel_principal(frame_btn)
+        
+    def painel_principal(frame):
     
-    frame_lateral = ctk.CTkFrame(master=janela, width=200, height=650, fg_color="#616161", corner_radius=0)
-    frame_lateral.place(x=2,y=2)
-    frame_lateral.pack_propagate(False)
+        frame_btn1 = ctk.CTkFrame(master=frame, width=1200, height=750, fg_color="transparent", corner_radius=0)
+        frame_btn1.place(relx=0.5,rely=0.5,anchor="center")
+        frame_btn1.pack_propagate(False)
 
-    text_label = ctk.CTkLabel(master=frame_principal, text="Bem-vindo, ", font=('Arial', 30, 'bold'), text_color="#000000")
-    text_label.pack(pady=(10,10))
+        btn_fisio = ctk.CTkButton(master=frame_btn1, text='Fisioterapia', font=("Arial", 30),text_color="#FFFFFF",width=350,height=200, 
+                                corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049",command=fisio)
+        btn_fisio.grid(row=0, column=0, padx=20, pady=20)
 
+        btn_pilates = ctk.CTkButton(master=frame_btn1, text='Pilates', font=("Arial", 30),text_color="#FFFFFF",width=350,height=200, 
+                                corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049",command=pilates)
+        btn_pilates.grid(row=0, column=1, padx=20, pady=20)
+        btn_profissional = ctk.CTkButton(master=frame_btn1, text='Profissional', font=("Arial", 30),text_color="#FFFFFF",width=350,height=200, 
+                                corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049", command=profissional)
+        btn_profissional.grid(row=1, column=0, padx=20, pady=20)
+
+        btn_relatorio = ctk.CTkButton(master=frame_btn1, text='Relatórios', font=("Arial", 30),text_color="#FFFFFF",width=350,height=200, 
+                                corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049")
+        btn_relatorio.grid(row=1, column=1, padx=20, pady=20)
+
+    #BOTOES DO FRAME TOP
+    frame_top = ctk.CTkFrame(master=janela, width=1980, height=50, fg_color="#20C7FF", corner_radius=0)
+    frame_top.place(relx=0.5, rely=0.03, anchor='center')
+    frame_top.pack_propagate(False)
+
+    frame_1 = ctk.CTkFrame(master=frame_top, width=300, height=50, fg_color="transparent", corner_radius=0)
+    frame_1.place(relx=0.5, rely=0.5, anchor='center')
+    frame_1.pack_propagate(False)
+
+    #BOTOES PRINCIPAIS
+    def arbir_inicio():
+        abrir_inicio(frame_principal)
+    btn_inicio = ctk.CTkButton(master=frame_1, text='Início', font=("Arial", 18),text_color="#000000",width=100,height=50, 
+                            corner_radius=0, fg_color= "transparent" , hover_color= "#0093FC", command=lambda: (arbir_inicio()))
+    btn_inicio.grid(row=0, column=0, padx=10, pady=5)
+
+    btn_painel = ctk.CTkButton(master=frame_1, text='Painel', font=("Arial", 18),text_color="#000000",width=100,height=50, 
+                            corner_radius=0, fg_color= "transparent" , hover_color= "#0093FC", command=lambda: (button_painel()))
+    btn_painel.grid(row=0, column=1, padx=10, pady=5)
+
+    btn_clinica = ctk.CTkButton(master=frame_1, text='Clínica', font=("Arial", 18),text_color="#000000",width=100,height=50, 
+                            corner_radius=0, fg_color= "transparent" , hover_color= "#0093FC", command=lambda:tela_gerenciador_clinica(frame_principal))
+    btn_clinica.grid(row=0, column=2, padx=10, pady=5)
+
+    #BOTOES DO USUÁRIO
+    frame_user = ctk.CTkFrame(master=frame_top, width=100, height=50, fg_color="transparent")
+    frame_user.place(relx=0.88, rely=0.5, anchor='center')
+    frame_user.pack_propagate(False)
+
+    icone_user = ctk.CTkImage(Image.open("icone_usuario.png"), size=(24, 24))
+    botao_icon = ctk.CTkButton(frame_user,text="",image=icone_user,width=40,height=40,fg_color="transparent", hover_color="#e0e0e0")
+    botao_icon.pack(pady=10)
+
+    #LOGO IMAGEM
+    frame_img = ctk.CTkFrame(master=frame_top, width=200, height=80, fg_color='transparent')
+    frame_img.place(relx=0.15, rely=0.5,anchor='center')
+    frame_img.propagate(False)
+
+    imagem_logo = ctk.CTkImage(light_image=Image.open('imagem.png'), dark_image=Image.open('imagem2.png'), size=(200,70))
+    label_ = ctk.CTkLabel(master=frame_img, image=imagem_logo, text="")
+    label_.pack(pady=(20,10))
+
+    #TELA INICIO
+    abrir_inicio(frame_principal)
     # ==== BOTÃO FISIOTERAPIA E PILATES ====
     def fisio():
         from tela_menu_aba_fisioterapia import abrir_menu_aba_fisioterapia
@@ -38,30 +102,5 @@ def abrir_tela_principal():
     def profissional(frame):
         def cadastro_profissional():
             tela_cadastrar_profissional(frame_principal)
-        
-        btn_cad_prof = ctk.CTkButton(master=frame, text='Cadastrar', font=("Arial", 15),text_color="#FFFFFF",width=150,height=40, 
-                            corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049", command=cadastro_profissional)
-        btn_cad_prof.pack(pady=10)
 
-    def buttonClick():    
-        fr_lateral = ctk.CTkFrame(master=janela, width=200, height=650,fg_color="#616161", corner_radius=0)
-        fr_lateral.place(x=205,y=2)
-        fr_lateral.pack_propagate(False)
-        profissional(fr_lateral)
-
-    btn_fisio = ctk.CTkButton(master=frame_lateral, text='Fisioterapia', font=("Arial", 15),text_color="#FFFFFF",width=150,height=40, 
-                            corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049",command=fisio)
-    btn_fisio.pack(pady=10)
-    btn_pilates = ctk.CTkButton(master=frame_lateral, text='Pilates', font=("Arial", 15),text_color="#FFFFFF",width=150,height=40, 
-                            corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049",command=pilates)
-    btn_pilates.pack(pady=10)
-
-    btn_profissional = ctk.CTkButton(master=frame_lateral, text='Profissional', font=("Arial", 15),text_color="#FFFFFF",width=150,height=40, 
-                            corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049", command=buttonClick)
-    btn_profissional.pack(pady=10)
-    
-    btn_relatorio = ctk.CTkButton(master=frame_lateral, text='Relatórios', font=("Arial", 15),text_color="#FFFFFF",width=150,height=40, 
-                            corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049")
-    btn_relatorio.pack(pady=10)
-    
     janela.mainloop()

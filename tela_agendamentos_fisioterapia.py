@@ -1,8 +1,8 @@
 import customtkinter as ctk
-from tela_agendar_consultas import obter_agendamentos
+from tela_agendar_consultas import obter_agendamentos_fisio
+import tela_gerenciador_clínica
 
 def tela_agendamentos_fisio(JANELA):
-    
     frame = ctk.CTkFrame(master=JANELA, width=1200, height=750)
     frame.place(relx=0.5, rely=0.5,anchor='center')
     frame.pack_propagate(False)
@@ -17,8 +17,8 @@ def tela_agendamentos_fisio(JANELA):
     frame_btn_name.place(relx=0.5, rely=0.5,anchor='center')
     frame_btn_name.pack_propagate(False)
 
-    for i in range(len(obter_agendamentos())):
-        btn_name = ctk.CTkButton(master=frame_btn_name, text=f"{obter_agendamentos()[i]}", font=('Arial', 15), 
+    for i in range(len(obter_agendamentos_fisio())):
+        btn_name = ctk.CTkButton(master=frame_btn_name, text=f"{obter_agendamentos_fisio()[i]}", font=('Arial', 15), 
                                  width=1150, height=20, corner_radius=0, text_color="#000000",
                                  fg_color="#E3E3E3", hover_color="#929090")
         btn_name.pack(pady=1)

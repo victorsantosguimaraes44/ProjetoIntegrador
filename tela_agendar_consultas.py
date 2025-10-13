@@ -9,7 +9,7 @@ def adicionar_agendamentos(Nome_aula, Data_aula, Hora_aula):
     agendamento = f"Nome da aula: {Nome_aula}, Data da aula: {Data_aula}, Hora da aula: {Hora_aula}"
     agendamentos.append(agendamento)
 
-def obter_agendamentos():
+def obter_agendamentos_fisio():
     return agendamentos
 
 def agendar_consultas(JANELA):
@@ -99,19 +99,6 @@ def agendar_consultas(JANELA):
 
     frame_btn = ctk.CTkFrame(master=frame_principal, width=400, height=450, fg_color="transparent")
     frame_btn.place(relx=0.5, rely=0.8,anchor='n')
-
-    # ESCOLHA DO ALUNO
-    
-    # def escolher_aluno():
-    #     frame_cmp_aluno = ctk.CTkFrame(master=frame_principal, width=300, height=40 ,corner_radius=0, fg_color="transparent")
-    #     frame_cmp_aluno.grid(row=4, column=0, columnspan=2, padx=2, pady=2)
-    #     # tela_lista_alunos_pilates(frame_cmp_aluno)
-        
-    # btn_escolher_aluno = ctk.CTkButton(master=frame_campos, text='Escolher paciente', text_color="#000000",width=150,height=40, 
-    #                                    corner_radius=0, fg_color= "#BABABA" , hover_color= "#4b4b4b", 
-    #                                    border_width=2, border_color="#5A5A5A", command=escolher_aluno)
-    # btn_escolher_aluno.grid(row=3, column=1, padx=2, pady=2)
-
 
     def salvar_aula():
         nome_aula = cmp_nome_aula.get()

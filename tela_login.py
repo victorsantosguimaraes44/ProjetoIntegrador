@@ -3,19 +3,15 @@ from PIL import Image
 import tela_fisioterapia_or_pilates
 import tela_cadastro
 from tela_principal import abrir_tela_principal
-from screeninfo import get_monitors
 
 # === CONFIGURAÇÃO INICIAL === 
 ctk.set_appearance_mode('light')
 ctk.set_default_color_theme('blue')
 
-monitor = get_monitors()[0]
 janela = ctk.CTk()
 
-width = monitor.width
-height = monitor.height
-janela.geometry(f"{width}x{height}+0+0")
-janela.resizable(True, True)
+janela.geometry("1600x900")
+janela.resizable(False, False)
 janela.title('Login - Clínica RETRATA FISIO')
 
 # === FRAME CENTRAL ===
@@ -66,7 +62,6 @@ def abrir_menu():
 btn_login = ctk.CTkButton(master=frame, text="Entrar", font=('Arial',20) , width=250 , height=40,
                            corner_radius=50, fg_color= "#4CAF50" , hover_color= "#45a049" , command=abrir_menu)
 btn_login.pack(pady=20)
-
 # === BOTÃO DE CADASTRO === 
 
 def abrir_cadastro():

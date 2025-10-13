@@ -57,11 +57,6 @@ def tela_cadastrar_profissional(JANELA):
     cmp_end.pack(pady=(10,10))
     cmp_end.grid(row=2, column=0, padx=2, pady=2)
 
-    # # CAMPO CREFITO 
-    # cmp_tel = ctk.CTkEntry(master=frame_campos, placeholder_text="CREFITO", font=('Arial',20), width=350, height=40, corner_radius=10, border_color="#BFBFBF")
-    # cmp_tel.pack(pady=(10,10))
-    # cmp_tel.grid(row=1, column=1, padx=2, pady=2)
-
     #================== BOTÕES ==================
     # FRAMEBOTOES
     frame_btn = ctk.CTkFrame(master=frame_principal, width=400, height=450, fg_color="transparent")
