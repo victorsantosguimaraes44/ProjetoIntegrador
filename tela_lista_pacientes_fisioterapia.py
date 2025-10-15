@@ -1,6 +1,5 @@
 import customtkinter as ctk
 from tela_cadastro_usuario_fisioterapia import obter_cadastros
-# from gerador_de_dados_aleatorios import obter_dados_aleatorios
 
 def tela_lista_pacientes_fisio(JANELA):
     

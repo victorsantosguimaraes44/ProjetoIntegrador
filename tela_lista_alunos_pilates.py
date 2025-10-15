@@ -23,15 +23,3 @@ def tela_lista_alunos_pilates(JANELA):
                                  width=1150, height=20, corner_radius=0, text_color="#000000",
                                  fg_color="#E3E3E3", hover_color="#929090")
         btn_name.pack(pady=2)
-
-    # names = ctk.CTkTextbox(frame, width=1150, height=600, font=("Arial", 15))
-    # names.pack(pady=20)
-
-    # names.configure(state="normal")
-    
-    # i = 0
-    # while i < len(obter_cadastros()):
-    #     names.insert("end", f"{obter_cadastros()[i]}\n")
-    #     i += 1
-
-    # names.configure(state="disabled")

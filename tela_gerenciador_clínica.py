@@ -3,20 +3,20 @@ from PIL import Image
 from tela_agendar_consultas import obter_agendamentos_fisio
 from tela_cadastrar_aula_pilates import obter_agendamentos_pilates
 
+agendamentostotais = []
+
+def agendamentos_totais(agendamentos):
+    agendamentostotais.append(agendamentos)
+
 def tela_gerenciador_clinica(JANELA):
-    
-    agendamentos_totais = []
+
 
     num_atendimentos_totais = 0
     while num_atendimentos_totais < len(obter_agendamentos_fisio()) + len(obter_agendamentos_pilates()):
         num_atendimentos_totais += 1
-        print(num_atendimentos_totais)
+
     num_atendimentos_concluidos = 0
     num_atendimentos_pendentes = num_atendimentos_totais - num_atendimentos_concluidos
-
-    if len(obter_agendamentos_fisio()) != 0 or len(obter_agendamentos_pilates()):
-        agendamentos_totais.append(obter_agendamentos_fisio())
-        agendamentos_totais.append(obter_agendamentos_pilates())
 
     frame_principal = ctk.CTkFrame(master=JANELA, width=1200, height=750, fg_color="#E4E1E1", corner_radius=0)
     frame_principal.place(relx=0.5,rely=0.5,anchor="center")
@@ -60,13 +60,14 @@ def tela_gerenciador_clinica(JANELA):
     number_atendimentos_totais.pack(pady=(10,10))
 
     #SCROLL VIEW DE ATENDIMENTOS
-
+    text_label = ctk.CTkLabel(master=frame_principal, text=f"Agendamentos:", font=('Arial', 15, 'bold'), text_color="#000000")
+    text_label.place(x=25, y=350)
     
     frame_scroll = ctk.CTkScrollableFrame(master=frame_principal, width=1150, height=350, fg_color="#C6C6C6", corner_radius=10)
     frame_scroll.place(relx=0.5,rely=0.75,anchor="center")
 
-    for i in range(len(agendamentos_totais)):
-        btn_name = ctk.CTkButton(master=frame_scroll, text=f"{agendamentos_totais[i]}", font=('Arial', 15), 
+    for i in range(len(agendamentostotais)):
+        btn_name = ctk.CTkButton(master=frame_scroll, text=f"{agendamentostotais[i]}", font=('Arial', 15), 
                                     width=1150, height=20, corner_radius=0, text_color="#000000",
                                     fg_color="#E3E3E3", hover_color="#929090")
         btn_name.pack(pady=1)

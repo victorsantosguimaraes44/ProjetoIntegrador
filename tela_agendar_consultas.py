@@ -1,12 +1,14 @@
 import customtkinter as ctk
 from tkinter import messagebox
 from turtle import left
-# from tela_lista_alunos_pilates import tela_lista_alunos_pilates
 
 agendamentos = []
 agendamento = " "
 def adicionar_agendamentos(Nome_aula, Data_aula, Hora_aula):
     agendamento = f"Nome da aula: {Nome_aula}, Data da aula: {Data_aula}, Hora da aula: {Hora_aula}"
+
+    from tela_gerenciador_clínica import agendamentos_totais
+    agendamentos_totais(agendamento)
     agendamentos.append(agendamento)
 
 def obter_agendamentos_fisio():
