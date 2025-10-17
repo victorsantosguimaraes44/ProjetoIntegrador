@@ -43,9 +43,18 @@ def abrir_tela_principal(usuario):
         btn_pilates = ctk.CTkButton(master=frame_btn1, text='Pilates', font=("Arial", 30),text_color="#FFFFFF",width=350,height=200, 
                                 corner_radius=20, fg_color= "#00B179" , hover_color= "#007F57",command=pilates)
         btn_pilates.grid(row=0, column=1, padx=20, pady=20)
-        btn_profissional = ctk.CTkButton(master=frame_btn1, text='Profissional', font=("Arial", 30),text_color="#FFFFFF",width=350,height=200, 
-                                corner_radius=20, fg_color= "#00B179" , hover_color= "#007F57", command=profissional)
-        btn_profissional.grid(row=1, column=0, padx=20, pady=20)
+
+        frame_prof = ctk.CTkFrame(master=frame_btn1,width=350,height=200, corner_radius=20, border_width=2, border_color="#00B179")
+        frame_prof.grid(row=1, column=0, padx=20, pady=20)
+        frame_prof.pack_propagate(False)
+
+        btn_cad_pro = ctk.CTkButton(master=frame_prof, text='Cadastro \nProfissional', font=("Arial", 30),text_color="#FFFFFF", 
+                                    width=155,height=200, corner_radius=20, fg_color= "#00B179" , hover_color= "#007F57", command=profissional)
+        btn_cad_pro.grid(row=0, column=0, padx=20, pady=20)
+
+        btn_list_pro = ctk.CTkButton(master=frame_prof, text='Lista \nProfissional', font=("Arial", 30),text_color="#FFFFFF", 
+                                    width=155,height=200, corner_radius=20, fg_color= "#00B179" , hover_color= "#007F57")
+        btn_list_pro.grid(row=0, column=1, padx=20, pady=20)
 
         btn_relatorio = ctk.CTkButton(master=frame_btn1, text='Relatórios', font=("Arial", 30),text_color="#FFFFFF",width=350,height=200, 
                                 corner_radius=20, fg_color= "#00B179" , hover_color= "#007F57")

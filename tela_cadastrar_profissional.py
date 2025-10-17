@@ -4,8 +4,8 @@ import customtkinter as ctk
 
 cadastros = []
 cadastro = " "
-def adicionar_cadastros(nome, email, telefone, endereco):
-    cadastro = f"nome: {nome}, email: {email}, tel: {telefone}, end: {endereco}"
+def adicionar_cadastros(nome, email, telefone, endereco, data_nascimento, especialidade):
+    cadastro = f"{nome}, {email}, {telefone}, {endereco}, {data_nascimento}, {especialidade}"
     cadastros.append(cadastro)
 
 def obter_cadastros():
@@ -61,6 +61,14 @@ def tela_cadastrar_profissional(JANELA):
     cmp_end.pack(pady=(10,10))
     cmp_end.grid(row=2, column=0, padx=2, pady=2)
 
+
+    cmp_esp_titulo = ctk.CTkLabel(master=frame_campos,text="Especialidade: ",font=('Arial',20))
+    cmp_esp_titulo.grid(row=3, column=0, padx=0.5, pady=0.5)
+
+    cmp_esp = ctk.CTkComboBox(master=frame_campos, values=["-Selecione-","Fiosiaterapia", "Pilates"],font=('Arial',20), width=150, height=20 )
+    cmp_esp.pack(pady=(1,1))
+    cmp_esp.grid(row=4, column=0, padx=0.5, pady=0.5)
+
     #================== BOTÕES ==================
     # FRAMEBOTOES
     frame_btn = ctk.CTkFrame(master=frame_principal, width=400, height=450, fg_color="transparent")
@@ -73,12 +81,16 @@ def tela_cadastrar_profissional(JANELA):
         data_nascimento = cmp_dataNascimento.get()
         telefone = cmp_tel.get()
         endereco = cmp_end.get()
-
+        especialidade = cmp_esp.get()
+        
         if not nome or not email or not data_nascimento or not telefone:
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
+        elif especialidade == "-Selecione-":
+            messagebox.showwarning("Atenção", "Selecione uma especidalidade!")
+            return
         else:
-            messagebox.showinfo("INFO", f"O paciente '{nome}' foi cadastrado com sucesso!")
-            adicionar_cadastros(nome, email, telefone, data_nascimento, endereco)
+            messagebox.showinfo("INFO", f"O(A) Profissional '{nome}', especialidade '{especialidade}', foi cadastrado(a) com sucesso!")
+            adicionar_cadastros(nome, email, telefone, data_nascimento, endereco, especialidade)
 
     btn_salvar = ctk.CTkButton(master=frame_btn, text='Salvar', text_color="#000000",width=150,height=40, 
                                 corner_radius=20, fg_color= "#4CAF50" , hover_color= "#45a049", command=salvar)

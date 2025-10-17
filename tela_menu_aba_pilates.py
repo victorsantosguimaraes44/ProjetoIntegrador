@@ -51,15 +51,15 @@ def abrir_menu_pilates(JANELA):
         btn_agendar.pack(pady=10)
 
     def buttonClick():    
-        fr_lateral = ctk.CTkFrame(master=menu_aba, width=150, height=650,fg_color="#616161", corner_radius=0)
-        fr_lateral.place(x=2,y=70)
+        fr_lateral = ctk.CTkFrame(master=menu_aba, width=150, height=850,fg_color="#616161", corner_radius=0)
+        fr_lateral.place(x=2,y=50)
         fr_lateral.pack_propagate(False)   
 
         agendar(fr_lateral)
 
     def buttonClick1():    
-        fr_lateral = ctk.CTkFrame(master=menu_aba, width=150, height=650,fg_color="#616161", corner_radius=0)
-        fr_lateral.place(x=2,y=70)
+        fr_lateral = ctk.CTkFrame(master=menu_aba, width=150, height=850,fg_color="#616161", corner_radius=0)
+        fr_lateral.place(x=2,y=50)
         fr_lateral.pack_propagate(False)   
 
         aluno(fr_lateral)

@@ -10,7 +10,7 @@ def tela_lista_pacientes_fisio(JANELA):
     list_label = ctk.CTkLabel(master=frame,text="Lista de pacientes", font=('Arial', 25, 'bold'))
     list_label.pack(pady=(10,10))
     
-    frame_btn_name = ctk.CTkScrollableFrame(master=JANELA, width=1150, height=600, corner_radius=0, fg_color="#FFFFFF")
+    frame_btn_name = ctk.CTkScrollableFrame(master=JANELA, width=1185, height=600, corner_radius=0, fg_color="#FFFFFF")
     frame_btn_name.place(relx=0.5, rely=0.5,anchor='center')
 
     for i in range(len(obter_cadastros())):

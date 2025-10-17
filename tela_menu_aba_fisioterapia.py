@@ -46,8 +46,8 @@ def abrir_menu_aba_fisioterapia(JANELA):
         tela_agendamentos_fisio(frame_principal)
 
     def buttonClick():    
-        fr_lateral = ctk.CTkFrame(master=menu_aba, width=160, height=650,fg_color="#616161", corner_radius=0)
-        fr_lateral.place(x=2,y=70)
+        fr_lateral = ctk.CTkFrame(master=menu_aba, width=160, height=850,fg_color="#616161", corner_radius=0)
+        fr_lateral.place(x=2,y=50)
         fr_lateral.pack_propagate(False)   
 
         btn_agendamentos = ctk.CTkButton(master=fr_lateral, text='Agendamentos', font=("Arial", 15),text_color="#FFFFFF",width=130,height=40, 
@@ -58,8 +58,8 @@ def abrir_menu_aba_fisioterapia(JANELA):
         btn_agendar.pack(pady=10)
 
     def buttonClick1():    
-        fr_lateral = ctk.CTkFrame(master=menu_aba, width=160, height=650,fg_color="#616161", corner_radius=0)
-        fr_lateral.place(x=2,y=70)
+        fr_lateral = ctk.CTkFrame(master=menu_aba, width=160, height=850,fg_color="#616161", corner_radius=0)
+        fr_lateral.place(x=2,y=50)
         fr_lateral.pack_propagate(False)   
 
         btn_cadastro = ctk.CTkButton(master=fr_lateral, text="Cadastrar", font=("Arial", 15) ,width=150, height=40, 

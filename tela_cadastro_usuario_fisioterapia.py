@@ -6,8 +6,8 @@ import customtkinter as ctk
 
 cadastros = []
 cadastro = " "
-def adicionar_cadastros(nome, email, telefone, opcao_pagamento, valor_pagar):
-    cadastro = f"nome: {nome}, email: {email}, tel: {telefone}, pagamento: {opcao_pagamento}, valor a pagar: {valor_pagar}"
+def adicionar_cadastros(nome, email, telefone, opcao_pagamento, valor_pagar, endereco):
+    cadastro = f"{nome}, {email}, {telefone}, {opcao_pagamento}, {valor_pagar}, {endereco}"
     cadastros.append(cadastro)
 
 def obter_cadastros():
@@ -54,13 +54,18 @@ def abrir_cadastro_fisioterapia(JANELA):
     cmp_tel.pack(pady=(10,10))
     cmp_tel.grid(row=1, column=1, padx=2, pady=2)
 
+    #CAMPO ENDEREÇO
+    cmp_endereco = ctk.CTkEntry(master=frame_campos, placeholder_text="Endereço", font=('Arial',20), width=350, height=40, corner_radius=10, border_color="#BFBFBF")
+    cmp_endereco.pack(pady=(10,10))
+    cmp_endereco.grid(row=2, column=0, padx=2, pady=2)
+
     # OPÇÃO DE PAGAMENTO
-    subtitulo = ctk.CTkLabel(master=frame_campos,text="Opção de pagamento: ",font=('Arial',20))
-    subtitulo.grid(row=2, column=0, padx=0.5, pady=0.5)
+    opc_pgt_titulo = ctk.CTkLabel(master=frame_campos,text="Opção de pagamento: ",font=('Arial',20))
+    opc_pgt_titulo.grid(row=3, column=0, padx=0.5, pady=0.5)
 
     opc_pgt = ctk.CTkComboBox(master=frame_campos, values=["-Selecione-","Pix", "Débito", "Crédito"],font=('Arial',20) )
     opc_pgt.pack(pady=(1,1))
-    opc_pgt.grid(row=3, column=0, padx=0.5, pady=0.5)
+    opc_pgt.grid(row=4, column=0, padx=0.5, pady=0.5)
 
     # CAMPO VALOR A PAGAR
     def formatar_para_reais(*args):
@@ -77,13 +82,13 @@ def abrir_cadastro_fisioterapia(JANELA):
         var_valor.set(f"R$ {valor}")
 
     cmp_valor_pagar_titulo = ctk.CTkLabel(master=frame_campos,text="valor a pagar R$: ",font=('Arial',20))
-    cmp_valor_pagar_titulo.grid(row=2, column=1, padx=0.5, pady=0.5)
+    cmp_valor_pagar_titulo.grid(row=3, column=1, padx=0.5, pady=0.5)
     var_valor = ctk.StringVar()
     var_valor.trace_add("write", formatar_para_reais)
 
-    cmp_valor_pagar = ctk.CTkEntry(master=frame_campos, textvariable=var_valor, font=('Arial',20), width=150, height=40, corner_radius=10, border_color="#BFBFBF")
+    cmp_valor_pagar = ctk.CTkEntry(master=frame_campos, textvariable=var_valor, font=('Arial',20), width=350, height=40, corner_radius=10, border_color="#BFBFBF")
     cmp_valor_pagar.pack(pady=(10,10))
-    cmp_valor_pagar.grid(row=3, column=1, padx=2, pady=2)
+    cmp_valor_pagar.grid(row=4, column=1, padx=2, pady=2)
 
     #================== BOTÕES ==================
     # FRAMEBOTOES
@@ -103,15 +108,15 @@ def abrir_cadastro_fisioterapia(JANELA):
         telefone = cmp_tel.get()
         opcao_pagamento = opc_pgt.get()
         valor_pagar = cmp_valor_pagar.get()
-        
-        if not nome or not email or not data_nascimento or not telefone:
+        endereco = cmp_endereco.get()
+        if not nome or not email or not data_nascimento or not telefone or not endereco:
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
         elif opcao_pagamento == "-Selecione-":
             messagebox.showwarning("Atenção", "Coloque uma opção de pagamento!")
             return
         else:
-            messagebox.showinfo("INFO", f"O paciente '{nome}' foi cadastrado com sucesso!")
-            adicionar_cadastros(nome, email, telefone, opcao_pagamento, valor_pagar)
+            messagebox.showinfo("INFO", f"O(A) paciente '{nome}' foi cadastrado(a) com sucesso!")
+            adicionar_cadastros(nome, email, telefone, opcao_pagamento, valor_pagar, endereco)
 
 
     btn_salvar = ctk.CTkButton(master=frame_btn, text='Salvar', text_color="#000000",width=150,height=40, 
