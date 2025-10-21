@@ -65,7 +65,7 @@ def abrir_menu_aba_fisioterapia(JANELA):
         btn_cadastro = ctk.CTkButton(master=fr_lateral, text="Cadastrar", font=("Arial", 15) ,width=150, height=40, 
                                      corner_radius=0,fg_color="transparent" , hover_color= "#979797", command=cadastro)
         btn_cadastro.pack(pady=10)
-        btn_lista_paciente = ctk.CTkButton(master=fr_lateral, text="Lista de pacientes", font=("Arial", 15) ,width=150, height=40, corner_radius=20,fg_color="transparent" , hover_color= "#979797", command=lista_alunos)
+        btn_lista_paciente = ctk.CTkButton(master=fr_lateral, text="Lista de pacientes", font=("Arial", 15) ,width=150, height=40, corner_radius=0,fg_color="transparent" , hover_color= "#979797", command=lista_alunos)
         btn_lista_paciente.pack(pady=10)
     
     btn_paciente = ctk.CTkButton(master=frame_top, text="Paciente", font=("Arial", 17),text_color="#FFFFFF" ,width=130, height=50,

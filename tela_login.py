@@ -62,17 +62,17 @@ def abrir_menu():
 # BOTAO LOGIN
 btn_login = ctk.CTkButton(master=frame, text="Entrar", font=('Arial',20), text_color="#FFFFFF" , width=250 , height=40,
                            corner_radius=50, fg_color= "#00B179" , hover_color= "#007F57" , command=abrir_menu)
-btn_login.pack(pady=20)
+btn_login.pack(pady=50)
 # === BOTÃO DE CADASTRO === 
 
-def abrir_cadastro():
-    tela_cadastro.abrir_tela_cadastro()
+# def abrir_cadastro():
+#     tela_cadastro.abrir_tela_cadastro()
 
-btn_register = ctk.CTkButton(master=frame, text = "Cadastre-se", font=('Arial',20) , width=250 , height=40,
-                             corner_radius=50, fg_color="transparent" , hover_color= "#00B179" ,
-                             border_width=2, border_color= "#00B179" , text_color= "#0E140E", command=abrir_cadastro)
+# btn_register = ctk.CTkButton(master=frame, text = "Cadastre-se", font=('Arial',20) , width=250 , height=40,
+#                              corner_radius=50, fg_color="transparent" , hover_color= "#00B179" ,
+#                              border_width=2, border_color= "#00B179" , text_color= "#0E140E", command=abrir_cadastro)
 
-btn_register.pack()
+# btn_register.pack()
 
 janela.mainloop()
 

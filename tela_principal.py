@@ -44,17 +44,18 @@ def abrir_tela_principal(usuario):
                                 corner_radius=20, fg_color= "#00B179" , hover_color= "#007F57",command=pilates)
         btn_pilates.grid(row=0, column=1, padx=20, pady=20)
 
-        frame_prof = ctk.CTkFrame(master=frame_btn1,width=350,height=200, corner_radius=20, border_width=2, border_color="#00B179")
-        frame_prof.grid(row=1, column=0, padx=20, pady=20)
+        frame_prof = ctk.CTkFrame(master=frame_btn1,width=350,height=200, corner_radius=20, fg_color="transparent")
+        frame_prof.grid(row=1, column=0, padx=5, pady=5)
         frame_prof.pack_propagate(False)
 
-        btn_cad_pro = ctk.CTkButton(master=frame_prof, text='Cadastro \nProfissional', font=("Arial", 30),text_color="#FFFFFF", 
-                                    width=155,height=200, corner_radius=20, fg_color= "#00B179" , hover_color= "#007F57", command=profissional)
-        btn_cad_pro.grid(row=0, column=0, padx=20, pady=20)
+        btn_cad_pro = ctk.CTkButton(master=frame_prof, text='Cadastro \nFuncionário', font=("Arial", 20),text_color="#FFFFFF", 
+                                    width=170,height=200, corner_radius=20, fg_color= "#00B179" , hover_color= "#007F57", command=profissional)
+        btn_cad_pro.grid(row=0, column=0, padx=5, pady=5)
 
-        btn_list_pro = ctk.CTkButton(master=frame_prof, text='Lista \nProfissional', font=("Arial", 30),text_color="#FFFFFF", 
-                                    width=155,height=200, corner_radius=20, fg_color= "#00B179" , hover_color= "#007F57")
-        btn_list_pro.grid(row=0, column=1, padx=20, pady=20)
+        from tela_quadro_funcionarios import tela_lista_funcionarios 
+        btn_list_pro = ctk.CTkButton(master=frame_prof, text='Quadro \nFuncionários', font=("Arial", 20),text_color="#FFFFFF", 
+                                    width=170,height=200, corner_radius=20, fg_color= "#00B179" , hover_color= "#007F57", command=lambda:tela_lista_funcionarios(frame_principal))
+        btn_list_pro.grid(row=0, column=1, padx=5, pady=5)
 
         btn_relatorio = ctk.CTkButton(master=frame_btn1, text='Relatórios', font=("Arial", 30),text_color="#FFFFFF",width=350,height=200, 
                                 corner_radius=20, fg_color= "#00B179" , hover_color= "#007F57")
@@ -74,15 +75,15 @@ def abrir_tela_principal(usuario):
         abrir_inicio(frame_principal)
     btn_inicio = ctk.CTkButton(master=frame_1, text='Início', font=("Arial", 17),text_color="#FFFFFF",width=100,height=50, 
                             corner_radius=0, fg_color= "transparent" , hover_color= "#005089", command=lambda: (arbir_inicio()))
-    btn_inicio.grid(row=0, column=0, padx=10, pady=5)
+    btn_inicio.grid(row=0, column=0, padx=0, pady=5)
 
     btn_painel = ctk.CTkButton(master=frame_1, text='Painel', font=("Arial", 17),text_color="#FFFFFF",width=100,height=50, 
                             corner_radius=0, fg_color= "transparent" , hover_color= "#005089", command=lambda: (button_painel()))
-    btn_painel.grid(row=0, column=1, padx=10, pady=5)
+    btn_painel.grid(row=0, column=1, padx=0, pady=5)
 
     btn_clinica = ctk.CTkButton(master=frame_1, text='Clínica', font=("Arial", 17),text_color="#FFFFFF",width=100,height=50, 
                             corner_radius=0, fg_color= "transparent" , hover_color= "#005089", command=lambda:tela_gerenciador_clinica(frame_principal))
-    btn_clinica.grid(row=0, column=2, padx=10, pady=5)
+    btn_clinica.grid(row=0, column=2, padx=0, pady=5)
 
     #BOTOES DO USUÁRIO
     frame_user = ctk.CTkFrame(master=frame_top, width=100, height=50, fg_color="transparent")
