@@ -4,10 +4,10 @@ import customtkinter as ctk
 
 cadastros = []
 cadastro = " "
-def adicionar_cadastros(nome, email, telefone, opcao_pagamento, valor_pagar, endereco):
-    cadastro = f"{nome}, {email}, {telefone}, {opcao_pagamento}, {valor_pagar}, {endereco}"
-    cadastros.append(cadastro)
-
+def adicionar_cadastros(nome, cpf, email, telefone, data_nascimento, endereco, opcao_pagamento, valor_pagar):
+    # cadastro = f"{nome}, {email}, {telefone}, {opcao_pagamento}, {valor_pagar}, {endereco}"
+    DADOS_CADASTRAIS = {"nome":nome, 'cpf':cpf,"email":email, "telefone":telefone, "data_nascimento": data_nascimento, "endereco":endereco,"opcao_pagamento":opcao_pagamento, "valor_pagar":valor_pagar}
+    cadastros.append(DADOS_CADASTRAIS)
 def obter_cadastros():
     return cadastros
 
@@ -57,6 +57,11 @@ def abrir_cadastro_pilates(JANELA):
     cmp_endereco.pack(pady=(10,10))
     cmp_endereco.grid(row=2, column=0, padx=2, pady=2)
 
+    #CAMPO CPF
+    cmp_cpf = ctk.CTkEntry(master=frame_campos, placeholder_text="CPF", font=('Arial',20), width=350, height=40, corner_radius=10, border_color="#BFBFBF")
+    cmp_cpf.pack(pady=(10,10))
+    cmp_cpf.grid(row=2, column=1, padx=2, pady=2)
+
     # OPÇÃO DE PAGAMENTO
     opc_pgt_titulo = ctk.CTkLabel(master=frame_campos,text="Opção de pagamento: ",font=('Arial',20))
     opc_pgt_titulo.grid(row=3, column=0, padx=0.5, pady=0.5)
@@ -102,6 +107,7 @@ def abrir_cadastro_pilates(JANELA):
         opcao_pagamento = opc_pgt.get()
         valor_pagar = cmp_valor_pagar.get()
         endereco = cmp_endereco.get()
+        cpf = cmp_cpf.get()
 
         if not nome or not email or not data_nascimento or not telefone or not endereco:
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
@@ -110,7 +116,7 @@ def abrir_cadastro_pilates(JANELA):
             return
         else:
             messagebox.showinfo("INFO", f"O(A) aluno(a) '{nome}' foi cadastrado(a) com sucesso!")
-            adicionar_cadastros(nome, email, telefone, opcao_pagamento, valor_pagar, endereco)
+            adicionar_cadastros(nome, cpf, email, telefone, data_nascimento, endereco, opcao_pagamento, valor_pagar)
 
 
     btn_salvar = ctk.CTkButton(master=frame_btn, text='Salvar', text_color="#000000",width=150,height=40, 

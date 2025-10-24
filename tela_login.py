@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from PIL import Image
+from tkinter import messagebox
 import tela_fisioterapia_or_pilates
 import tela_cadastro
 
@@ -12,8 +13,30 @@ janela = ctk.CTk()
 janela.geometry("1600x900")
 janela.resizable(False, False)
 janela.title('Login - Clínica RETRATA FISIO')
+#==================
+# VEREFICAR LOGIN
+#==================
+def autenticar():
+    usuario = cmp_usuario.get().strip()
+    senha = cmp_senha.get().strip()
 
-# === FRAME CENTRAL ===
+    if not usuario or not senha:
+        messagebox.showwarning("Atenção", "Preencha todos os campos!")
+        return
+    elif len(usuario) < 5 or len(senha) < 8:
+        messagebox.showwarning("Atenção", "Usuário deve ter pelo menos 5 caracteres e senha pelo menos de 8 digitos")
+        return
+    else:
+        user = cmp_usuario.get()
+        janela.destroy()
+        from tela_principal import abrir_tela_principal
+        abrir_tela_principal(user)
+# === FUNÇÃO PARA ABRIR O MENU ===
+def abrir_menu():
+    autenticar()
+#=============
+#    TELA
+#=============
 
 frame_login = ctk.CTkFrame(master=janela, width=750, height=750, fg_color="#CBDEE9",corner_radius=0)
 frame_login.place(relx=0.5, rely=0.5,anchor='e')
@@ -43,36 +66,23 @@ titulo.pack(pady=(10,10))
 subtitulo = ctk.CTkLabel(master=frame,text="Faça login para continuar",font=('Arial',20))
 subtitulo.pack(pady=(10,10))
 
+
+def foco_proximo(event):
+    cmp_senha.focus()
+
 # CAMPO DE USUARIO
 cmp_usuario = ctk.CTkEntry(master=frame, placeholder_text="Usuário", font=('Arial',20), width=450, height=50, corner_radius=10, border_color="#BFBFBF")
 cmp_usuario.pack(pady=(10,10))
-
+cmp_usuario.bind("<Return>", foco_proximo)
 # CAMPO SENHA
 cmp_senha = ctk.CTkEntry(master=frame, placeholder_text="Senha", font=('Arial',20), width=450, height=50, corner_radius=10,show="*", border_color="#BFBFBF")
 cmp_senha.pack(pady=(10,10))
-
-# === FUNÇÃO PARA ABRIR O MENU ===
-def abrir_menu():
-    user = cmp_usuario.get()
-
-    janela.destroy()
-    from tela_principal import abrir_tela_principal
-    abrir_tela_principal(user)
+# cmp_senha.bind("<Return>", abrir_menu)
 
 # BOTAO LOGIN
 btn_login = ctk.CTkButton(master=frame, text="Entrar", font=('Arial',20), text_color="#FFFFFF" , width=250 , height=40,
                            corner_radius=50, fg_color= "#00B179" , hover_color= "#007F57" , command=abrir_menu)
 btn_login.pack(pady=50)
-# === BOTÃO DE CADASTRO === 
-
-# def abrir_cadastro():
-#     tela_cadastro.abrir_tela_cadastro()
-
-# btn_register = ctk.CTkButton(master=frame, text = "Cadastre-se", font=('Arial',20) , width=250 , height=40,
-#                              corner_radius=50, fg_color="transparent" , hover_color= "#00B179" ,
-#                              border_width=2, border_color= "#00B179" , text_color= "#0E140E", command=abrir_cadastro)
-
-# btn_register.pack()
 
 janela.mainloop()
 
