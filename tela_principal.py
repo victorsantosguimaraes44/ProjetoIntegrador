@@ -6,7 +6,7 @@ from tela_gerenciador_clínica import tela_gerenciador_clinica
 from tela_menu_aba_fisioterapia import abrir_menu_aba_fisioterapia
 from tela_menu_aba_pilates import abrir_menu_pilates
 from tela_informações_usuário import tela_informaçoes_usuário
-def abrir_tela_principal(usuario):
+def abrir_tela_principal():
     
     ctk.set_appearance_mode('light')
     ctk.set_default_color_theme('blue')
@@ -25,7 +25,7 @@ def abrir_tela_principal(usuario):
         frame_btn.place(relx=0.5,rely=0.5,anchor="center")
         frame_btn.pack_propagate(False)
 
-        text_label = ctk.CTkLabel(master=frame_btn, text=f"Bem-vindo, {usuario}", font=('Arial', 30, 'bold'), text_color="#000000")
+        text_label = ctk.CTkLabel(master=frame_btn, text=f"Bem-vindo", font=('Arial', 30, 'bold'), text_color="#000000")
         text_label.pack(pady=(10,10))
 
         painel_principal(frame_btn)
@@ -92,7 +92,7 @@ def abrir_tela_principal(usuario):
 
     icone_user = ctk.CTkImage(Image.open("icone_usuario.png"), size=(25, 25))
     botao_icon = ctk.CTkButton(frame_user,text="Usuário",image=icone_user, compound="right",width=40,height=40,
-                               fg_color="transparent",hover_color="#005089", command=lambda: tela_informaçoes_usuário(usuario))
+                               fg_color="transparent",hover_color="#005089", command=lambda: tela_informaçoes_usuário)
     botao_icon.pack(pady=10)
 
     #LOGO IMAGEM

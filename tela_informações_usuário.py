@@ -7,7 +7,7 @@ def posicionar_superior_direita(janela, largura, altura, margem=20):
     y = margem
     janela.geometry(f"{largura}x{altura}+{x}+{y}")
 
-def tela_informaçoes_usuário(usuario):
+def tela_informaçoes_usuário():
     global image_user
 
     ctk.set_appearance_mode("light")
@@ -28,7 +28,7 @@ def tela_informaçoes_usuário(usuario):
     label_image_user = ctk.CTkLabel(master=frame, image=image_user, text="")
     label_image_user.pack(pady=(5,5))
 
-    user_text = ctk.CTkLabel(master=frame, text=f"Usuário: {usuario}", font=('Arial', 20))
+    user_text = ctk.CTkLabel(master=frame, text=f"Usuário: ", font=('Arial', 20))
     user_text.pack(pady=(20,10))
 
     nome_text = ctk.CTkLabel(master=frame, text=f"Nome completo: ", font=('Arial', 20))
