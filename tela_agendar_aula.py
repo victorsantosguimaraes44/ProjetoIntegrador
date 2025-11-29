@@ -1,7 +1,8 @@
 import customtkinter as ctk
 from tkinter import messagebox
 from turtle import left
-from tela_cadastro_usuario_fisioterapia import obter_cadastros
+from tela_lista_alunos_pilates import tela_lista_alunos_pilates
+
 agendamentos = []
 agendamento = " "
 DADOS_CONSULTA = {}
@@ -13,10 +14,10 @@ def adicionar_agendamentos(nome_consulta, data_consulta, hora_consulta, Nome_pac
     agendamentos_totais(agendamento)
     agendamentos.append(DADOS_CONSULTA)
 
-def obter_agendamentos_fisio():
+def obter_agendamentos_pilates():
     return agendamentos
 
-def agendar_consultas(atualizar_callback=None):
+def agendar_aula_pilates(atualizar_callback=None):
 
     ctk.set_appearance_mode('light')
     ctk.set_default_color_theme('blue')
@@ -33,7 +34,7 @@ def agendar_consultas(atualizar_callback=None):
     frame_principal.pack_propagate(False)
 
     #TITULO
-    titulo = ctk.CTkLabel(master=frame_principal, text="Agendar consulta", font=('Arial', 25, 'bold'))
+    titulo = ctk.CTkLabel(master=frame_principal, text="Agendar aula", font=('Arial', 25, 'bold'))
     titulo.pack(pady=(10,10))
 
     #SUBTITULO
@@ -47,7 +48,7 @@ def agendar_consultas(atualizar_callback=None):
     frame_campos.place(relx=0.5, rely=0.5,anchor='center')
     frame_campos.pack_propagate(False)
 
-    # CAMPO NOME DA CONSULTA
+    # CAMPO NOME DA AULA
     aula_lbl = ctk.CTkLabel(master=frame_campos, text='Consulta',font=('Arial',20))
     aula_lbl.grid(row=0,column=0,padx=2,pady=2)
     cmp_nome_aula = ctk.CTkEntry(master=frame_campos, placeholder_text="", font=('Arial',20) , width=200, height=20, corner_radius=1, border_color="#BFBFBF")
@@ -123,7 +124,7 @@ def agendar_consultas(atualizar_callback=None):
     esc_pac_lbl = ctk.CTkLabel(master=frame_campos, text='Paciente', font=('Arial',20))
     esc_pac_lbl.grid(row=5,column=1,padx=2, pady=10)
 
-    nome_atual = ctk.StringVar(value="Nenhum paciente selecionado")
+    nome_atual = ctk.StringVar(value="Nenhum aluno selecionado")
     # pac_esc_lbl = ctk.CTkLabel(master=frame_campos, textvariable=nome_atual, font=('Arial',20))
     # pac_esc_lbl.grid(row=6,column=1,padx=2, pady=10)
 

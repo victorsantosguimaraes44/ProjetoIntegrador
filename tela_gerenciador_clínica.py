@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from PIL import Image
 from tela_agendar_consultas import obter_agendamentos_fisio
-from tela_cadastrar_aula_pilates import obter_agendamentos_pilates
+from tela_agendar_aula import obter_agendamentos_pilates
 
 agendamentostotais = []
 
@@ -10,6 +10,9 @@ def agendamentos_totais(agendamentos):
 
 def tela_gerenciador_clinica(JANELA):
 
+    menu_aba = ctk.CTkFrame(master=JANELA, width=1600, height=850, fg_color="#F5F5F5", corner_radius=0)
+    menu_aba.place(relx=0.5,rely=0.515,anchor="center")
+    menu_aba.pack_propagate(False)
 
     num_atendimentos_totais = 0
     while num_atendimentos_totais < len(obter_agendamentos_fisio()) + len(obter_agendamentos_pilates()):
@@ -17,8 +20,8 @@ def tela_gerenciador_clinica(JANELA):
 
     num_atendimentos_concluidos = 0
     num_atendimentos_pendentes = num_atendimentos_totais - num_atendimentos_concluidos
-
-    frame_principal = ctk.CTkFrame(master=JANELA, width=1200, height=750, fg_color="#E4E1E1", corner_radius=0)
+ 
+    frame_principal = ctk.CTkFrame(master=menu_aba, width=1200, height=750, fg_color="#E4E1E1", corner_radius=0)
     frame_principal.place(relx=0.5,rely=0.5,anchor="center")
     frame_principal.pack_propagate(False)
 
@@ -71,3 +74,5 @@ def tela_gerenciador_clinica(JANELA):
                                     width=1150, height=20, corner_radius=0, text_color="#000000",
                                     fg_color="#E3E3E3", hover_color="#929090")
         btn_name.pack(pady=1)
+
+    return menu_aba

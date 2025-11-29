@@ -1,93 +1,180 @@
 import customtkinter as ctk
+from tkinter import ttk
+from tkinter import messagebox
+import tkinter.font as tkFont
 from tela_cadastro_usuario_fisioterapia import obter_cadastros
-
-
+from tela_cadastro_usuario_fisioterapia import abrir_cadastro_fisioterapia
 def tela_lista_pacientes_fisio(JANELA):
     
-    frame = ctk.CTkFrame(master=JANELA, width=1200, height=750)
+    frame_top = ctk.CTkFrame(master=JANELA, width=1550, height=50, corner_radius=2, border_width=2,border_color="#646464")
+    frame_top.pack(side='top')
+    frame_top.pack_propagate(False)
+
+    btn_cadastrar = ctk.CTkButton(frame_top, width=130, height=30, text="Cadastrar +", font=('Arial',20),fg_color=("#2E8B57"), 
+                                  corner_radius=2, command=lambda: abrir_cadastro_fisioterapia(atualizar_tabela))
+    btn_cadastrar.pack(side='left',padx=10)
+
+    frame = ctk.CTkFrame(master=JANELA, width=1550, height=750, corner_radius=2)
     frame.place(relx=0.5, rely=0.5,anchor='center')
     frame.pack_propagate(False)
 
-    campo_pesquisar = ctk.CTkEntry(master=frame, placeholder_text="Pesquisar", font=('Arial', 15), width=300, height=30, corner_radius=10, border_color="#BFBFBF")
+    campo_pesquisar = ctk.CTkEntry(master=frame, placeholder_text="Pesquisar", font=('Arial', 15), width=250, height=30, corner_radius=10, border_color="#BFBFBF")
     campo_pesquisar.place(x=10,y=10)
 
-    list_label = ctk.CTkLabel(master=frame,text="Lista de pacientes", font=('Arial', 25, 'bold'))
+    list_label = ctk.CTkLabel(master=frame,text="Pacientes", font=('Arial', 25, 'bold'))
     list_label.pack(pady=(10,10))
     
-    frame_btn_name = ctk.CTkScrollableFrame(master=JANELA, width=1185, height=600, corner_radius=0, fg_color="#FFFFFF")
+    frame_btn_name = ctk.CTkScrollableFrame(master=JANELA, width=1530, height=650, corner_radius=0, fg_color="#FFFFFF")
     frame_btn_name.place(relx=0.5, rely=0.5,anchor='center')
 
+    style = ttk.Style()
+    style.theme_use("default")
+
+    # Fonte para as células
+    font_cells = tkFont.Font(family="Arial", size=10)
+    style.configure("Custom.Treeview", font=font_cells, rowheight=30)
+
+    # Fonte para o cabeçalho
+    font_header = tkFont.Font(family="Arial", size=15, weight="bold")
+    style.configure("Custom.Treeview.Heading", font=font_header)
+
+    tabela_paciente = ttk.Treeview(frame_btn_name, columns=("Nome", "CPF", "Endereço","Telefone"), show="headings", style="Custom.Treeview")
+    tabela_paciente.pack(fill="both", expand=True)
+    # Definindo os títulos das colunas
+    tabela_paciente.heading("Nome", text="Nome")
+    tabela_paciente.heading("CPF", text="CPF")
+    tabela_paciente.heading("Endereço", text="Endereço")
+    tabela_paciente.heading("Telefone", text="Telefone")
+
+    # Largura das colunas
+    tabela_paciente.column("Nome", width=25, anchor="center")
+    tabela_paciente.column("CPF", width=25, anchor="center")
+    tabela_paciente.column("Endereço",width=25, anchor="center")
+    tabela_paciente.column("Telefone", width=100, anchor="center")
+
+    # Inserindo dados
+    cad = []
     for i in range(len(obter_cadastros())):
-        frame_cadastro = ctk.CTkFrame(master=frame_btn_name, width=1150, height=40, corner_radius=5, fg_color="#E3E3E3", border_width=2, border_color="#D8D8D8")
-        frame_cadastro.pack_propagate(False)
-        frame_cadastro.pack(pady=2)
+        cad.append((obter_cadastros()[i]['nome'], obter_cadastros()[i]['cpf'], obter_cadastros()[i]['endereco'], obter_cadastros()[i]['telefone']))
 
-        btn_name = ctk.CTkButton(master=frame_cadastro, text=obter_cadastros()[i]["nome"], font=('Arial', 25), 
-                                width=1100, height=40, corner_radius=0, text_color="#000000",
-                                fg_color="#FFFFFF", hover_color="#929090", command=lambda nome=obter_cadastros()[i]["nome"]: informacoes(nome))
-        btn_name.pack(pady=2)
+    for item in cad:
+        tabela_paciente.insert("", "end", values=item)
 
-    def atualizar_lista(filtro=""):
-            # Limpa o frame antes de repopular
-            for widget in frame_btn_name.winfo_children():
-                widget.destroy()
-            cadastros = obter_cadastros()
-            for cadastro in cadastros:
-                nome = cadastro["nome"]
-                if filtro.lower() in nome.lower():  # Filtra pelo texto digitado
-                    frame_cadastro = ctk.CTkFrame(master=frame_btn_name, width=1150, height=40, corner_radius=5,fg_color="#E3E3E3", 
-                                                  border_width=2, border_color="#D8D8D8"
-                    )
-                    frame_cadastro.pack_propagate(False)
-                    frame_cadastro.pack(pady=2)
+    tabela_paciente.pack(fill="both", expand=True)
 
-                    btn_name = ctk.CTkButton(
-                        master=frame_cadastro, text=nome, font=('Arial', 20),width=1100, height=40, corner_radius=0, text_color="#000000",
-                        fg_color="#FFFFFF", hover_color="#929090",command=lambda n=nome: informacoes(n)
-                    )
-                    btn_name.pack(pady=2)
+        # --- Vincula o clique simples ---
 
-        # Atualiza a lista toda no início
-    atualizar_lista()
+    def on_row_click(event):
+        # Verifica o item selecionado
+        selected_item = tabela_paciente.focus()
+        if not selected_item:
+            return
 
-        # --- Detecta digitação e filtra ---
-    def ao_digitar(event):
-            texto = campo_pesquisar.get()
-            atualizar_lista(texto)
+        # Obtém os dados da linha
+        values = tabela_paciente.item(selected_item, "values")
+        if values:
+            nome = values[0]
+            informacoes(nome)
+    
+    tabela_paciente.bind("<Double-1>", on_row_click)
+    def atualizar_tabela():
+        tabela_paciente.delete(*tabela_paciente.get_children())  # limpa todas as linhas
 
-    campo_pesquisar.bind("<KeyRelease>", ao_digitar)
+        cad = []
+        for i in range(len(obter_cadastros())):
+            cad.append((
+                obter_cadastros()[i]['nome'],
+                obter_cadastros()[i]['cpf'],
+                obter_cadastros()[i]['endereco'],
+                obter_cadastros()[i]['telefone']
+            ))
 
-def informacoes(nome):
-    ctk.set_appearance_mode('light')
-    ctk.set_default_color_theme('blue')
+        for item in cad:
+            tabela_paciente.insert("", "end", values=item)
 
-    janela = ctk.CTk()
-    janela.geometry("800x300")
-    janela.resizable(False, False)
-    janela.title('Infos')
+    def informacoes(nome):
+        ctk.set_appearance_mode('light')
+        ctk.set_default_color_theme('blue')
 
-    frame = ctk.CTkFrame(master=janela, width=800, height=300)
-    frame.place(relx=0.5, rely=0.5, anchor='center')
-    frame.pack_propagate(False)
+        janela = ctk.CTk()
+        janela.geometry("500x500")
+        janela.resizable(False, False)
+        janela.title('INFO')
 
-    for cadastro in obter_cadastros():
-        if cadastro["nome"] == nome:
-            email = cadastro['email']
-            cpf = cadastro['cpf']
-            data_nascimento = cadastro['data_nascimento']
-            telefone = cadastro['telefone']
-            opcao_pagamento = cadastro['opcao_pagamento']
-            valor_pagar = cadastro['valor_pagar']
-            endereco = cadastro['endereco']
-            break
+        frame = ctk.CTkFrame(master=janela, width=500, height=500)
+        frame.place(relx=0.5, rely=0.5, anchor='center')
+        frame.pack_propagate(False)
 
-    ctk.CTkLabel(frame, text=f"Nome: {nome}", font=('Arial', 15)).grid(row=0,column=0, sticky='w',padx=10, pady=2)
-    ctk.CTkLabel(frame, text=f"CPF: {cpf}", font=('Arial', 15)).grid(row=0,column=1, sticky='w',padx=10, pady=2)
-    ctk.CTkLabel(frame, text=f"Data de nascimento: {data_nascimento}", font=('Arial', 15)).grid(row=1,column=0, sticky='w',padx=10, pady=2)
-    ctk.CTkLabel(frame, text=f"Email: {email}", font=('Arial', 15)).grid(row=1,column=1, sticky='w',padx=10, pady=2)
-    ctk.CTkLabel(frame, text=f"Telefone: {telefone}", font=('Arial', 15)).grid(row=2,column=0, sticky='w',padx=10, pady=2)
-    ctk.CTkLabel(frame, text=f"Endereço: {endereco}", font=('Arial', 15)).grid(row=2,column=1, sticky='w',padx=10, pady=2)
-    ctk.CTkLabel(frame, text=f"Opção de pagamento: {opcao_pagamento}", font=('Arial', 15)).grid(row=3,column=0, sticky='w',padx=10, pady=2)
-    ctk.CTkLabel(frame, text=f"Valor a pagar: {valor_pagar}", font=('Arial', 15)).grid(row=3,column=1, sticky='w',padx=10, pady=2)
+        for cadastro in obter_cadastros():
+            if cadastro["nome"] == nome:
+                email = cadastro['email']
+                cpf = cadastro['cpf']
+                data_nascimento = cadastro['data_nascimento']
+                telefone = cadastro['telefone']
+                endereco = cadastro['endereco']
+                break
 
-    janela.mainloop()
+        ctk.CTkLabel(frame, text="Nome:", font=('Arial',19)).pack(padx=2)
+        cmp_nome = ctk.CTkEntry(frame, placeholder_text="", font=('Arial', 15), width=300, height=20)
+        cmp_nome.pack(pady=5)
+        cmp_nome.insert(0,nome)
+
+        ctk.CTkLabel(frame, text="CPF:", font=('Arial',19)).pack(padx=2)
+        cmp_cpf = ctk.CTkEntry(frame, placeholder_text="", font=('Arial', 15), width=300, height=20)
+        cmp_cpf.pack(pady=5)
+        cmp_cpf.insert(0,cpf)
+
+        ctk.CTkLabel(frame, text="Data de nascimento:", font=('Arial',19)).pack(padx=2)
+        cmp_dtns = ctk.CTkEntry(frame, placeholder_text="", font=('Arial', 15), width=200, height=20)
+        cmp_dtns.pack(pady=5)
+        cmp_dtns.insert(0,data_nascimento)
+
+        ctk.CTkLabel(frame, text="Email:", font=('Arial',19)).pack(padx=2)
+        cmp_email = ctk.CTkEntry(frame, placeholder_text="", font=('Arial', 15), width=300, height=20)
+        cmp_email.pack(pady=5)
+        cmp_email.insert(0,email)
+
+        ctk.CTkLabel(frame, text="Telefone:", font=('Arial',19)).pack(padx=2)
+        cmp_telefone = ctk.CTkEntry(frame, placeholder_text="", font=('Arial', 15), width=300, height=20)
+        cmp_telefone.pack(pady=5)
+        cmp_telefone.insert(0,telefone)
+
+        ctk.CTkLabel(frame, text="Endereço:", font=('Arial',19)).pack(padx=2)
+        cmp_endereco = ctk.CTkEntry(frame, placeholder_text="", font=('Arial', 15), width=300, height=20)
+        cmp_endereco.pack(pady=5)
+        cmp_endereco.insert(0,endereco)
+
+        def atualizar():
+            nome_atualizado = cmp_nome.get()
+            cpf_atualizado = cmp_cpf.get()
+            dtns_atualizado = cmp_dtns.get()
+            email_atualizado = cmp_email.get()
+            tel_atualizado = cmp_telefone.get()
+            endereco_atualizado = cmp_endereco.get()
+
+            for cadastro in obter_cadastros():
+                if not nome_atualizado or not cpf_atualizado or not dtns_atualizado or not email_atualizado or not tel_atualizado or not endereco_atualizado:
+                    messagebox.showwarning('Atenção','Preencha todos os campos!')
+                else:
+                    if cadastro["nome"] == nome:
+                        cadastro["nome"] = nome_atualizado
+                        cadastro['email'] = email_atualizado
+                        cadastro['cpf'] = cpf_atualizado
+                        cadastro['data_nascimento'] = dtns_atualizado
+                        cadastro['telefone'] = tel_atualizado
+                        cadastro['endereco'] = endereco_atualizado
+                        messagebox.showinfo('Sucesso','Perfil atualizado com sucesso!')
+                        atualizar_tabela()
+                        janela.destroy()
+                        break
+        def cancelar():
+            janela.destroy()                    
+        btn_atualizar = ctk.CTkButton(frame, text="Atualizar", font=('Arial',15),text_color="#FFFFFF", 
+                                    width=100, height=25, fg_color="#059200", command=atualizar)
+        btn_atualizar.pack(pady=5)
+
+        btn_cancelar = ctk.CTkButton(frame, text="Cancelar", font=('Arial',15),text_color="#FFFFFF", 
+                                    width=100, height=25, fg_color="#920000", command=cancelar)
+        btn_cancelar.pack(pady=5)
+
+        janela.mainloop()

@@ -1,89 +1,124 @@
 import customtkinter as ctk
 from PIL import Image
 from tkinter import messagebox
+from tkinter import ttk
 from tela_cadastro_usuario_pilates import abrir_cadastro_pilates
+from tela_cadastro_usuario_pilates import obter_cadastros
 from tela_lista_alunos_pilates import tela_lista_alunos_pilates
-from tela_cadastrar_aula_pilates import tela_cadastrar_aula_pilates
+from tela_agendar_aula import agendar_aula_pilates
+from tela_agendamentos_pilates import obter_agendamentos_pilates
 from tela_agendamentos_pilates import tela_agendamentos_pilates
-
 def abrir_menu_pilates(JANELA):
-        # === CONFIGURAÇÃO INICIAL ===
+    # === CONFIGURAÇÃO INICIAL ===
 
-    menu_aba = ctk.CTkFrame(master=JANELA, width=1600, height=900, fg_color="transparent", corner_radius=0)
-    menu_aba.place(relx=0.5,rely=0.5,anchor="center")
-    menu_aba.pack_propagate(False)
+    menu_aba = ctk.CTkFrame(master=JANELA, width=1600, height=850, fg_color="transparent")
+    menu_aba.place(relx=0.5,rely=0.5,anchor='center')
+
+    fisio_lbl = ctk.CTkLabel(menu_aba, text="Pilates",font=('Arial',20))
+    fisio_lbl.pack(side='top')
+
+    tabview = ctk.CTkTabview(master=menu_aba, width=1600, height=850, segmented_button_fg_color="#00B179",
+                             segmented_button_selected_color="#005B3E",
+                             segmented_button_unselected_color="#00B179",segmented_button_unselected_hover_color="#00B179")
+    tabview.pack(padx=5)
+
+    tabview.add('Geral')
+    tabview.add('Cadastro')
+    tabview.add('Agendar')
+    #=========
+    #  GERAL
+    #=========
+
+    frame_tb_f = ctk.CTkFrame(master=tabview.tab('Geral'), width=787, height=850, fg_color="#FFFFFF")
+    frame_tb_f.place(relx=0.5,rely=0.55,anchor='e')
+    frame_tb_f.pack_propagate(False)
+
+    campo_pesquisar = ctk.CTkEntry(master=frame_tb_f, placeholder_text="Pesquisar", font=('Arial', 15), width=250, height=30, corner_radius=10, border_color="#BFBFBF")
+    campo_pesquisar.place(x=10,y=10)
+
+    list_label = ctk.CTkLabel(master=frame_tb_f,text="Agendamentos", font=('Arial', 25, 'bold'))
+    list_label.pack(pady=(10,10))
+
+    frame_btn_name = ctk.CTkScrollableFrame(master=frame_tb_f, width=750, height=650, corner_radius=0, fg_color="#FFFFFF")
+    frame_btn_name.pack(pady=(10,10))
+    tabela_agendamento = ttk.Treeview(frame_btn_name, columns=("Nome", "Data", "Hora","Aluno"), show="headings")
+
+    tabela_agendamento.heading("Nome", text="Nome")
+    tabela_agendamento.heading("Data", text="Data")
+    tabela_agendamento.heading("Hora", text="Hora")
+    tabela_agendamento.heading("Aluno", text="Aluno")
+
+    tabela_agendamento.column("Nome",width=25, anchor="center")
+    tabela_agendamento.column("Data", width=25, anchor="center")
+    tabela_agendamento.column("Hora", width=25, anchor="center")
+    tabela_agendamento.column("Aluno", width=100, anchor="center")
+
+    # Inserindo dados
+    dado = []
+    for i in range(len(obter_agendamentos_pilates())):
+        dado.append((obter_agendamentos_pilates()[i]['nome'], obter_agendamentos_pilates()[i]['data'], obter_agendamentos_pilates()[i]['hora']))
+
+    for item in dado:
+        tabela_agendamento.insert("", "end", values=item)
+
+    tabela_agendamento.pack(fill="both", expand=True)
+
     
-    frame_principal = ctk.CTkFrame(master=menu_aba, width=1200, height=750, fg_color="transparent", corner_radius=0)
-    frame_principal.place(relx=0.55,rely=0.5,anchor="center")
-    frame_principal.pack_propagate(False)
+    #==========================================================================================================================
+    frame_tb_p= ctk.CTkFrame(master=tabview.tab('Geral'), width=787, height=850, fg_color="#FFFFFF")
+    frame_tb_p.place(relx=0.5,rely=0.55,anchor='w')
+    frame_tb_p.pack_propagate(False)
 
-    frame_top = ctk.CTkFrame(master=menu_aba, width=1600, height=50, fg_color="#0068B1", corner_radius=0)
-    frame_top.place(x=2,y=2)
-    frame_top.pack_propagate(False)
+    list_pac = ctk.CTkLabel(master=frame_tb_p,text="Pacientes", font=('Arial', 25, 'bold'))
+    list_pac.pack(pady=(10,10))
 
-    #BOTOES GERAIS DE CONFIGURAÇÃO
-    def voltar():
-        menu_aba.destroy()
-    icone_voltar = ctk.CTkImage(Image.open("icone_voltar.png"), size=(25, 25))
-    btn_voltar = ctk.CTkButton(master=frame_top, image=icone_voltar,text='',width=50,height=50, 
-                            corner_radius=0, fg_color= "transparent" , hover_color= "#979797",command=voltar)
-    btn_voltar.pack(side="right", padx=10, pady=10)
+    campo_pesquisar = ctk.CTkEntry(master=frame_tb_p, placeholder_text="Pesquisar", font=('Arial', 15), width=250, height=30, corner_radius=10, border_color="#BFBFBF")
+    campo_pesquisar.place(x=10,y=10)
 
-    # ==== BOTÃO CADASTRO ====
-    def cadastro():
-        abrir_cadastro_pilates(frame_principal)
+    frame_tb_name = ctk.CTkScrollableFrame(master=frame_tb_p, width=750, height=650, corner_radius=0, fg_color="#FFFFFF")
+    frame_tb_name.pack(pady=(10,10))
 
-    # ==== BOTÃO LISTA PACIENTES ====
-    def lista_alunos():
-        tela_lista_alunos_pilates(frame_principal)
+    tabela_paciente = ttk.Treeview(frame_tb_name, columns=("Nome", "CPF", "Endereço","Telefone"), show="headings")
+    tabela_paciente.pack(fill="both", expand=True)
+    # Definindo os títulos das colunas
+    tabela_paciente.heading("Nome", text="Nome")
+    tabela_paciente.heading("CPF", text="CPF")
+    tabela_paciente.heading("Endereço", text="Endereço")
+    tabela_paciente.heading("Telefone", text="Telefone")
+
+    # Largura das colunas
+    tabela_paciente.column("Nome", width=25, anchor="center")
+    tabela_paciente.column("CPF", width=25, anchor="center")
+    tabela_paciente.column("Endereço",width=25, anchor="center")
+    tabela_paciente.column("Telefone", width=100, anchor="center")
+
+    # Inserindo dados
+    cad = []
+    for i in range(len(obter_cadastros())):
+        cad.append((obter_cadastros()[i]['nome'], obter_cadastros()[i]['cpf'], obter_cadastros()[i]['endereco'], obter_cadastros()[i]['telefone']))
+
+    for item in cad:
+        tabela_paciente.insert("", "end", values=item)
+
+    tabela_paciente.pack(fill="both", expand=True)
+    #============
+    # CADASTRAR
+    #============
     
-    def agendar_aula():
-        tela_cadastrar_aula_pilates(frame_principal)
-    def agendamentos():
-        tela_agendamentos_pilates(frame_principal)
+    frame_tl_ls_p_f = ctk.CTkFrame(master=tabview.tab('Cadastro'), width=1550, height=850, fg_color="transparent")
+    frame_tl_ls_p_f.place(relx=0.5,rely=0.55,anchor='center')
+    frame_tl_ls_p_f.pack_propagate(False)
+    tela_lista_alunos_pilates(frame_tl_ls_p_f)
 
-    def agendar(frame):
-        btn_agendamentos = ctk.CTkButton(master=frame, text='Agendamentos', font=("Arial", 15),text_color="#FFFFFF",width=130,height=50, 
-                            corner_radius=0, fg_color= "transparent" , hover_color= "#979797", command=agendamentos)
-        btn_agendamentos.pack(pady=10)
-        btn_agendar = ctk.CTkButton(master=frame, text='Agendar +', font=("Arial", 15),text_color="#FFFFFF",width=130,height=50, 
-                                    corner_radius=0, fg_color= "transparent" , hover_color= "#979797", command=agendar_aula)
-        btn_agendar.pack(pady=10)
+    #================
+    #  AGENDAMENTOS
+    #================
+    frame_tl_ag_f= ctk.CTkFrame(master=tabview.tab('Agendar'), width=1550, height=850, fg_color="transparent")
+    frame_tl_ag_f.place(relx=0.5,rely=0.55,anchor='center')
+    frame_tl_ag_f.pack_propagate(False)
+    tela_agendamentos_pilates(frame_tl_ag_f)
 
-    def buttonClick():    
-        fr_lateral = ctk.CTkFrame(master=menu_aba, width=150, height=850,fg_color="#616161", corner_radius=0)
-        fr_lateral.place(x=2,y=50)
-        fr_lateral.pack_propagate(False)   
-
-        agendar(fr_lateral)
-
-    def buttonClick1():    
-        fr_lateral = ctk.CTkFrame(master=menu_aba, width=150, height=850,fg_color="#616161", corner_radius=0)
-        fr_lateral.place(x=2,y=50)
-        fr_lateral.pack_propagate(False)   
-
-        aluno(fr_lateral)
-
-    def aluno(frame):
-        btn_cadastro = ctk.CTkButton(master=frame, text="Cadastrar", font=("Arial", 15) ,width=130, height=50, 
-                                     corner_radius=0,fg_color="transparent" , hover_color= "#979797", command=cadastro)
-        btn_cadastro.pack(pady=10)
-        btn_lista_alunos = ctk.CTkButton(master=frame, text="Lista de alunos", font=("Arial", 15) ,width=130, height=50, 
-                                         corner_radius=0,fg_color="transparent" , hover_color= "#979797", command=lista_alunos)
-        btn_lista_alunos.pack(pady=10)
-
-    # frame_btn = ctk.CTkFrame(master=frame_top, width=300, height=50, fg_color="transparent", corner_radius=0)
-    # frame_btn.place(relx=0.1, rely=0.5, anchor='center')
-
-    btn_aluno = ctk.CTkButton(master=frame_top, text="Aluno", font=("Arial", 17),text_color="#FFFFFF" ,width=130, height=50, 
-                              corner_radius=0,fg_color="transparent" , hover_color= "#005089", command=buttonClick1)
-    btn_aluno.pack(side="left", padx=10, pady=10)
-
-    btn_agendar_aula = ctk.CTkButton(master=frame_top, text="Agendamento", font=("Arial", 17), text_color="#FFFFFF",width=130, height=50, 
-                                     corner_radius=0,fg_color="transparent" , hover_color= "#005089", command=buttonClick)
-    btn_agendar_aula.pack(side="left", padx=10, pady=10)
-
-    menu_aba.mainloop()
+    return menu_aba
 
 
 
