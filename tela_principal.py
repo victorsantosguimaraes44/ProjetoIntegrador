@@ -91,4 +91,3 @@ def abrir_tela_principal():
     label_.pack(pady=(20, 10))
 
     janela.mainloop()
-abrir_tela_principal()
