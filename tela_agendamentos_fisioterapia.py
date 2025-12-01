@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from PIL import Image
 from tkinter import ttk
 import tkinter.font as tkFont
 from tela_agendar_consultas import obter_agendamentos_fisio
@@ -9,7 +10,8 @@ def tela_agendamentos_fisio(JANELA):
     frame_top_.pack(side='top')
     frame_top_.pack_propagate(False)
 
-    btn_agendar = ctk.CTkButton(frame_top_, width=130, height=30, text="Agendar +", font=('Arial',20),fg_color=("#2E8B57"), 
+    agendar_img = ctk.CTkImage(Image.open("agendar_img.png"), size=(25, 25))
+    btn_agendar = ctk.CTkButton(frame_top_, width=130, height=30, image=agendar_img,text="Agendar", font=('Arial',20),fg_color=("#2E8B57"), 
                                 corner_radius=2, command=lambda:agendar_consultas(atualizar_tabela))
     btn_agendar.pack(side='left',padx=10)
 

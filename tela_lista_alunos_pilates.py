@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from PIL import Image
 from tela_cadastro_usuario_pilates import obter_cadastros
 from tela_cadastro_usuario_pilates import abrir_cadastro_pilates
 from tkinter import ttk
@@ -11,8 +12,10 @@ def tela_lista_alunos_pilates(JANELA):
     frame_top = ctk.CTkFrame(master=JANELA, width=1550, height=50, corner_radius=2, border_width=2,border_color="#646464")
     frame_top.pack(side='top')
     frame_top.pack_propagate(False)
-
-    btn_cadastrar = ctk.CTkButton(frame_top, width=130, height=30, text="Cadastrar +", font=('Arial',20),fg_color=("#2E8B57"), 
+    
+    add_user_img = ctk.CTkImage(Image.open("add-user.png"), size=(25, 25))
+    
+    btn_cadastrar = ctk.CTkButton(frame_top, width=130, height=30, image=add_user_img,text="Cadastrar", font=('Arial',20),fg_color=("#2E8B57"), 
                                   corner_radius=2, command=lambda: abrir_cadastro_pilates(atualizar_tabela))
     btn_cadastrar.pack(side='left',padx=10)
 
@@ -40,24 +43,28 @@ def tela_lista_alunos_pilates(JANELA):
     font_header = tkFont.Font(family="Arial", size=15, weight="bold")
     style.configure("Custom.Treeview.Heading", font=font_header)
 
-    tabela_paciente = ttk.Treeview(frame_btn_name, columns=("Nome", "CPF", "Endereço","Telefone"), show="headings", style="Custom.Treeview")
+    tabela_paciente = ttk.Treeview(frame_btn_name, columns=("Nome",'Data_nascimento' ,"CPF", "Endereço","Telefone","Email"), show="headings", style="Custom.Treeview")
     tabela_paciente.pack(fill="both", expand=True)
     # Definindo os títulos das colunas
     tabela_paciente.heading("Nome", text="Nome")
+    tabela_paciente.heading("Data_nascimento", text="Data de nascimento")
     tabela_paciente.heading("CPF", text="CPF")
     tabela_paciente.heading("Endereço", text="Endereço")
     tabela_paciente.heading("Telefone", text="Telefone")
+    tabela_paciente.heading("Email", text="Email")
 
     # Largura das colunas
     tabela_paciente.column("Nome", width=25, anchor="center")
+    tabela_paciente.column("Data_nascimento", width=25, anchor="center")
     tabela_paciente.column("CPF", width=25, anchor="center")
     tabela_paciente.column("Endereço",width=25, anchor="center")
     tabela_paciente.column("Telefone", width=100, anchor="center")
+    tabela_paciente.column("Email", width=100, anchor="center" )
 
     # Inserindo dados
     cad = []
     for i in range(len(obter_cadastros())):
-        cad.append((obter_cadastros()[i]['nome'], obter_cadastros()[i]['cpf'], obter_cadastros()[i]['endereco'], obter_cadastros()[i]['telefone']))
+        cad.append((obter_cadastros()[i]['nome'], obter_cadastros()[i]['cpf'], obter_cadastros()[i]['data_nascimento'], obter_cadastros()[i]['endereco'], obter_cadastros()[i]['telefone'], obter_cadastros()[i]['email']))
 
     for item in cad:
         tabela_paciente.insert("", "end", values=item)
@@ -87,8 +94,10 @@ def tela_lista_alunos_pilates(JANELA):
             cad.append((
                 obter_cadastros()[i]['nome'],
                 obter_cadastros()[i]['cpf'],
+                obter_cadastros()[i]['data_nascimento'],
                 obter_cadastros()[i]['endereco'],
-                obter_cadastros()[i]['telefone']
+                obter_cadastros()[i]['telefone'],
+                obter_cadastros()[i]['email']
             ))
 
         for item in cad:

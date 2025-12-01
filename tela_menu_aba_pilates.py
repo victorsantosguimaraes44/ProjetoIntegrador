@@ -69,7 +69,7 @@ def abrir_menu_pilates(JANELA):
     frame_tb_p.place(relx=0.5,rely=0.55,anchor='w')
     frame_tb_p.pack_propagate(False)
 
-    list_pac = ctk.CTkLabel(master=frame_tb_p,text="Pacientes", font=('Arial', 25, 'bold'))
+    list_pac = ctk.CTkLabel(master=frame_tb_p,text="Alunos", font=('Arial', 25, 'bold'))
     list_pac.pack(pady=(10,10))
 
     campo_pesquisar = ctk.CTkEntry(master=frame_tb_p, placeholder_text="Pesquisar", font=('Arial', 15), width=250, height=30, corner_radius=10, border_color="#BFBFBF")
