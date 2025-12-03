@@ -9,7 +9,7 @@ import tkinter.font as tkFont
 
 def tela_lista_alunos_pilates(JANELA):
     
-    frame_top = ctk.CTkFrame(master=JANELA, width=1550, height=50, corner_radius=2, border_width=2,border_color="#646464")
+    frame_top = ctk.CTkFrame(master=JANELA, width=1550, height=40, corner_radius=2, border_width=2,border_color="#646464")
     frame_top.pack(side='top')
     frame_top.pack_propagate(False)
     

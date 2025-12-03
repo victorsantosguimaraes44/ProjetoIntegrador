@@ -25,6 +25,13 @@ def abrir_menu_pilates(JANELA):
     tabview.add('Geral')
     tabview.add('Cadastro')
     tabview.add('Agendar')
+
+    tabview._segmented_button.configure(
+    height=35,   # altura
+    width=150,   # largura de cada aba
+    corner_radius=2)
+
+    tabview._segmented_button.configure(font=ctk.CTkFont(size=18))  
     #=========
     #  GERAL
     #=========

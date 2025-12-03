@@ -26,6 +26,13 @@ def abrir_menu_aba_fisioterapia(JANELA):
     tabview.add('Geral')
     tabview.add('Cadastro')
     tabview.add('Agendar')
+
+    tabview._segmented_button.configure(
+    height=35,   # altura
+    width=150,   # largura de cada aba
+    corner_radius=2)
+
+    tabview._segmented_button.configure(font=ctk.CTkFont(size=18))  
     #=========
     #  GERAL
     #=========
@@ -81,6 +88,8 @@ def abrir_menu_aba_fisioterapia(JANELA):
 
     tabela_paciente = ttk.Treeview(frame_tb_name, columns=("Nome", "CPF", "Endereço","Telefone"), show="headings")
     tabela_paciente.pack(fill="both", expand=True)
+
+
     # Definindo os títulos das colunas
     tabela_paciente.heading("Nome", text="Nome")
     tabela_paciente.heading("CPF", text="CPF")
