@@ -98,6 +98,7 @@ INSERT INTO Perfis ( Nome_Perfil ) VALUES ('Administrador') , ('Usuário Comun')
 
 INSERT INTO Usuarios ( Usuario , Senha ) 
 VALUES 
-( 'Joao' , '12345' );
+( 'Joao' , '12345' ),
+('Admin', '25520');
 
 
