@@ -5,7 +5,20 @@ from tela_cadastro_usuario_pilates import abrir_cadastro_pilates
 from tkinter import ttk
 from tkinter import messagebox
 import tkinter.font as tkFont
+import mysql.connector 
 
+
+#=================
+#Conexão com o banco de dados MySQL
+#=================
+
+def conectar_banco(): 
+    return mysql.connector.connect(
+            host = "localhost" , 
+            user = "root" , 
+            password = "" , 
+            database = "clinica_retratafisio"
+    )
 
 def tela_lista_alunos_pilates(JANELA):
     
