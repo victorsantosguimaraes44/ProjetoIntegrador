@@ -9,6 +9,7 @@ from tela_agendar_consultas import agendar_consultas
 from tela_agendamentos_fisioterapia import tela_agendamentos_fisio
 from tela_agendar_consultas import obter_agendamentos_fisio
 
+
 def abrir_menu_aba_fisioterapia(JANELA):
     # === CONFIGURAÇÃO INICIAL ===
 

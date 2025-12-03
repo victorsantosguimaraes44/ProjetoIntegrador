@@ -1,7 +1,7 @@
 from tkinter import messagebox
 from turtle import left
 import customtkinter as ctk
-from crud_alunos import inserir_aluno 
+from crud_pacientes import inserir_paciente
 
 cadastros = []
 cadastro = " "
@@ -117,8 +117,7 @@ def abrir_cadastro_fisioterapia(atualizar_callback=None):
         else:
             janela.destroy()
             messagebox.showinfo("INFO", f"O(A) paciente '{nome}' foi cadastrado(a) com sucesso!")
-            adicionar_cadastros(nome, cpf, email, telefone, data_nascimento, endereco)
-            inserir_aluno(nome , data_nascimento , cpf, endereco, telefone)
+            inserir_paciente(nome, data_nascimento, telefone, cpf, endereco,email)
 
             if atualizar_callback:
                 atualizar_callback()

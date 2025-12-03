@@ -5,6 +5,19 @@ from tkinter import messagebox
 import tkinter.font as tkFont
 from tela_cadastro_usuario_fisioterapia import obter_cadastros
 from tela_cadastro_usuario_fisioterapia import abrir_cadastro_fisioterapia
+from crud_pacientes import buscar_paciente
+from crud_pacientes import deletar_paciente
+import mysql.connector
+
+def conectar_banco(): 
+    return mysql.connector.connect(
+            host = "localhost" , 
+            user = "root" , 
+            password = "" , 
+            database = "clinica_retratafisio"
+    )
+
+
 def tela_lista_pacientes_fisio(JANELA):
     
     frame_top = ctk.CTkFrame(master=JANELA, width=1550, height=50, corner_radius=2, border_width=2,border_color="#646464")
@@ -15,6 +28,39 @@ def tela_lista_pacientes_fisio(JANELA):
     btn_cadastrar = ctk.CTkButton(frame_top, width=130, height=30, image=add_user_img,text="Cadastrar", font=('Arial',20),fg_color=("#2E8B57"), 
                                   corner_radius=2, command=lambda: abrir_cadastro_fisioterapia(atualizar_tabela))
     btn_cadastrar.pack(side='left',padx=10)
+
+    #######################FUNÇÃO DELETAR ALUNOS######################
+    def deletar_selecionado():
+        item = tabela_paciente.focus()
+
+        if not item:
+            messagebox.showwarning("Atenção", "Selecione um paciente.")
+            return
+
+        valores = tabela_paciente.item(item, "values")
+        id_aluno = valores[0]   # primeira coluna é o ID
+
+        confirmar = messagebox.askyesno(
+            "Deletar paciente",
+            f"Tem certeza que deseja excluir o Paciente ID: {id_aluno}?"
+        )
+
+        if confirmar:
+            if deletar_paciente(id_aluno):
+                messagebox.showinfo("Sucesso", "Paciente deletado com sucesso.")
+                atualizar_tabela()
+            else:
+                messagebox.showerror("Erro", "Falha ao excluir paciente.")
+
+
+    btn_deletar = ctk.CTkButton(
+    frame_top,
+    text="Deletar",
+    fg_color="#990000",
+    command=lambda: deletar_selecionado()
+    )
+    btn_deletar.pack(side="left", padx=10)
+    #######################FUNÇÃO DELETAR ALUNOS######################
 
     frame = ctk.CTkFrame(master=JANELA, width=1550, height=750, corner_radius=2)
     frame.place(relx=0.5, rely=0.5,anchor='center')
@@ -59,10 +105,17 @@ def tela_lista_pacientes_fisio(JANELA):
     tabela_paciente.column("Email", width=100, anchor="center" )
 
     # Inserindo dados
-    cad = []
-    for i in range(len(obter_cadastros())):
-        cad.append((obter_cadastros()[i]['nome'], obter_cadastros()[i]['cpf'], obter_cadastros()[i]['data_nascimento'], obter_cadastros()[i]['endereco'], obter_cadastros()[i]['telefone'], obter_cadastros()[i]['email']))
-
+    cad = buscar_paciente()
+    for aluno in cad:
+        tabela_paciente.insert("", 'end', 
+        values = (aluno['ID_Paciente'], 
+                 aluno['Nome_Paciente'], 
+                 aluno['CPF_Paciente'], 
+                 aluno['Data_Nascimento_Paciente'], 
+                 aluno['Endereco_Paciente'], 
+                 aluno['Email_Paciente'])
+                 )
+        
     for item in cad:
         tabela_paciente.insert("", "end", values=item)
 
@@ -84,22 +137,21 @@ def tela_lista_pacientes_fisio(JANELA):
     
     tabela_paciente.bind("<Double-1>", on_row_click)
     def atualizar_tabela():
-        tabela_paciente.delete(*tabela_paciente.get_children())  # limpa todas as linhas
+        tabela_paciente.delete(*tabela_paciente.get_children())
 
-        cad = []
-        for i in range(len(obter_cadastros())):
-            cad.append((
-                obter_cadastros()[i]['nome'],
-                obter_cadastros()[i]['cpf'],
-                obter_cadastros()[i]['data_nascimento'],
-                obter_cadastros()[i]['endereco'],
-                obter_cadastros()[i]['telefone'],
-                obter_cadastros()[i]['email']
-            ))
+        cad = buscar_paciente()
 
-        for item in cad:
-            tabela_paciente.insert("", "end", values=item)
-
+        for aluno in cad:
+            tabela_paciente.insert("",
+                                   'end', 
+                values = (aluno['ID_Paciente'], 
+                        aluno['Nome_Paciente'], 
+                        aluno['CPF_Paciente'], 
+                        aluno['Data_Nascimento_Paciente'], 
+                        aluno['Endereco_Paciente'], 
+                        aluno['Email_Paciente'])
+                        )
+            
     def informacoes(nome):
         ctk.set_appearance_mode('light')
         ctk.set_default_color_theme('blue')

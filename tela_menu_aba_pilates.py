@@ -2,12 +2,10 @@ import customtkinter as ctk
 from PIL import Image
 from tkinter import messagebox
 from tkinter import ttk
-from tela_cadastro_usuario_pilates import abrir_cadastro_pilates
-from tela_cadastro_usuario_pilates import obter_cadastros
 from tela_lista_alunos_pilates import tela_lista_alunos_pilates
-from tela_agendar_aula import agendar_aula_pilates
 from tela_agendamentos_pilates import obter_agendamentos_pilates
 from tela_agendamentos_pilates import tela_agendamentos_pilates
+from crud_alunos import buscar_alunos
 def abrir_menu_pilates(JANELA):
     # === CONFIGURAÇÃO INICIAL ===
 
@@ -100,14 +98,27 @@ def abrir_menu_pilates(JANELA):
     tabela_paciente.column("Telefone", width=100, anchor="center")
 
     # Inserindo dados
-    cad = []
-    for i in range(len(obter_cadastros())):
-        cad.append((obter_cadastros()[i]['nome'], obter_cadastros()[i]['cpf'], obter_cadastros()[i]['endereco'], obter_cadastros()[i]['telefone']))
+    cad = buscar_alunos()
 
+    for aluno in cad:
+        tabela_paciente.insert(
+            "",
+            "end",
+            values=(
+                aluno["ID_Aluno"],
+                aluno["Nome_Aluno"],
+                aluno["Data_Nascimento_Aluno"],
+                aluno["CPF_Aluno"],
+                aluno["Endereco_Aluno"],
+                aluno["Telefone_Aluno"],
+                aluno["Email_Aluno"]
+            )
+        )
     for item in cad:
         tabela_paciente.insert("", "end", values=item)
 
     tabela_paciente.pack(fill="both", expand=True)
+
     #============
     # CADASTRAR
     #============

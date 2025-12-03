@@ -6,8 +6,8 @@ from tkinter import ttk
 from tkinter import messagebox
 import tkinter.font as tkFont
 import mysql.connector 
-
-
+from crud_alunos import buscar_alunos
+from crud_alunos import deletar_aluno
 #=================
 #Conexão com o banco de dados MySQL
 #=================
@@ -31,6 +31,39 @@ def tela_lista_alunos_pilates(JANELA):
     btn_cadastrar = ctk.CTkButton(frame_top, width=130, height=30, image=add_user_img,text="Cadastrar", font=('Arial',20),fg_color=("#2E8B57"), 
                                   corner_radius=2, command=lambda: abrir_cadastro_pilates(atualizar_tabela))
     btn_cadastrar.pack(side='left',padx=10)
+
+    #######################FUNÇÃO DELETAR ALUNOS######################
+    def deletar_selecionado():
+        item = tabela_paciente.focus()
+
+        if not item:
+            messagebox.showwarning("Atenção", "Selecione um aluno.")
+            return
+
+        valores = tabela_paciente.item(item, "values")
+        id_aluno = valores[0]   # primeira coluna é o ID
+
+        confirmar = messagebox.askyesno(
+            "Deletar aluno",
+            f"Tem certeza que deseja excluir o aluno ID {id_aluno}?"
+        )
+
+        if confirmar:
+            if deletar_aluno(id_aluno):
+                messagebox.showinfo("Sucesso", "Aluno deletado com sucesso.")
+                atualizar_tabela()
+            else:
+                messagebox.showerror("Erro", "Falha ao excluir aluno.")
+
+
+    btn_deletar = ctk.CTkButton(
+    frame_top,
+    text="Deletar",
+    fg_color="#990000",
+    command=lambda: deletar_selecionado()
+    )
+    btn_deletar.pack(side="left", padx=10)
+    #######################FUNÇÃO DELETAR ALUNOS######################
 
     frame = ctk.CTkFrame(master=JANELA, width=1550, height=750, corner_radius=2)
     frame.place(relx=0.5, rely=0.5,anchor='center')
@@ -56,9 +89,14 @@ def tela_lista_alunos_pilates(JANELA):
     font_header = tkFont.Font(family="Arial", size=15, weight="bold")
     style.configure("Custom.Treeview.Heading", font=font_header)
 
-    tabela_paciente = ttk.Treeview(frame_btn_name, columns=("Nome",'Data_nascimento' ,"CPF", "Endereço","Telefone","Email"), show="headings", style="Custom.Treeview")
-    tabela_paciente.pack(fill="both", expand=True)
+    tabela_paciente = ttk.Treeview(
+        frame_btn_name, 
+        columns=("ID","Nome","Data_nascimento","CPF","Endereço","Telefone","Email"),
+        show="headings",
+        style="Custom.Treeview"
+    )
     # Definindo os títulos das colunas
+    tabela_paciente.heading("ID", text="ID")
     tabela_paciente.heading("Nome", text="Nome")
     tabela_paciente.heading("Data_nascimento", text="Data de nascimento")
     tabela_paciente.heading("CPF", text="CPF")
@@ -67,18 +105,32 @@ def tela_lista_alunos_pilates(JANELA):
     tabela_paciente.heading("Email", text="Email")
 
     # Largura das colunas
-    tabela_paciente.column("Nome", width=25, anchor="center")
-    tabela_paciente.column("Data_nascimento", width=25, anchor="center")
-    tabela_paciente.column("CPF", width=25, anchor="center")
-    tabela_paciente.column("Endereço",width=25, anchor="center")
+    tabela_paciente.column("ID", width=5, anchor="center")
+    tabela_paciente.column("Nome", width=100, anchor="center")
+    tabela_paciente.column("Data_nascimento", width=100, anchor="center")
+    tabela_paciente.column("CPF", width=100, anchor="center")
+    tabela_paciente.column("Endereço",width=100, anchor="center")
     tabela_paciente.column("Telefone", width=100, anchor="center")
-    tabela_paciente.column("Email", width=100, anchor="center" )
+    tabela_paciente.column("Email", width=150, anchor="center" )
 
     # Inserindo dados
-    cad = []
-    for i in range(len(obter_cadastros())):
-        cad.append((obter_cadastros()[i]['nome'], obter_cadastros()[i]['cpf'], obter_cadastros()[i]['data_nascimento'], obter_cadastros()[i]['endereco'], obter_cadastros()[i]['telefone'], obter_cadastros()[i]['email']))
 
+    cad = buscar_alunos()
+
+    for aluno in cad:
+        tabela_paciente.insert(
+            "",
+            "end",
+            values=(
+                aluno["ID_Aluno"],
+                aluno["Nome_Aluno"],
+                aluno["Data_Nascimento_Aluno"],
+                aluno["CPF_Aluno"],
+                aluno["Endereco_Aluno"],
+                aluno["Telefone_Aluno"],
+                aluno["Email_Aluno"]
+            )
+        )
     for item in cad:
         tabela_paciente.insert("", "end", values=item)
 
@@ -100,21 +152,24 @@ def tela_lista_alunos_pilates(JANELA):
     
     tabela_paciente.bind("<Double-1>", on_row_click)
     def atualizar_tabela():
-        tabela_paciente.delete(*tabela_paciente.get_children())  # limpa todas as linhas
+        tabela_paciente.delete(*tabela_paciente.get_children())
 
-        cad = []
-        for i in range(len(obter_cadastros())):
-            cad.append((
-                obter_cadastros()[i]['nome'],
-                obter_cadastros()[i]['cpf'],
-                obter_cadastros()[i]['data_nascimento'],
-                obter_cadastros()[i]['endereco'],
-                obter_cadastros()[i]['telefone'],
-                obter_cadastros()[i]['email']
-            ))
+        cad = buscar_alunos()
 
-        for item in cad:
-            tabela_paciente.insert("", "end", values=item)
+        for aluno in cad:
+            tabela_paciente.insert(
+                "",
+                "end",
+                values=(
+                    aluno["ID_Aluno"],
+                    aluno["Nome_Aluno"],
+                    aluno["Data_Nascimento_Aluno"],
+                    aluno["CPF_Aluno"],
+                    aluno["Endereco_Aluno"],
+                    aluno["Telefone_Aluno"],
+                    aluno["Email_Aluno"]
+                )
+            )
 
     def informacoes(nome):
         ctk.set_appearance_mode('light')

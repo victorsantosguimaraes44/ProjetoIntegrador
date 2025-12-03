@@ -12,6 +12,15 @@ Telefone_Aluno numeric (11) ,
 Telefone_Emergencia_Aluno numeric (11),
 primary key (ID_Aluno));
 
+ALTER TABLE Alunos
+modify column Data_Nascimento_Aluno varchar(10);
+
+ALTER TABLE Alunos
+modify column CPF_Aluno varchar(11);
+
+ALTER TABLE Alunos
+add column Email_Aluno varchar(50);
+
 CREATE TABLE Pacientes ( 
 ID_Paciente int not null auto_increment , 
 Nome_Paciente varchar (50) not null , 
@@ -21,6 +30,15 @@ Endereco_Paciente varchar (50) ,
 Telefone_Paciente numeric(11) ,
 Telefone_Emergencia_Paciente numeric(11),
 primary key (ID_Paciente)); 
+
+ALTER TABLE Pacientes
+modify column Data_Nascimento_Paciente varchar(10);
+
+ALTER TABLE Pacientes
+modify column CPF_Paciente varchar(11);
+
+ALTER TABLE Pacientes
+add column Email_Paciente varchar(50);
 
 CREATE TABLE Turmas ( 
 ID_Turma int not null auto_increment , 
@@ -80,6 +98,6 @@ INSERT INTO Perfis ( Nome_Perfil ) VALUES ('Administrador') , ('Usuário Comun')
 
 INSERT INTO Usuarios ( Usuario , Senha ) 
 VALUES 
-( 'Joao' , '12345' ) 
+( 'Joao' , '12345' );
 
 

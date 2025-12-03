@@ -1,7 +1,7 @@
 from tkinter import messagebox
 from turtle import left
 import customtkinter as ctk
-
+from crud_alunos import inserir_aluno
 cadastros = []
 cadastro = " "
 def adicionar_cadastros(nome, cpf, email, telefone, data_nascimento, endereco):
@@ -19,7 +19,7 @@ def abrir_cadastro_pilates(atualizar_callback=None):
     janela = ctk.CTk()
     janela.geometry("800x600")
     janela.resizable(False, False)
-    janela.title('Fisioterapia - Cadastro')
+    janela.title('Pilates - Cadastro')
     janela.attributes("-topmost", True)
     #FRAME PRINCIPAL
     frame_principal = ctk.CTkFrame(master=janela, width=800, height=600, corner_radius=10)
@@ -116,7 +116,8 @@ def abrir_cadastro_pilates(atualizar_callback=None):
         else:
             janela.destroy()
             messagebox.showinfo("INFO", f"O(A) paciente '{nome}' foi cadastrado(a) com sucesso!")
-            adicionar_cadastros(nome, cpf, email, telefone, data_nascimento, endereco)
+            inserir_aluno(nome , data_nascimento , cpf, endereco, telefone, email)
+
 
             if atualizar_callback:
                 atualizar_callback()
