@@ -134,7 +134,7 @@ def tela_lista_pacientes_fisio(JANELA):
         # Obtém os dados da linha
         values = tabela_paciente.item(selected_item, "values")
         if values:
-            id = values[0]
+            id = int(values[0])
             informacoes(id)
     
     tabela_paciente.bind("<Double-1>", on_row_click)
@@ -152,7 +152,7 @@ def tela_lista_pacientes_fisio(JANELA):
                         paciente['CPF_Paciente'],
                         paciente['Endereco_Paciente'], 
                         paciente['Telefone_Paciente'],
-                        paciente['Email_Paciente'],
+                        paciente['Email_Paciente']
                         )
                         )
             
@@ -220,24 +220,24 @@ def tela_lista_pacientes_fisio(JANELA):
             tel_atualizado = cmp_telefone.get()
             endereco_atualizado = cmp_endereco.get()
 
-            for cadastro in obter_cadastros():
+            for paciente in cad:
                 if not nome_atualizado or not cpf_atualizado or not dtns_atualizado or not email_atualizado or not tel_atualizado or not endereco_atualizado:
                     messagebox.showwarning('Atenção','Preencha todos os campos!')
                 else:
-                    if cadastro["nome"] == nome:
-                        cadastro["nome"] = nome_atualizado
-                        cadastro['email'] = email_atualizado
-                        cadastro['cpf'] = cpf_atualizado
-                        cadastro['data_nascimento'] = dtns_atualizado
-                        cadastro['telefone'] = tel_atualizado
-                        cadastro['endereco'] = endereco_atualizado
+                    if paciente["ID_Paciente"] == ID:
+                            paciente['Nome_Paciente'] = nome_atualizado
+                            paciente['CPF_Paciente'] = cpf_atualizado
+                            paciente['Data_Nascimento_Paciente'] = dtns_atualizado
+                            paciente['Endereco_Paciente'] = endereco_atualizado
+                            paciente['Email_Paciente'] = email_atualizado
+                            paciente['Telefone_Paciente'] = tel_atualizado
 
-                        atualizar_paciente()
+                            atualizar_paciente(ID,nome_atualizado,cpf_atualizado,dtns_atualizado,endereco_atualizado,email_atualizado,tel_atualizado)
 
-                        messagebox.showinfo('Sucesso','Perfil atualizado com sucesso!')
-                        atualizar_tabela()
-                        janela.destroy()
-                        break
+                            messagebox.showinfo('Sucesso','Perfil atualizado com sucesso!')
+                            atualizar_tabela()
+                            janela.destroy()
+                            break
         def cancelar():
             janela.destroy()                    
         btn_atualizar = ctk.CTkButton(frame, text="Atualizar", font=('Arial',15),text_color="#FFFFFF", 
