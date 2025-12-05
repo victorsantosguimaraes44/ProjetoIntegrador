@@ -112,13 +112,13 @@ def abrir_menu_aba_fisioterapia(JANELA):
             "",
             "end",
             values=(
-                paciente["ID_Aluno"],
-                paciente["Nome_Aluno"],
-                paciente["Data_Nascimento_Aluno"],
-                paciente["CPF_Aluno"],
-                paciente["Endereco_Aluno"],
-                paciente["Telefone_Aluno"],
-                paciente["Email_Aluno"]
+                paciente["ID_Paciente"],
+                paciente["Nome_Paciente"],
+                paciente["Data_Nascimento_Paciente"],
+                paciente["CPF_Paciente"],
+                paciente["Endereco_Paciente"],
+                paciente["Telefone_Paciente"],
+                paciente["Email_Paciente"]
             )
         )
 
