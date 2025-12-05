@@ -1,4 +1,5 @@
 from arquivo_conexao import conectar
+from mysql.connector import Error
 
 def inserir_paciente(nome_paciente, data_nascimento_paciente, telefone_paciente, cpf_paciente, endereco_paciente,email_paciente):
     con = conectar()
@@ -50,6 +51,38 @@ def deletar_paciente(id_paciente):
     except Exception as e:
         print("Erro ao deletar paciente:", e)
         return False
+
+def atualizar_paciente(id, nome, cpf, data_nascimento, endereco, email, telefone):
+    try:
+        conn = conectar()
+        cursor = conn.cursor()
+
+        sql = """
+            UPDATE pacientes 
+            SET Nome_Paciente=%s,
+                CPF_Paciente=%s,
+                Data_Nascimento_Paciente=%s,
+                Endereco_Paciente=%s,
+                Email_Paciente=%s,
+                Telefone_Paciente=%s
+            WHERE ID_Paciente=%s
+        """
+
+        valores = (nome, cpf, data_nascimento, endereco, email, telefone, id)
+
+        cursor.execute(sql, valores)
+        conn.commit()
+
+        return True
+
+    except Error as e:
+        print("Erro ao atualizar:", e)
+        return False
+
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
 
 
 

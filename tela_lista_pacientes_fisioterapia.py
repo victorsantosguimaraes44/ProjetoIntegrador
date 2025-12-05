@@ -7,6 +7,8 @@ from tela_cadastro_usuario_fisioterapia import obter_cadastros
 from tela_cadastro_usuario_fisioterapia import abrir_cadastro_fisioterapia
 from crud_pacientes import buscar_paciente
 from crud_pacientes import deletar_paciente
+from crud_pacientes import atualizar_paciente
+
 import mysql.connector
 
 def conectar_banco(): 
@@ -86,9 +88,10 @@ def tela_lista_pacientes_fisio(JANELA):
     font_header = tkFont.Font(family="Arial", size=15, weight="bold")
     style.configure("Custom.Treeview.Heading", font=font_header)
 
-    tabela_paciente = ttk.Treeview(frame_btn_name, columns=("Nome",'Data_nascimento' ,"CPF", "Endereço","Telefone","Email"), show="headings", style="Custom.Treeview")
+    tabela_paciente = ttk.Treeview(frame_btn_name, columns=("ID","Nome",'Data_nascimento' ,"CPF", "Endereço","Telefone","Email"), show="headings", style="Custom.Treeview")
     tabela_paciente.pack(fill="both", expand=True)
     # Definindo os títulos das colunas
+    tabela_paciente.heading("ID", text='ID')
     tabela_paciente.heading("Nome", text="Nome")
     tabela_paciente.heading("Data_nascimento", text="Data de nascimento")
     tabela_paciente.heading("CPF", text="CPF")
@@ -97,6 +100,7 @@ def tela_lista_pacientes_fisio(JANELA):
     tabela_paciente.heading("Email", text="Email")
 
     # Largura das colunas
+    tabela_paciente.column("ID", width=5, anchor="center")
     tabela_paciente.column("Nome", width=25, anchor="center")
     tabela_paciente.column("Data_nascimento", width=25, anchor="center")
     tabela_paciente.column("CPF", width=25, anchor="center")
@@ -106,18 +110,16 @@ def tela_lista_pacientes_fisio(JANELA):
 
     # Inserindo dados
     cad = buscar_paciente()
-    for aluno in cad:
+    for paciente in cad:
         tabela_paciente.insert("", 'end', 
-        values = (aluno['ID_Paciente'], 
-                 aluno['Nome_Paciente'], 
-                 aluno['CPF_Paciente'], 
-                 aluno['Data_Nascimento_Paciente'], 
-                 aluno['Endereco_Paciente'], 
-                 aluno['Email_Paciente'])
+        values = (paciente['ID_Paciente'], 
+                    paciente['Nome_Paciente'],
+                    paciente['Data_Nascimento_Paciente'],
+                    paciente['CPF_Paciente'],
+                    paciente['Endereco_Paciente'], 
+                    paciente['Telefone_Paciente'],
+                    paciente['Email_Paciente'])
                  )
-        
-    for item in cad:
-        tabela_paciente.insert("", "end", values=item)
 
     tabela_paciente.pack(fill="both", expand=True)
 
@@ -132,8 +134,8 @@ def tela_lista_pacientes_fisio(JANELA):
         # Obtém os dados da linha
         values = tabela_paciente.item(selected_item, "values")
         if values:
-            nome = values[0]
-            informacoes(nome)
+            id = values[0]
+            informacoes(id)
     
     tabela_paciente.bind("<Double-1>", on_row_click)
     def atualizar_tabela():
@@ -141,18 +143,20 @@ def tela_lista_pacientes_fisio(JANELA):
 
         cad = buscar_paciente()
 
-        for aluno in cad:
+        for paciente in cad:
             tabela_paciente.insert("",
                                    'end', 
-                values = (aluno['ID_Paciente'], 
-                        aluno['Nome_Paciente'], 
-                        aluno['CPF_Paciente'], 
-                        aluno['Data_Nascimento_Paciente'], 
-                        aluno['Endereco_Paciente'], 
-                        aluno['Email_Paciente'])
+                values = (paciente['ID_Paciente'], 
+                        paciente['Nome_Paciente'],
+                        paciente['Data_Nascimento_Paciente'],
+                        paciente['CPF_Paciente'],
+                        paciente['Endereco_Paciente'], 
+                        paciente['Telefone_Paciente'],
+                        paciente['Email_Paciente'],
+                        )
                         )
             
-    def informacoes(nome):
+    def informacoes(ID):
         ctk.set_appearance_mode('light')
         ctk.set_default_color_theme('blue')
 
@@ -165,14 +169,18 @@ def tela_lista_pacientes_fisio(JANELA):
         frame.place(relx=0.5, rely=0.5, anchor='center')
         frame.pack_propagate(False)
 
-        for cadastro in obter_cadastros():
-            if cadastro["nome"] == nome:
-                email = cadastro['email']
-                cpf = cadastro['cpf']
-                data_nascimento = cadastro['data_nascimento']
-                telefone = cadastro['telefone']
-                endereco = cadastro['endereco']
-                break
+        cad = buscar_paciente()
+
+        nome = cpf = data_nascimento = endereco = email = telefone = None
+
+        for paciente in cad:
+           if paciente["ID_Paciente"] == ID:
+                nome = paciente['Nome_Paciente']
+                cpf = paciente['CPF_Paciente']
+                data_nascimento = paciente['Data_Nascimento_Paciente']
+                endereco = paciente['Endereco_Paciente']
+                email = paciente['Email_Paciente']
+                telefone = paciente['Telefone_Paciente']
 
         ctk.CTkLabel(frame, text="Nome:", font=('Arial',19)).pack(padx=2)
         cmp_nome = ctk.CTkEntry(frame, placeholder_text="", font=('Arial', 15), width=300, height=20)
@@ -223,6 +231,9 @@ def tela_lista_pacientes_fisio(JANELA):
                         cadastro['data_nascimento'] = dtns_atualizado
                         cadastro['telefone'] = tel_atualizado
                         cadastro['endereco'] = endereco_atualizado
+
+                        atualizar_paciente()
+
                         messagebox.showinfo('Sucesso','Perfil atualizado com sucesso!')
                         atualizar_tabela()
                         janela.destroy()
