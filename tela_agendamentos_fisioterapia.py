@@ -28,6 +28,16 @@ def tela_agendamentos_fisio(JANELA):
     frame_btn_name = ctk.CTkScrollableFrame(master=JANELA, width=1530, height=650, corner_radius=0, fg_color="#FFFFFF")
     frame_btn_name.place(relx=0.5, rely=0.5,anchor='center')
 
+     ####################### BOTÃO DELETAR AGENDAMENTOS ######################
+    btn_deletar = ctk.CTkButton(
+    frame_top_,
+    text="DELETAR",
+    fg_color="#990000",
+    command=lambda: atualizar_tabela()
+    )
+    btn_deletar.pack(side="left", padx=10)
+    ####################### BOTÃO DELETAR AGENDAMENTOS ######################
+
     style = ttk.Style()
     style.theme_use("default")
 
