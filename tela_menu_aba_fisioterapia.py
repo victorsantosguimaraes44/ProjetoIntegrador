@@ -8,6 +8,7 @@ from tela_lista_pacientes_fisioterapia import tela_lista_pacientes_fisio
 from tela_agendar_consultas import agendar_consultas
 from tela_agendamentos_fisioterapia import tela_agendamentos_fisio
 from tela_agendar_consultas import obter_agendamentos_fisio
+from crud_pacientes import buscar_paciente
 
 
 def abrir_menu_aba_fisioterapia(JANELA):
@@ -104,12 +105,22 @@ def abrir_menu_aba_fisioterapia(JANELA):
     tabela_paciente.column("Telefone", width=100, anchor="center")
 
     # Inserindo dados
-    cad = []
-    for i in range(len(obter_cadastros())):
-        cad.append((obter_cadastros()[i]['nome'], obter_cadastros()[i]['cpf'], obter_cadastros()[i]['endereco'], obter_cadastros()[i]['telefone']))
+    cad = buscar_paciente()
 
-    for item in cad:
-        tabela_paciente.insert("", "end", values=item)
+    for paciente in cad:
+        tabela_paciente.insert(
+            "",
+            "end",
+            values=(
+                paciente["ID_Aluno"],
+                paciente["Nome_Aluno"],
+                paciente["Data_Nascimento_Aluno"],
+                paciente["CPF_Aluno"],
+                paciente["Endereco_Aluno"],
+                paciente["Telefone_Aluno"],
+                paciente["Email_Aluno"]
+            )
+        )
 
     tabela_paciente.pack(fill="both", expand=True)
     #============

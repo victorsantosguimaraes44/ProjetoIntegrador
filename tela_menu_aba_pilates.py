@@ -114,8 +114,6 @@ def abrir_menu_pilates(JANELA):
                 aluno["Email_Aluno"]
             )
         )
-    for item in cad:
-        tabela_paciente.insert("", "end", values=item)
 
     tabela_paciente.pack(fill="both", expand=True)
 
