@@ -1,4 +1,5 @@
 from arquivo_conexao import conectar 
+from mysql.connector import Error
 
 def inserir_aluno(Nome_Aluno, Data_Nascimento_Aluno, CPF_Aluno, Endereco_Aluno, Telefone_Aluno, Email_Aluno):
     con = conectar()  # CHAMAR a função
@@ -61,3 +62,35 @@ def deletar_aluno(id_aluno):
     except Exception as e:
         print("Erro ao deletar aluno:", e)
         return False
+
+def atualizar_aluno(id, nome, cpf, data_nascimento, endereco, email, telefone):
+    try:
+        conn = conectar()
+        cursor = conn.cursor()
+
+        sql = """
+            UPDATE Alunos 
+            SET Nome_Aluno=%s,
+                CPF_Aluno=%s,
+                Data_Nascimento_Aluno=%s,
+                Endereco_Aluno=%s,
+                Email_Aluno=%s,
+                Telefone_Aluno=%s
+            WHERE ID_Aluno=%s
+        """
+
+        valores = (nome, cpf, data_nascimento, endereco, email, telefone, id)
+
+        cursor.execute(sql, valores)
+        conn.commit()
+
+        return True
+
+    except Error as e:
+        print("Erro ao atualizar:", e)
+        return False
+
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()

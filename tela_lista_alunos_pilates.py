@@ -8,6 +8,7 @@ import tkinter.font as tkFont
 import mysql.connector 
 from crud_alunos import buscar_alunos
 from crud_alunos import deletar_aluno
+from crud_alunos import atualizar_aluno
 #=================
 #Conexão com o banco de dados MySQL
 #=================
@@ -145,8 +146,8 @@ def tela_lista_alunos_pilates(JANELA):
         # Obtém os dados da linha
         values = tabela_paciente.item(selected_item, "values")
         if values:
-            nome = values[0]
-            informacoes(nome)
+            id = int(values[0])
+            informacoes(id)
     
     tabela_paciente.bind("<Double-1>", on_row_click)
     def atualizar_tabela():
@@ -169,7 +170,7 @@ def tela_lista_alunos_pilates(JANELA):
                 )
             )
 
-    def informacoes(nome):
+    def informacoes(ID):
         ctk.set_appearance_mode('light')
         ctk.set_default_color_theme('blue')
 
@@ -182,14 +183,17 @@ def tela_lista_alunos_pilates(JANELA):
         frame.place(relx=0.5, rely=0.5, anchor='center')
         frame.pack_propagate(False)
 
-        for cadastro in obter_cadastros():
-            if cadastro["nome"] == nome:
-                email = cadastro['email']
-                cpf = cadastro['cpf']
-                data_nascimento = cadastro['data_nascimento']
-                telefone = cadastro['telefone']
-                endereco = cadastro['endereco']
-                break
+        nome = cpf = data_nascimento = endereco = email = telefone = None
+
+        for aluno in cad:
+           if aluno["ID_Aluno"] == ID:
+                nome = aluno['Nome_Aluno']
+                cpf = aluno['CPF_Aluno']
+                data_nascimento = aluno['Data_Nascimento_Aluno']
+                endereco = aluno['Endereco_Aluno']
+                email = aluno['Email_Aluno']
+                telefone = aluno['Telefone_Aluno']
+                
 
         ctk.CTkLabel(frame, text="Nome:", font=('Arial',19)).pack(padx=2)
         cmp_nome = ctk.CTkEntry(frame, placeholder_text="", font=('Arial', 15), width=300, height=20)
@@ -229,17 +233,20 @@ def tela_lista_alunos_pilates(JANELA):
             tel_atualizado = cmp_telefone.get()
             endereco_atualizado = cmp_endereco.get()
 
-            for cadastro in obter_cadastros():
+            for aluno in cad:
                 if not nome_atualizado or not cpf_atualizado or not dtns_atualizado or not email_atualizado or not tel_atualizado or not endereco_atualizado:
                     messagebox.showwarning('Atenção','Preencha todos os campos!')
                 else:
-                    if cadastro["nome"] == nome:
-                        cadastro["nome"] = nome_atualizado
-                        cadastro['email'] = email_atualizado
-                        cadastro['cpf'] = cpf_atualizado
-                        cadastro['data_nascimento'] = dtns_atualizado
-                        cadastro['telefone'] = tel_atualizado
-                        cadastro['endereco'] = endereco_atualizado
+                    if aluno["ID_Aluno"] == ID:
+                        aluno['Nome_Aluno'] = nome_atualizado
+                        aluno['CPF_Aluno'] = cpf_atualizado
+                        aluno['Data_Nascimento_Aluno'] = dtns_atualizado
+                        aluno['Endereco_Aluno'] = endereco_atualizado
+                        aluno['Email_Aluno'] = email_atualizado
+                        aluno['Telefone_Aluno'] = tel_atualizado
+
+                        atualizar_aluno(ID,nome_atualizado,cpf_atualizado,dtns_atualizado,endereco_atualizado,email_atualizado,tel_atualizado)
+
                         messagebox.showinfo('Sucesso','Perfil atualizado com sucesso!')
                         atualizar_tabela()
                         janela.destroy()

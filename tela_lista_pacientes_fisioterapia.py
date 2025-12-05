@@ -249,3 +249,4 @@ def tela_lista_pacientes_fisio(JANELA):
         btn_cancelar.pack(pady=5)
 
         janela.mainloop()
+    
