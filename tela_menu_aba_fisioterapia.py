@@ -2,14 +2,10 @@ import customtkinter as ctk
 from PIL import Image
 from tkinter import messagebox
 from tkinter import ttk
-from tela_cadastro_usuario_fisioterapia import abrir_cadastro_fisioterapia
-from tela_cadastro_usuario_fisioterapia import obter_cadastros
 from tela_lista_pacientes_fisioterapia import tela_lista_pacientes_fisio
-from tela_agendar_consultas import agendar_consultas
 from tela_agendamentos_fisioterapia import tela_agendamentos_fisio
-from tela_agendar_consultas import obter_agendamentos_fisio
 from crud_pacientes import buscar_paciente
-
+from crud_agendamentos_fisioterapia import buscar_agendamento_f
 
 def abrir_menu_aba_fisioterapia(JANELA):
     # === CONFIGURAÇÃO INICIAL ===
@@ -51,28 +47,30 @@ def abrir_menu_aba_fisioterapia(JANELA):
 
     frame_btn_name = ctk.CTkScrollableFrame(master=frame_tb_f, width=750, height=650, corner_radius=0, fg_color="#FFFFFF")
     frame_btn_name.pack(pady=(10,10))
-    tabela_agendamento = ttk.Treeview(frame_btn_name, columns=("Nome", "Data", "Hora","Paciente"), show="headings")
+    tabela_agendamento = ttk.Treeview(frame_btn_name, columns=("ID","Nome", "Data", "Hora","Paciente"), show="headings")
 
+    tabela_agendamento.heading("ID", text="ID")
     tabela_agendamento.heading("Nome", text="Nome")
     tabela_agendamento.heading("Data", text="Data")
     tabela_agendamento.heading("Hora", text="Hora")
     tabela_agendamento.heading("Paciente", text="Paciente")
 
+    tabela_agendamento.column("ID",width=25, anchor="center")
     tabela_agendamento.column("Nome",width=25, anchor="center")
     tabela_agendamento.column("Data", width=25, anchor="center")
     tabela_agendamento.column("Hora", width=25, anchor="center")
     tabela_agendamento.column("Paciente", width=100, anchor="center")
 
-    # Inserindo dados
-    dado = []
-    for i in range(len(obter_agendamentos_fisio())):
-        dado.append((obter_agendamentos_fisio()[i]['nome'], obter_agendamentos_fisio()[i]['data'], obter_agendamentos_fisio()[i]['hora']))
+    agend = buscar_agendamento_f()
 
-    for item in dado:
-        tabela_agendamento.insert("", "end", values=item)
-
+    for a in agend:
+        tabela_agendamento.insert("", "end", values = 
+                      (a['ID_Consulta'],
+                       a['Nome_Consulta'],
+                       a['Data_Consulta'],
+                       a['Hora_Consulta'],
+                       a['ID_Paciente']))
     tabela_agendamento.pack(fill="both", expand=True)
-
     
     #==========================================================================================================================
     frame_tb_p= ctk.CTkFrame(master=tabview.tab('Geral'), width=787, height=850, fg_color="#FFFFFF")
@@ -88,27 +86,27 @@ def abrir_menu_aba_fisioterapia(JANELA):
     frame_tb_name = ctk.CTkScrollableFrame(master=frame_tb_p, width=750, height=650, corner_radius=0, fg_color="#FFFFFF")
     frame_tb_name.pack(pady=(10,10))
 
-    tabela_paciente = ttk.Treeview(frame_tb_name, columns=("Nome", "CPF", "Endereço","Telefone"), show="headings")
-    tabela_paciente.pack(fill="both", expand=True)
+    tabela_cadastrar = ttk.Treeview(frame_tb_name, columns=("Nome", "CPF", "Endereço","Telefone"), show="headings")
+    tabela_cadastrar.pack(fill="both", expand=True)
 
 
     # Definindo os títulos das colunas
-    tabela_paciente.heading("Nome", text="Nome")
-    tabela_paciente.heading("CPF", text="CPF")
-    tabela_paciente.heading("Endereço", text="Endereço")
-    tabela_paciente.heading("Telefone", text="Telefone")
+    tabela_cadastrar.heading("Nome", text="Nome")
+    tabela_cadastrar.heading("CPF", text="CPF")
+    tabela_cadastrar.heading("Endereço", text="Endereço")
+    tabela_cadastrar.heading("Telefone", text="Telefone")
 
     # Largura das colunas
-    tabela_paciente.column("Nome", width=25, anchor="center")
-    tabela_paciente.column("CPF", width=25, anchor="center")
-    tabela_paciente.column("Endereço",width=25, anchor="center")
-    tabela_paciente.column("Telefone", width=100, anchor="center")
+    tabela_cadastrar.column("Nome", width=25, anchor="center")
+    tabela_cadastrar.column("CPF", width=25, anchor="center")
+    tabela_cadastrar.column("Endereço",width=25, anchor="center")
+    tabela_cadastrar.column("Telefone", width=100, anchor="center")
 
     # Inserindo dados
     cad = buscar_paciente()
 
     for paciente in cad:
-        tabela_paciente.insert(
+        tabela_cadastrar.insert(
             "",
             "end",
             values=(
@@ -122,7 +120,7 @@ def abrir_menu_aba_fisioterapia(JANELA):
             )
         )
 
-    tabela_paciente.pack(fill="both", expand=True)
+    tabela_cadastrar.pack(fill="both", expand=True)
     #============
     # CADASTRAR
     #============

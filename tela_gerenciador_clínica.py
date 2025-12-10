@@ -1,7 +1,5 @@
 import customtkinter as ctk
 from PIL import Image
-from tela_agendar_consultas import obter_agendamentos_fisio
-from tela_agendar_aula import obter_agendamentos_pilates
 
 agendamentostotais = []
 
@@ -15,9 +13,6 @@ def tela_gerenciador_clinica(JANELA):
     menu_aba.pack_propagate(False)
 
     num_atendimentos_totais = 0
-    while num_atendimentos_totais < len(obter_agendamentos_fisio()) + len(obter_agendamentos_pilates()):
-        num_atendimentos_totais += 1
-
     num_atendimentos_concluidos = 0
     num_atendimentos_pendentes = num_atendimentos_totais - num_atendimentos_concluidos
  

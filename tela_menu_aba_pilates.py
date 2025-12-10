@@ -3,9 +3,9 @@ from PIL import Image
 from tkinter import messagebox
 from tkinter import ttk
 from tela_lista_alunos_pilates import tela_lista_alunos_pilates
-from tela_agendamentos_pilates import obter_agendamentos_pilates
 from tela_agendamentos_pilates import tela_agendamentos_pilates
 from crud_alunos import buscar_alunos
+from crud_agendamento_pilates import buscar_agendamentos_p
 def abrir_menu_pilates(JANELA):
     # === CONFIGURAÇÃO INICIAL ===
 
@@ -46,29 +46,34 @@ def abrir_menu_pilates(JANELA):
 
     frame_btn_name = ctk.CTkScrollableFrame(master=frame_tb_f, width=750, height=650, corner_radius=0, fg_color="#FFFFFF")
     frame_btn_name.pack(pady=(10,10))
-    tabela_agendamento = ttk.Treeview(frame_btn_name, columns=("Nome", "Data", "Hora","Aluno"), show="headings")
+    tabela_agendamento = ttk.Treeview(frame_btn_name, columns=("ID","Nome", "Data", "Hora","Aluno"), show="headings")
 
+    tabela_agendamento.heading("ID", text="ID")
     tabela_agendamento.heading("Nome", text="Nome")
     tabela_agendamento.heading("Data", text="Data")
     tabela_agendamento.heading("Hora", text="Hora")
     tabela_agendamento.heading("Aluno", text="Aluno")
 
+    tabela_agendamento.column("ID",width=25, anchor="center")
     tabela_agendamento.column("Nome",width=25, anchor="center")
     tabela_agendamento.column("Data", width=25, anchor="center")
     tabela_agendamento.column("Hora", width=25, anchor="center")
     tabela_agendamento.column("Aluno", width=100, anchor="center")
+    
+    agend = buscar_agendamentos_p()
 
-    # Inserindo dados
-    dado = []
-    for i in range(len(obter_agendamentos_pilates())):
-        dado.append((obter_agendamentos_pilates()[i]['nome'], obter_agendamentos_pilates()[i]['data'], obter_agendamentos_pilates()[i]['hora']))
+    for a in agend:
+        tabela_agendamento.insert("", "end", values=(
+            a['ID_Aula'],
+            a['Nome_Aula'],
+            a['Data_Aula'],
+            a['Hora_Aula'],
+            a['ID_Aluno']
+        ))
 
-    for item in dado:
-        tabela_agendamento.insert("", "end", values=item)
+
 
     tabela_agendamento.pack(fill="both", expand=True)
-
-    
     #==========================================================================================================================
     frame_tb_p= ctk.CTkFrame(master=tabview.tab('Geral'), width=787, height=850, fg_color="#FFFFFF")
     frame_tb_p.place(relx=0.5,rely=0.55,anchor='w')

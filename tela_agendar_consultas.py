@@ -1,20 +1,7 @@
 import customtkinter as ctk
 from tkinter import messagebox
 from turtle import left
-from tela_cadastro_usuario_fisioterapia import obter_cadastros
-agendamentos = []
-agendamento = " "
-DADOS_CONSULTA = {}
-
-def adicionar_agendamentos(nome_consulta, data_consulta, hora_consulta, Nome_paciente):
-    agendamento = f"consulta: {nome_consulta}, Data da consulta: {data_consulta}, Hora da consulta: {hora_consulta},paciente:{Nome_paciente}"
-    DADOS_CONSULTA = {"nome":nome_consulta, 'data':data_consulta,"hora":hora_consulta,"paciente":Nome_paciente}
-    from tela_gerenciador_clínica import agendamentos_totais
-    agendamentos_totais(agendamento)
-    agendamentos.append(DADOS_CONSULTA)
-
-def obter_agendamentos_fisio():
-    return agendamentos
+from crud_agendamentos_fisioterapia import inserir_agendamento_f
 
 def agendar_consultas(atualizar_callback=None):
 
@@ -120,12 +107,12 @@ def agendar_consultas(atualizar_callback=None):
                                 ,width=130, height=40, corner_radius=1)
     btn_esc_pac.grid(row=5,column=0,padx=2, pady=10)
 
-    esc_pac_lbl = ctk.CTkLabel(master=frame_campos, text='Paciente', font=('Arial',20))
+    esc_pac_lbl = ctk.CTkEntry(master=frame_campos, placeholder_text='Id_paciente', font=('Arial',20), width=50, height=20)
     esc_pac_lbl.grid(row=5,column=1,padx=2, pady=10)
 
-    nome_atual = ctk.StringVar(value="Nenhum paciente selecionado")
-    # pac_esc_lbl = ctk.CTkLabel(master=frame_campos, textvariable=nome_atual, font=('Arial',20))
-    # pac_esc_lbl.grid(row=6,column=1,padx=2, pady=10)
+    # nome_atual = ctk.StringVar(value="Nenhum paciente selecionado")
+    # # pac_esc_lbl = ctk.CTkLabel(master=frame_campos, textvariable=nome_atual, font=('Arial',20))
+    # # pac_esc_lbl.grid(row=6,column=1,padx=2, pady=10)
 
     frame_btn = ctk.CTkFrame(master=frame_principal, width=400, height=450, fg_color="transparent")
     frame_btn.place(relx=0.5, rely=0.8,anchor='n')
@@ -138,16 +125,17 @@ def agendar_consultas(atualizar_callback=None):
         hora = cmp_hora_aula.get()
         minuto = cmp_min_aula.get()
 
-        data = f"{dia}/{mes}/{ano}"
-        hora_aula = f"{hora}:{minuto}"
-        nome_paciente = nome_atual.get()
+        data_consulta = f"{dia}/{mes}/{ano}"
+        hora_consulta = f"{hora}:{minuto}"
+        id_paciente = esc_pac_lbl.get()
+
         if not nome_consulta or not dia or not mes or not ano or not hora or not minuto:
             messagebox.showwarning("Atenção", "Preencha todos os campos!", parent=janela)
             return
         else:
             janela.destroy()
             messagebox.showinfo("Sucesso", "Agendamento realizado com sucesso!")
-            adicionar_agendamentos(nome_consulta, data, hora_aula, nome_paciente)
+            inserir_agendamento_f(data_consulta, hora_consulta, id_paciente, nome_consulta)
 
             if atualizar_callback:
                 atualizar_callback()

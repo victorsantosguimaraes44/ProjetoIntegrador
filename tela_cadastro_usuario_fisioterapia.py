@@ -3,15 +3,6 @@ from turtle import left
 import customtkinter as ctk
 from crud_pacientes import inserir_paciente
 
-cadastros = []
-cadastro = " "
-def adicionar_cadastros(nome, cpf, email, telefone, data_nascimento, endereco):
-    # cadastro = f"{nome}, {email}, {telefone}, {opcao_pagamento}, {valor_pagar}, {endereco}"
-    DADOS_CADASTRAIS = {"nome":nome, 'cpf':cpf,"email":email, "telefone":telefone, "data_nascimento": data_nascimento, "endereco":endereco}
-    cadastros.append(DADOS_CADASTRAIS)
-def obter_cadastros():
-    return cadastros
-
 def abrir_cadastro_fisioterapia(atualizar_callback=None):
 
     ctk.set_appearance_mode('light')

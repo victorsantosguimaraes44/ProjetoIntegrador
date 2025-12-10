@@ -2,14 +2,6 @@ from tkinter import messagebox
 from turtle import left
 import customtkinter as ctk
 from crud_alunos import inserir_aluno
-cadastros = []
-cadastro = " "
-def adicionar_cadastros(nome, cpf, email, telefone, data_nascimento, endereco):
-    # cadastro = f"{nome}, {email}, {telefone}, {opcao_pagamento}, {valor_pagar}, {endereco}"
-    DADOS_CADASTRAIS = {"nome":nome, 'cpf':cpf,"email":email, "telefone":telefone, "data_nascimento": data_nascimento, "endereco":endereco}
-    cadastros.append(DADOS_CADASTRAIS)
-def obter_cadastros():
-    return cadastros
 
 def abrir_cadastro_pilates(atualizar_callback=None):
 

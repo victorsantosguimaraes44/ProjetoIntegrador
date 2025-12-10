@@ -3,22 +3,10 @@ from PIL import Image
 from tkinter import ttk
 from tkinter import messagebox
 import tkinter.font as tkFont
-from tela_cadastro_usuario_fisioterapia import obter_cadastros
 from tela_cadastro_usuario_fisioterapia import abrir_cadastro_fisioterapia
 from crud_pacientes import buscar_paciente
 from crud_pacientes import deletar_paciente
 from crud_pacientes import atualizar_paciente
-
-import mysql.connector
-
-def conectar_banco(): 
-    return mysql.connector.connect(
-            host = "localhost" , 
-            user = "root" , 
-            password = "" , 
-            database = "clinica_retratafisio"
-    )
-
 
 def tela_lista_pacientes_fisio(JANELA):
     

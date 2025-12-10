@@ -1,9 +1,12 @@
 import customtkinter as ctk
 from PIL import Image
 from tkinter import ttk
+from tkinter import messagebox
 import tkinter.font as tkFont
-from tela_agendar_consultas import obter_agendamentos_fisio
 from tela_agendar_consultas import agendar_consultas
+from crud_agendamentos_fisioterapia import buscar_agendamento_f
+from crud_agendamentos_fisioterapia import deletar_agendamento_f
+
 def tela_agendamentos_fisio(JANELA):
 
     frame_top_ = ctk.CTkFrame(master=JANELA, width=1550, height=50, corner_radius=2, border_width=2,border_color="#646464")
@@ -33,9 +36,27 @@ def tela_agendamentos_fisio(JANELA):
     frame_top_,
     text="DELETAR",
     fg_color="#990000",
-    command=lambda: atualizar_tabela()
+    command=lambda: deletar_agend()
     )
     btn_deletar.pack(side="left", padx=10)
+
+    def deletar_agend():
+        item = tabela.focus()
+
+        if not item:
+            messagebox.showwarning("Atenção", "Selecione.")
+            return
+        
+        value = tabela.item(item, 'values')
+        id_consulta = value[0]
+
+        confirmar = messagebox.askyesno("Confirme", f"Tem certeza que deseja excluir o {id_consulta}?")
+        if confirmar:
+            if deletar_agendamento_f(id_consulta):
+                messagebox.showinfo('Sucesso', 'Excluido com sucesso!')
+                atualizar_tabela()
+            else:
+                messagebox.showerror('ERRO', 'Falha ao excluir.')
     ####################### BOTÃO DELETAR AGENDAMENTOS ######################
 
     style = ttk.Style()
@@ -49,45 +70,49 @@ def tela_agendamentos_fisio(JANELA):
     font_header = tkFont.Font(family="Arial", size=15, weight="bold")
     style.configure("Custom.Treeview.Heading", font=font_header)
 
-    colunas = ("Nome", "Data", "Hora","Paciente")
+    colunas = ("ID", "Nome", "Data", "Hora","Paciente")
     tabela = ttk.Treeview(frame_btn_name, columns=colunas, show="headings", style="Custom.Treeview")
     tabela.pack(fill="both", expand=True)
 
     # Definindo os títulos das colunas
+    tabela.heading("ID", text="ID")
     tabela.heading("Nome", text="Nome")
     tabela.heading("Data", text="Data")
     tabela.heading("Hora", text="Hora")
     tabela.heading("Paciente", text="Paciente")
 
     # Largura das colunas
+    tabela.column("ID",width=25, anchor="center")
     tabela.column("Nome",width=25, anchor="center")
     tabela.column("Data", width=25, anchor="center")
     tabela.column("Hora", width=25, anchor="center")
     tabela.column("Paciente", width=100, anchor="center")
 
+    agendamentos = buscar_agendamento_f()
 
-    # Inserindo dados
-    dado = []
-    for i in range(len(obter_agendamentos_fisio())):
-        dado.append((obter_agendamentos_fisio()[i]['nome'], obter_agendamentos_fisio()[i]['data'], obter_agendamentos_fisio()[i]['hora']))
+    for agendamento in agendamentos:
+        tabela.insert('','end', values=(
+            agendamento['ID_Consulta'], 
+            agendamento['Nome_Consulta'],
+            agendamento['Data_Consulta'],
+            agendamento['Hora_Consulta'],
+            agendamento['ID_Paciente']
+        ))
 
-    for item in dado:
-        tabela.insert("", "end", values=item)
-    
     def atualizar_tabela():
-        tabela.delete(*tabela.get_children())  # limpa todas as linhas
+        tabela.delete(*tabela.get_children())
 
-        cad = []
-        for i in range(len(obter_agendamentos_fisio())):
-            cad.append((
-                obter_agendamentos_fisio()[i]['nome'],
-                obter_agendamentos_fisio()[i]['data'],
-                obter_agendamentos_fisio()[i]['hora'],
-                # obter_agendamentos_fisio()[i]['telefone']
+        agendamentos = buscar_agendamento_f()
+
+        for agendamento in agendamentos:
+            tabela.insert('','end', values=(
+                agendamento['ID_Consulta'], 
+                agendamento['Nome_Consulta'],
+                agendamento['Data_Consulta'],
+                agendamento['Hora_Consulta']
             ))
 
-        for item in cad:
-            tabela.insert("", "end", values=item)
+
 
 
     

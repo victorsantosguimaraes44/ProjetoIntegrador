@@ -1,8 +1,6 @@
 import customtkinter as ctk
 from PIL import Image
 from tkinter import messagebox
-import tela_fisioterapia_or_pilates
-import tela_cadastro
 import mysql.connector 
 from tela_principal import abrir_tela_principal
 

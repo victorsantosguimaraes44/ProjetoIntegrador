@@ -53,28 +53,21 @@ foreign key (ID_Aluno) references Alunos(ID_Alunos)) ;
 
 CREATE TABLE Consultas ( 
 ID_Consulta int not null auto_increment , 
-Data_Consulta date , 
-Hora_Consulta time , 
+Data_Consulta varchar(11) , 
+Hora_Consulta varchar(5) , 
 primary key (ID_Consulta) , 
 ID_Paciente int , 
+Nome_Consulta varchar(50),
 foreign key (ID_Paciente) references Pacientes(ID_Paciente)) ; 
 
-CREATE TABLE Servicos ( 
-ID_Servico int not null auto_increment , 
-Nome_Servico varchar (50) , 
-Preco_Servico float , 
-primary key (ID_Servico)); 
-
-CREATE TABLE Agendamentos ( 
-ID_Agendamentos int not null auto_increment , 
-Data_Agendamento date , 
-Hora_Agendamento time , 
-primary key (ID_Agendamentos)); 
-
-CREATE TABLE IF NOT EXISTS Perfis ( 
-ID_Perfil int not null auto_increment , 
-Nome_Perfil varchar (100), 
-primary key (ID_Perfil)); 
+CREATE TABLE Aulas(
+ID_Aula int not null auto_increment,
+Data_Aula varchar(11),
+Hora_Aula varchar(5),
+ID_Aluno int,
+Nome_Aula varchar(50),
+primary key (ID_Aula),
+foreign key (ID_Aluno) references Alunos(ID_Aluno));
 
 CREATE TABLE Usuarios ( 
 ID_Usuario int not null auto_increment ,
@@ -88,13 +81,6 @@ ADD COLUMN ID_Perfil int;
 
 ALTER TABLE Usuarios
 ADD COLUMN Nome varchar(100) not null ; 
-
-#Adicioando ID_Peril como chave estrangeira na tebela Usuarios
-ALTER TABLE Usuarios
-ADD CONSTRAINT fk_perfil
-FOREIGN KEY (ID_Perfil) references Perfis (ID_Perfil); 
-
-INSERT INTO Perfis ( Nome_Perfil ) VALUES ('Administrador') , ('Usuário Comun');
 
 INSERT INTO Usuarios ( Usuario , Senha ) 
 VALUES 
