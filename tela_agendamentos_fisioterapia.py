@@ -34,7 +34,10 @@ def tela_agendamentos_fisio(JANELA):
      ####################### BOTÃO DELETAR AGENDAMENTOS ######################
     btn_deletar = ctk.CTkButton(
     frame_top_,
-    text="DELETAR",
+    width=130, height=30,
+    corner_radius=2,
+    text="Deletar",
+    font=('Arial',20),
     fg_color="#990000",
     command=lambda: deletar_agend()
     )

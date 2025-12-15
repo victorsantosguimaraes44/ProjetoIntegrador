@@ -7,10 +7,11 @@ from tela_cadastro_usuario_fisioterapia import abrir_cadastro_fisioterapia
 from crud_pacientes import buscar_paciente
 from crud_pacientes import deletar_paciente
 from crud_pacientes import atualizar_paciente
+from crud_pacientes import pesquisar_paciente
 
 def tela_lista_pacientes_fisio(JANELA):
     
-    frame_top = ctk.CTkFrame(master=JANELA, width=1550, height=50, corner_radius=2, border_width=2,border_color="#646464")
+    frame_top = ctk.CTkFrame(master=JANELA, width=1550, height=50, corner_radius=0, border_width=2,border_color="#646464")
     frame_top.pack(side='top')
     frame_top.pack_propagate(False)
 
@@ -45,7 +46,10 @@ def tela_lista_pacientes_fisio(JANELA):
 
     btn_deletar = ctk.CTkButton(
     frame_top,
+    width=130, height=30,
+    corner_radius=0,
     text="Deletar",
+    font=('Arial',20),
     fg_color="#990000",
     command=lambda: deletar_selecionado()
     )
@@ -56,8 +60,29 @@ def tela_lista_pacientes_fisio(JANELA):
     frame.place(relx=0.5, rely=0.5,anchor='center')
     frame.pack_propagate(False)
 
-    campo_pesquisar = ctk.CTkEntry(master=frame, placeholder_text="Pesquisar", font=('Arial', 15), width=250, height=30, corner_radius=10, border_color="#BFBFBF")
+    ########################################PESQUISAR########################################
+    def atualizar_tabela_pesquisa(dados):
+        tabela_paciente.delete(*tabela_paciente.get_children())
+
+        for paciente in dados:
+            tabela_paciente.insert("", "end", values=(
+                        paciente['ID_Paciente'], 
+                        paciente['Nome_Paciente'],
+                        paciente['Data_Nascimento_Paciente'],
+                        paciente['CPF_Paciente'],
+                        paciente['Endereco_Paciente'], 
+                        paciente['Telefone_Paciente'],
+                        paciente['Email_Paciente']
+            ))
+    def pesquisar_em_tempo_real(event):
+        digitado = campo_pesquisar.get()
+        resultado = pesquisar_paciente(digitado)
+        atualizar_tabela_pesquisa(resultado)
+
+    campo_pesquisar = ctk.CTkEntry(master=frame, placeholder_text="Pesquisar", font=('Arial', 15), width=500, height=30, corner_radius=10, border_color="#BFBFBF")
     campo_pesquisar.place(x=10,y=10)
+    campo_pesquisar.bind("<KeyRelease>", pesquisar_em_tempo_real)
+    ########################################PESQUISAR########################################
 
     list_label = ctk.CTkLabel(master=frame,text="Pacientes", font=('Arial', 25, 'bold'))
     list_label.pack(pady=(10,10))

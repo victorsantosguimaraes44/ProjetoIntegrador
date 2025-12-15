@@ -94,3 +94,16 @@ def atualizar_aluno(id, nome, cpf, data_nascimento, endereco, email, telefone):
         if conn.is_connected():
             cursor.close()
             conn.close()
+
+def pesquisar_aluno(nome):
+    con = conectar()
+    cursor = con.cursor(dictionary=True)
+
+    sql = """SELECT * FROM Alunos WHERE Nome_ALuno LIKE %s ORDER BY Nome_Aluno"""
+
+    cursor.execute(sql, (f"%{nome}%",))
+    dados = cursor.fetchall()
+
+    cursor.close()  
+    con.close()
+    return dados

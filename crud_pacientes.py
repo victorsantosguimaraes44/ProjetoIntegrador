@@ -84,5 +84,18 @@ def atualizar_paciente(id, nome, cpf, data_nascimento, endereco, email, telefone
             cursor.close()
             conn.close()
 
+def pesquisar_paciente(nome):
+    con = conectar()
+    cursor = con.cursor(dictionary=True)
+
+    sql = """SELECT * FROM Pacientes WHERE Nome_Paciente LIKE %s ORDER BY Nome_Paciente"""
+
+    cursor.execute(sql, (f"%{nome}%",))
+    dados = cursor.fetchall()
+
+    cursor.close()  
+    con.close()
+    return dados
+
 
 

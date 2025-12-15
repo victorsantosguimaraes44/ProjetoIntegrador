@@ -53,7 +53,10 @@ def tela_agendamentos_pilates(JANELA):
 
     btn_deletar = ctk.CTkButton(
     frame_top_,
+    width=130, height=30,
+    corner_radius=2,
     text="Deletar",
+    font=('Arial',20),
     fg_color="#990000",
     command=lambda: deletar_agend()
     )
