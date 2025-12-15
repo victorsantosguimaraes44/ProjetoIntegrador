@@ -7,6 +7,7 @@ import tkinter.font as tkFont
 from crud_alunos import buscar_alunos
 from crud_alunos import deletar_aluno
 from crud_alunos import atualizar_aluno
+from crud_alunos import pesquisar_aluno
 #=================
 #Conexão com o banco de dados MySQL
 #=================
@@ -20,7 +21,7 @@ def tela_lista_alunos_pilates(JANELA):
     add_user_img = ctk.CTkImage(Image.open("add-user.png"), size=(25, 25))
     
     btn_cadastrar = ctk.CTkButton(frame_top, width=130, height=30, image=add_user_img,text="Cadastrar", font=('Arial',20),fg_color=("#2E8B57"), 
-                                  corner_radius=2, command=lambda: abrir_cadastro_pilates(atualizar_tabela))
+                                  corner_radius=0, command=lambda: abrir_cadastro_pilates(atualizar_tabela))
     btn_cadastrar.pack(side='left',padx=10)
 
     #######################FUNÇÃO DELETAR ALUNOS######################
@@ -49,19 +50,44 @@ def tela_lista_alunos_pilates(JANELA):
 
     btn_deletar = ctk.CTkButton(
     frame_top,
+    width=130, height=30,
+    corner_radius=0,
     text="Deletar",
+    font=('Arial',20),
     fg_color="#990000",
     command=lambda: deletar_selecionado()
     )
     btn_deletar.pack(side="left", padx=10)
-    #######################FUNÇÃO DELETAR ALUNOS######################
+    #################################FUNÇÃO DELETAR ALUNOS##################################
 
     frame = ctk.CTkFrame(master=JANELA, width=1550, height=750, corner_radius=2)
     frame.place(relx=0.5, rely=0.5,anchor='center')
     frame.pack_propagate(False)
 
-    campo_pesquisar = ctk.CTkEntry(master=frame, placeholder_text="Pesquisar", font=('Arial', 15), width=250, height=30, corner_radius=10, border_color="#BFBFBF")
+    ########################################PESQUISAR########################################
+    def atualizar_tabela_pesquisa(dados):
+        tabela_paciente.delete(*tabela_paciente.get_children())
+
+        for aluno in dados:
+            tabela_paciente.insert("", "end", values=(
+                    aluno["ID_Aluno"],
+                    aluno["Nome_Aluno"],
+                    aluno["Data_Nascimento_Aluno"],
+                    aluno["CPF_Aluno"],
+                    aluno["Endereco_Aluno"],
+                    aluno["Telefone_Aluno"],
+                    aluno["Email_Aluno"]
+            ))
+    def pesquisar_em_tempo_real(event):
+        digitado = campo_pesquisar.get()
+        resultado = pesquisar_aluno(digitado)
+        atualizar_tabela_pesquisa(resultado)
+
+    campo_pesquisar = ctk.CTkEntry(master=frame, placeholder_text="Pesquisar", font=('Arial', 15), width=500, height=30, corner_radius=10, border_color="#BFBFBF")
     campo_pesquisar.place(x=10,y=10)
+    campo_pesquisar.bind("<KeyRelease>", pesquisar_em_tempo_real)
+    ########################################PESQUISAR########################################
+
 
     list_label = ctk.CTkLabel(master=frame,text="Alunos", font=('Arial', 25, 'bold'))
     list_label.pack(pady=(10,10))
