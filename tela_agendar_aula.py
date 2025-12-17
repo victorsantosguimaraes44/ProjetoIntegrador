@@ -1,8 +1,9 @@
 import customtkinter as ctk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
+import tkinter.font as tkFont
 from turtle import left
 from crud_agendamento_pilates import inserir_agendamento_p
-
+from crud_alunos import buscar_alunos
 def agendar_aula_pilates(atualizar_callback=None):
 
     ctk.set_appearance_mode('light')
@@ -95,12 +96,18 @@ def agendar_aula_pilates(atualizar_callback=None):
 
     cmp_min_aula = ctk.CTkEntry(master=frame_campos_hora, placeholder_text="MM", font=('Arial',20), width=50, height=20, corner_radius=1, border_color="#BFBFBF")
     cmp_min_aula.pack(padx=2, pady=0, side="left")
-
-    btn_esc_pac = ctk.CTkButton(master=frame_campos, text='Escolher \nPaciente', font=('Arial',20), fg_color='#4CAF50', hover_color= "#45a049"
-                                ,width=130, height=40, corner_radius=1)
+    
+    aluno_var = ctk.StringVar()
+    btn_esc_pac = ctk.CTkButton(master=frame_campos, text='Escolher \nAluno', font=('Arial',20), fg_color='#4CAF50', hover_color= "#45a049"
+                                ,width=130, height=40, corner_radius=1, command=lambda:escolher_aluno(aluno_var))
     btn_esc_pac.grid(row=5,column=0,padx=2, pady=10)
-
-    esc_pac_lbl = ctk.CTkEntry(master=frame_campos, placeholder_text='id_aluno', font=('Arial',20), width=50, height=20)
+    esc_pac_lbl = ctk.CTkEntry(
+    master=frame_campos,
+    textvariable=aluno_var,
+    font=('Arial',10),
+    width=150,
+    state="readonly"
+)
     esc_pac_lbl.grid(row=5,column=1,padx=2, pady=10)
 
     frame_btn = ctk.CTkFrame(master=frame_principal, width=400, height=450, fg_color="transparent")
@@ -134,3 +141,58 @@ def agendar_aula_pilates(atualizar_callback=None):
     btn_salvar.pack(pady=(10,10))
 
     janela.mainloop()
+
+def escolher_aluno(aluno_var):
+    # Criar janela modal em relação à principal
+    jan = ctk.CTkToplevel()
+    jan.geometry("800x800")
+    jan.resizable(False, False)
+    jan.title('Escolher aluno')
+    jan.attributes("-topmost", True)
+    jan.grab_set()  # Bloqueia interação com a janela principal
+
+    # FRAME topo para pesquisar
+    frame_top = ctk.CTkFrame(jan, width=800, height=50, corner_radius=0)
+    frame_top.pack(side="top", padx=5, pady=5)
+    frame_top.pack_propagate(False)
+
+    campo_pesquisar = ctk.CTkEntry(frame_top, placeholder_text="Pesquisar 🔍", width=300, height=40)
+    campo_pesquisar.pack(padx=5, pady=5, side='left')
+
+    # FRAME scrollable para Treeview
+    frame_btn_name = ctk.CTkScrollableFrame(master=jan, width=750, height=750, corner_radius=0, fg_color="#FFFFFF")
+    frame_btn_name.pack(padx=5, pady=5)
+
+    # Configura estilo da Treeview
+    style = ttk.Style()
+    style.configure("Aluno.Treeview", font=("Arial", 15), rowheight=45)
+    style.configure("Aluno.Treeview.Heading", font=("Arial", 18, "bold"))
+
+    tabela = ttk.Treeview(frame_btn_name, columns=("ID","Nome"), show="headings", style="Aluno.Treeview")
+    tabela.heading("ID", text="ID")
+    tabela.heading("Nome", text="Nome")
+    tabela.column("ID", width=50, anchor="center")
+    tabela.column("Nome", width=200, anchor="w")
+
+    # Preencher Treeview
+    cad = buscar_alunos()
+    for aluno in cad:
+        tabela.insert("", "end", values=(aluno["ID_Aluno"], aluno["Nome_Aluno"]))
+
+    tabela.pack(fill="both", expand=True)
+
+    # Evento de clique duplo
+    def on_row_click(event):
+        selected_item = tabela.focus()
+        if not selected_item:
+            return
+
+        values = tabela.item(selected_item, "values")
+        if values:
+            aluno_var.set(values[1])  # Atualiza StringVar do Entry
+            # destrói a janela **depois do evento**
+            jan.after(1, jan.destroy)
+
+    tabela.bind("<Double-1>", on_row_click)
+
+    jan.mainloop()
