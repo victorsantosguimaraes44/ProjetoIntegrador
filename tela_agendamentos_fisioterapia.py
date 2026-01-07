@@ -4,8 +4,7 @@ from tkinter import ttk
 from tkinter import messagebox
 import tkinter.font as tkFont
 from tela_agendar_consultas import agendar_consultas
-from crud_agendamentos_fisioterapia import buscar_agendamento_f
-from crud_agendamentos_fisioterapia import deletar_agendamento_f
+from crud_agendamentos_fisioterapia import buscar_agendamento_f, deletar_agendamento_f
 
 def tela_agendamentos_fisio(JANELA):
 
@@ -32,12 +31,13 @@ def tela_agendamentos_fisio(JANELA):
     frame_btn_name.place(relx=0.5, rely=0.5,anchor='center')
 
      ####################### BOTÃO DELETAR AGENDAMENTOS ######################
+    trash_img = ctk.CTkImage(Image.open("trash.png"), size=(25, 25))
     btn_deletar = ctk.CTkButton(
     frame_top_,
     width=130, height=30,
     corner_radius=2,
     text="Deletar",
-    font=('Arial',20),
+    font=('Arial',20),image=trash_img,
     fg_color="#990000",
     command=lambda: deletar_agend()
     )

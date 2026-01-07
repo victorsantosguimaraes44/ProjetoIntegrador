@@ -4,15 +4,15 @@ from tkinter import messagebox
 from tkinter import ttk
 from tela_lista_alunos_pilates import tela_lista_alunos_pilates
 from tela_agendamentos_pilates import tela_agendamentos_pilates
-from crud_alunos import buscar_alunos
-from crud_agendamento_pilates import buscar_agendamentos_p
+from crud_alunos import buscar_alunos, pesquisar_aluno
+from crud_agendamento_pilates import buscar_agendamentos_p, pesquisar_ag_p
 def abrir_menu_pilates(JANELA):
     # === CONFIGURAÇÃO INICIAL ===
 
     menu_aba = ctk.CTkFrame(master=JANELA, width=1600, height=850, fg_color="transparent")
     menu_aba.place(relx=0.5,rely=0.5,anchor='center')
 
-    fisio_lbl = ctk.CTkLabel(menu_aba, text="Pilates",font=('Arial',20))
+    fisio_lbl = ctk.CTkLabel(menu_aba, text="Pilates",font=('Arial',25))
     fisio_lbl.pack(side='top')
 
     tabview = ctk.CTkTabview(master=menu_aba, width=1600, height=850, segmented_button_fg_color="#00B179",
@@ -82,9 +82,6 @@ def abrir_menu_pilates(JANELA):
     list_pac = ctk.CTkLabel(master=frame_tb_p,text="Alunos", font=('Arial', 25, 'bold'))
     list_pac.pack(pady=(10,10))
 
-    campo_pesquisar = ctk.CTkEntry(master=frame_tb_p, placeholder_text="Pesquisar", font=('Arial', 15), width=250, height=30, corner_radius=10, border_color="#BFBFBF")
-    campo_pesquisar.place(x=10,y=10)
-
     frame_tb_name = ctk.CTkScrollableFrame(master=frame_tb_p, width=750, height=650, corner_radius=0, fg_color="#FFFFFF")
     frame_tb_name.pack(pady=(10,10))
 
@@ -126,6 +123,31 @@ def abrir_menu_pilates(JANELA):
     # CADASTRAR
     #============
     
+    ########################################PESQUISAR########################################
+    def atualizar_tabela_pesquisa(dados):
+        tabela_paciente.delete(*tabela_paciente.get_children())
+
+        for aluno in dados:
+            tabela_paciente.insert("", "end", values=(
+                aluno["ID_Aluno"],
+                aluno["Nome_Aluno"],
+                aluno["Data_Nascimento_Aluno"],
+                aluno["CPF_Aluno"],
+                aluno["Endereco_Aluno"],
+                aluno["Telefone_Aluno"],
+                aluno["Email_Aluno"]
+            ))
+    def pesquisar_em_tempo_real(event):
+        digitado = campo_pesquisar.get()
+        resultado = pesquisar_aluno(digitado)
+        atualizar_tabela_pesquisa(resultado)
+
+
+    campo_pesquisar = ctk.CTkEntry(master=frame_tb_p, placeholder_text="Pesquisar", font=('Arial', 15), width=250, height=30, corner_radius=10, border_color="#BFBFBF")
+    campo_pesquisar.place(x=10,y=10)
+    campo_pesquisar.bind("<KeyRelease>", pesquisar_em_tempo_real)
+    ########################################PESQUISAR########################################
+
     frame_tl_ls_p_f = ctk.CTkFrame(master=tabview.tab('Cadastro'), width=1550, height=850, fg_color="transparent")
     frame_tl_ls_p_f.place(relx=0.5,rely=0.55,anchor='center')
     frame_tl_ls_p_f.pack_propagate(False)

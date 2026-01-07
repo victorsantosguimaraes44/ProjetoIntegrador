@@ -4,8 +4,8 @@ from tkinter import messagebox
 from tkinter import ttk
 from tela_lista_pacientes_fisioterapia import tela_lista_pacientes_fisio
 from tela_agendamentos_fisioterapia import tela_agendamentos_fisio
-from crud_pacientes import buscar_paciente
-from crud_agendamentos_fisioterapia import buscar_agendamento_f
+from crud_pacientes import buscar_paciente, pesquisar_paciente
+from crud_agendamentos_fisioterapia import buscar_agendamento_f, pesquisar_ag_f
 
 def abrir_menu_aba_fisioterapia(JANELA):
     # === CONFIGURAÇÃO INICIAL ===
@@ -13,7 +13,7 @@ def abrir_menu_aba_fisioterapia(JANELA):
     menu_aba = ctk.CTkFrame(master=JANELA, width=1600, height=850, fg_color="transparent")
     menu_aba.place(relx=0.5,rely=0.5,anchor='center')
 
-    fisio_lbl = ctk.CTkLabel(menu_aba, text="Fisioterapia",font=('Arial',20))
+    fisio_lbl = ctk.CTkLabel(menu_aba, text="Fisioterapia",font=('Arial',25))
     fisio_lbl.pack(side='top')
 
     tabview = ctk.CTkTabview(master=menu_aba, width=1600, height=850, segmented_button_fg_color="#00B179",
@@ -124,7 +124,32 @@ def abrir_menu_aba_fisioterapia(JANELA):
     #============
     # CADASTRAR
     #============
-    
+
+    ########################################PESQUISAR########################################
+    def atualizar_tabela_pesquisa(dados):
+        tabela_cadastrar.delete(*tabela_cadastrar.get_children())
+
+        for paciente in dados:
+            tabela_cadastrar.insert("", "end", values=(
+                paciente["ID_Paciente"],
+                paciente["Nome_Paciente"],
+                paciente["Data_Nascimento_Paciente"],
+                paciente["CPF_Paciente"],
+                paciente["Endereco_Paciente"],
+                paciente["Telefone_Paciente"],
+                paciente["Email_Paciente"]
+            ))
+    def pesquisar_em_tempo_real(event):
+        digitado = campo_pesquisar.get()
+        resultado = pesquisar_paciente(digitado)
+        atualizar_tabela_pesquisa(resultado)
+
+
+    campo_pesquisar = ctk.CTkEntry(master=frame_tb_p, placeholder_text="Pesquisar", font=('Arial', 15), width=250, height=30, corner_radius=10, border_color="#BFBFBF")
+    campo_pesquisar.place(x=10,y=10)
+    campo_pesquisar.bind("<KeyRelease>", pesquisar_em_tempo_real)
+    ########################################PESQUISAR########################################
+
     frame_tl_ls_p_f = ctk.CTkFrame(master=tabview.tab('Cadastro'), width=1550, height=850, fg_color="transparent")
     frame_tl_ls_p_f.place(relx=0.5,rely=0.55,anchor='center')
     frame_tl_ls_p_f.pack_propagate(False)

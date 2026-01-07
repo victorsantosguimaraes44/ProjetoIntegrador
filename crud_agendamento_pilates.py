@@ -40,3 +40,16 @@ def deletar_agendamento_p(id_aula):
         print(f"Erro: {e}")
         return False
 
+def pesquisar_ag_p(nome):
+    con = conectar()
+    cursor = con.cursor(dictionary=True)
+
+    sql = """SELECT * FROM Aulas WHERE Nome_Aula LIKE %s ORDER BY Nome_Aula"""
+
+    cursor.execute(sql, (f"%{nome}%",))
+    dados = cursor.fetchall()
+
+    cursor.close()  
+    con.close()
+    return dados
+

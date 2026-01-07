@@ -44,12 +44,13 @@ def tela_lista_pacientes_fisio(JANELA):
                 messagebox.showerror("Erro", "Falha ao excluir paciente.")
 
 
+    trash_img = ctk.CTkImage(Image.open("trash.png"), size=(25, 25))
     btn_deletar = ctk.CTkButton(
     frame_top,
     width=130, height=30,
-    corner_radius=0,
+    corner_radius=2,
     text="Deletar",
-    font=('Arial',20),
+    font=('Arial',20),image=trash_img,
     fg_color="#990000",
     command=lambda: deletar_selecionado()
     )
