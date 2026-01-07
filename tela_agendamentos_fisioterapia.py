@@ -4,7 +4,7 @@ from tkinter import ttk
 from tkinter import messagebox
 import tkinter.font as tkFont
 from tela_agendar_consultas import agendar_consultas
-from crud_agendamentos_fisioterapia import buscar_agendamento_f, deletar_agendamento_f
+from crud_agendamentos_fisioterapia import buscar_agendamento_f, deletar_agendamento_f, atualizar_agendamento
 
 def tela_agendamentos_fisio(JANELA):
 
@@ -38,7 +38,7 @@ def tela_agendamentos_fisio(JANELA):
     corner_radius=2,
     text="Deletar",
     font=('Arial',20),image=trash_img,
-    fg_color="#990000",
+    fg_color="#FF0000",
     command=lambda: deletar_agend()
     )
     btn_deletar.pack(side="left", padx=10)
@@ -114,6 +114,93 @@ def tela_agendamentos_fisio(JANELA):
                 agendamento['Data_Consulta'],
                 agendamento['Hora_Consulta']
             ))
+
+    def on_row_click(event):
+        # Verifica o item selecionado
+        selected_item = tabela.focus()
+        if not selected_item:
+            return
+
+        # Obtém os dados da linha
+        values = tabela.item(selected_item, "values")
+        if values:
+            id = int(values[0])
+            informacoes(id)
+    
+    tabela.bind("<Double-1>", on_row_click)
+
+    def informacoes(ID):
+        ctk.set_appearance_mode('light')
+        ctk.set_default_color_theme('blue')
+
+        janela = ctk.CTk()
+        janela.geometry("500x500")
+        janela.resizable(False, False)
+        janela.title('INFO')
+
+        frame = ctk.CTkFrame(master=janela, width=500, height=500)
+        frame.place(relx=0.5, rely=0.5, anchor='center')
+        frame.pack_propagate(False)
+
+        Nome_consulta = Data_consulta = Hora_consulta = None
+
+        for agendamento in agendamentos:
+           if agendamento["ID_Consulta"] == ID:
+                Nome_consulta = agendamento['Nome_Consulta'],
+                Data_consulta = agendamento['Data_Consulta'],
+                Hora_consulta = agendamento['Hora_Consulta']
+
+        ctk.CTkLabel(frame, text="Consulta:", font=('Arial',19)).pack(padx=2)
+        cmp_nome = ctk.CTkEntry(frame, placeholder_text="", font=('Arial', 15), width=300, height=20)
+        cmp_nome.pack(pady=5)
+        cmp_nome.insert(0,Nome_consulta)
+
+        ctk.CTkLabel(frame, text="Data:", font=('Arial',19)).pack(padx=2)
+        cmp_data = ctk.CTkEntry(frame, placeholder_text="", font=('Arial', 15), width=300, height=20)
+        cmp_data.pack(pady=5)
+        cmp_data.insert(0,Data_consulta)
+
+        ctk.CTkLabel(frame, text="Hora:", font=('Arial',19)).pack(padx=2)
+        cmp_hora = ctk.CTkEntry(frame, placeholder_text="", font=('Arial', 15), width=200, height=20)
+        cmp_hora.pack(pady=5)
+        cmp_hora.insert(0,Hora_consulta)
+
+        def atualizar():
+            nome_atualizado = cmp_nome.get()
+            data_atualizado = cmp_data.get()
+            hora_atualizado = cmp_hora.get()
+
+            for agendamento in agendamentos:
+                if not nome_atualizado or not data_atualizado or not hora_atualizado:
+                    messagebox.showwarning('Atenção','Preencha todos os campos!')
+                else:
+                    for agendamento in agendamentos:
+                        if agendamento["ID_Consulta"] == ID:
+                                agendamento['Nome_Consulta'] = nome_atualizado,
+                                agendamento['Data_Consulta'] = data_atualizado,
+                                agendamento['Hora_Consulta'] = hora_atualizado
+
+                        atualizar_agendamento(ID,nome_atualizado,data_atualizado,hora_atualizado)
+
+                        messagebox.showinfo('Sucesso','Perfil atualizado com sucesso!')
+                        atualizar_tabela()
+                        janela.destroy()
+                        break
+        def cancelar():
+            janela.destroy()                    
+        btn_atualizar = ctk.CTkButton(frame, text="Atualizar", font=('Arial',15),text_color="#FFFFFF", 
+                                    width=100, height=25, fg_color="#059200", command=atualizar)
+        btn_atualizar.pack(pady=5)
+
+        btn_cancelar = ctk.CTkButton(frame, text="Cancelar", font=('Arial',15),text_color="#FFFFFF", 
+                                    width=100, height=25, fg_color="#920000", command=cancelar)
+        btn_cancelar.pack(pady=5)
+
+        janela.mainloop()
+
+        janela.mainloop()   
+
+        
 
 
 

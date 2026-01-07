@@ -1,4 +1,5 @@
 from arquivo_conexao import conectar
+from mysql.connector import Error
 
 def buscar_agendamentos_p():
     con = conectar()
@@ -52,4 +53,33 @@ def pesquisar_ag_p(nome):
     cursor.close()  
     con.close()
     return dados
+
+def atualizar_agendamento(id, nome, data, hora):
+    try:
+        conn = conectar()
+        cursor = conn.cursor()
+
+        sql = """
+            UPDATE Aulas 
+            SET Nome_Aula=%s,
+                Data_Aula=%s,
+                Hora_Aula=%s
+            WHERE ID_Aula=%s
+        """
+
+        valores = (nome, data, hora, id)
+
+        cursor.execute(sql, valores)
+        conn.commit()
+
+        return True
+
+    except Error as e:
+        print("Erro ao atualizar:", e)
+        return False
+
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
 

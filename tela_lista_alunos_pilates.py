@@ -55,7 +55,7 @@ def tela_lista_alunos_pilates(JANELA):
     corner_radius=2,
     text="Deletar",
     font=('Arial',20),image=trash_img,
-    fg_color="#990000",
+    fg_color="#FF0000",
     command=lambda: deletar_selecionado()
     )
     btn_deletar.pack(side="left", padx=10)

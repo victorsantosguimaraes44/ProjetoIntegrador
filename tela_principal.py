@@ -1,7 +1,6 @@
 import customtkinter as ctk
 from PIL import Image
 from tela_inicio import abrir_inicio
-from tela_gerenciador_clínica import tela_gerenciador_clinica
 from tela_menu_aba_fisioterapia import abrir_menu_aba_fisioterapia
 from tela_menu_aba_pilates import abrir_menu_pilates
 from tela_informações_usuário import tela_informaçoes_usuário
@@ -40,45 +39,48 @@ def abrir_tela_principal():
     mostrar_tela(abrir_inicio)
 
     # BOTÕES DO MENU SUPERIOR
+    icone_home = ctk.CTkImage(Image.open("home.png"), size=(25, 25))
     btn_inicio = ctk.CTkButton(
         master=frame_1, text='Início', font=("Arial", 17), text_color="#FFFFFF",
         width=100, height=50, corner_radius=0, fg_color="transparent",
-        hover_color="#246C43", command=lambda: mostrar_tela(abrir_inicio)
+        hover_color="#246C43", image=icone_home,compound="left",command=lambda: mostrar_tela(abrir_inicio)
     )
     btn_inicio.grid(row=0, column=0, padx=5, pady=0)
 
+    icone_physio = ctk.CTkImage(Image.open("physical-therapy.png"), size=(25, 25))
     btn_fisioterapia = ctk.CTkButton(
         master=frame_1, text='Fisioterapia', font=("Arial", 17), text_color="#FFFFFF",
         width=100, height=50, corner_radius=0, fg_color="transparent",
-        hover_color="#246C43", command=lambda: mostrar_tela(abrir_menu_aba_fisioterapia)
+        hover_color="#246C43", image=icone_physio,compound="left",command=lambda: mostrar_tela(abrir_menu_aba_fisioterapia)
     )
     btn_fisioterapia.grid(row=0, column=1, padx=5, pady=0)
 
-    btn_agendamento = ctk.CTkButton(
+    icone_pilates = ctk.CTkImage(Image.open("pilates.png"), size=(25, 25))
+    btn_pilates = ctk.CTkButton(
         master=frame_1, text='Pilates', font=("Arial", 17), text_color="#FFFFFF",
         width=100, height=50, corner_radius=0, fg_color="transparent",
-        hover_color="#246C43", command=lambda: mostrar_tela(abrir_menu_pilates)
+        hover_color="#246C43", image=icone_pilates,compound="left",command=lambda: mostrar_tela(abrir_menu_pilates)
     )
-    btn_agendamento.grid(row=0, column=2, padx=5, pady=0)
+    btn_pilates.grid(row=0, column=2, padx=5, pady=0)
 
+    icone_manager = ctk.CTkImage(Image.open("profile.png"), size=(25, 25))
     btn_gerenciador = ctk.CTkButton(
         master=frame_1, text='Gerenciador', font=("Arial", 17), text_color="#FFFFFF",
         width=100, height=50, corner_radius=0, fg_color="transparent",
-        hover_color="#246C43", command=lambda: mostrar_tela(tela_gerenciador_clinica)
+        hover_color="#246C43", image=icone_manager,compound="left"
     )
     btn_gerenciador.grid(row=0, column=3, padx=5, pady=0)
 
     # BOTOES DO USUÁRIO
-    frame_user = ctk.CTkFrame(master=frame_top, width=100, height=50, fg_color="transparent")
-    frame_user.pack(side='right')
-    frame_user.pack_propagate(False)
+    frame_s = ctk.CTkFrame(master=frame_top, width=100, height=50, fg_color="transparent")
+    frame_s.pack(side='right')
+    frame_s.pack_propagate(False)
 
-    icone_user = ctk.CTkImage(Image.open("icone_usuario.png"), size=(25, 25))
+    icone_user = ctk.CTkImage(Image.open("logout.png"), size=(25, 25))
     botao_icon = ctk.CTkButton(
-        frame_user, text="Usuário", image=icone_user, compound="right",
-        width=40, height=40, fg_color="transparent", hover_color="#005089",
-        command=lambda: mostrar_tela(tela_informaçoes_usuário)
-    )
+        frame_s, text="Sair", image=icone_user, compound="left",
+        width=40, height=40, fg_color="transparent", hover_color="#890000",
+        command=lambda: janela.destroy())
     botao_icon.pack(pady=10)
 
     # LOGO IMAGEM
