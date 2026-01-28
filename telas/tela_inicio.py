@@ -9,7 +9,7 @@ def abrir_inicio(JANELA_INICIO):
     frame_principal.place(relx=0.5, rely=0.5,anchor='center')
     frame_principal.pack_propagate(False)
 
-    imagem_logo = ctk.CTkImage(Image.open(PASTA_ANTERIOR + r'\imagens\imagem.png'))
+    imagem_logo = ctk.CTkImage(Image.open(PASTA_ANTERIOR + r'\imagens\imagem.png'), size=(500,250))
     label_ = ctk.CTkLabel(master=frame_principal, image=imagem_logo, text="")
     label_.pack(pady=(10,10))
 
