@@ -48,10 +48,9 @@ def tela_login():
             conn = conectar_banco()
             cursor = conn.cursor(dictionary=True)
             query = """
-            SELECT Usuarios.Nome , Usuarios.Usuario , Perfis.Nome_Perfil
+            SELECT * 
             FROM Usuarios 
-            LEFT JOIN Perfis ON Usuarios.ID_Perfil = Perfis.ID_Perfil
-            WHERE Usuarios.Usuario = %s AND Usuarios.Senha = %s
+            WHERE Usuario = %s AND Senha = %s
             """
             cursor.execute(query, (usuario, senha))
             user = cursor.fetchone()
